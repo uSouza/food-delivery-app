@@ -1,0 +1,7 @@
+{
+  "name": "pandeco-app",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
