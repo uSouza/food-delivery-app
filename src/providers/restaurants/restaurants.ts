@@ -1,6 +1,5 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {AuthenticationProvider} from "../authentication/authentication";
 import {Observable} from "rxjs/Observable";
 import { Restaurant } from "../../models/restaurant";
 import {Authorization} from "../../models/authorization";
@@ -8,8 +7,7 @@ import {Authorization} from "../../models/authorization";
 @Injectable()
 export class RestaurantsProvider {
 
-  authorization: Authorization;
-  constructor(public http: HttpClient, public authenticationService: AuthenticationProvider) {
+  constructor(public http: HttpClient) {
 
   }
 
