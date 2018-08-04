@@ -9,5 +9,8 @@ export class Restaurant {
   phone: string;
   cell_phone: string;
   order_limit: number;
+  observation: string;
   url: string;
+  image_base64: string;
+  opening_time: string;
 }

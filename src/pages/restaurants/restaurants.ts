@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
 import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { Restaurant } from "../../models/restaurant";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
@@ -34,4 +34,40 @@ export class RestaurantsPage {
       )
     );
   }
+
+  initializeRestaurants() {
+
+  }
+
+  getRestaurantsByName(ev) {
+
+    var val = ev.target.value;
+
+    // if the value is an empty string don't filter the items
+    if (val && val.trim() != '') {
+      this.restaurants = this.restaurants.filter((restaurant) => {
+        return (restaurant.fantasy_name.toLowerCase().indexOf(val.toLowerCase()) > -1);
+      })
+    }
+    else {
+      this.getRestaurants();
+    }
+
+  }
 }
+/*
+export class ModalFilterPage {
+  character;
+
+  constructor(
+    public platform: Platform,
+    public params: NavParams,
+    public viewCtrl: ViewController
+  ) { }
+
+
+  dismiss() {
+    this.viewCtrl.dismiss();
+  }
+
+}*/

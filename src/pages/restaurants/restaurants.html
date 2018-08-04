@@ -1,17 +1,41 @@
-<!--
-  Generated template for the RestaurantsPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="fundo">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Restaurantes disponíveis</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <ul>
-    <li *ngFor="let restaurant of restaurants"><img src="{{restaurant.url}}" alt=""></li>
-  </ul>
+<ion-content class="cards-bg" color="fundo">
+  <ion-row no-padding>
+    <ion-col col-10>
+      <ion-searchbar (ionInput)="getRestaurantsByName($event)"></ion-searchbar>
+    </ion-col>
+    <ion-col col-2 class="filter">
+      <button text-right ion-button color="fundo" clear icon-only>
+        <ion-icon name="funnel"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+  <ion-card *ngFor="let restaurant of restaurants">
+    <img src="{{restaurant.image_base64}}"/>
+    <ion-card-content>
+      <ion-card-title>
+        {{restaurant.fantasy_name}}
+      </ion-card-title>
+      <p>
+        Abre às {{restaurant.opening_time}}
+      </p>
+    </ion-card-content>
+    <ion-row no-padding>
+      <ion-col text-right>
+        <button ion-button clear small color="fundo" icon-start>
+          <ion-icon name='share-alt'></ion-icon>
+          Ver cardápio
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-card>
 </ion-content>

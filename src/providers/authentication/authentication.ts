@@ -22,8 +22,8 @@ export class AuthenticationProvider {
     headers.append('Content-Type', 'application/json');
     let data = {
       grant_type: 'password',
-      client_id: 3,
-      client_secret: 'NYU8RKvD5wBXBtpvMOukC62CRaxbqXZasq3oT8DP',
+      client_id: 1,
+      client_secret: 'vm3QaTvpL4QEH3WQtEc8yZuQdUUnWFR3n6ZfhsJN',
       username: 'guest@pandeco.com.br',
       password: 'pandeco2018',
       scope: ''
