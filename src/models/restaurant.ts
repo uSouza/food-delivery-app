@@ -13,4 +13,6 @@ export class Restaurant {
   url: string;
   image_base64: string;
   opening_time: string;
+  tags: object;
+  additionals: object;
 }

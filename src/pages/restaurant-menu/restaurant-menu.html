@@ -1,0 +1,47 @@
+<ion-header>
+
+  <ion-navbar color="fundo">
+    <ion-title>Cardápio</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content color="fundo" class="cards-bg">
+
+  <ion-card>
+    <ion-row>
+      <ion-col col-4>
+        <img src="{{restaurant.image_base64}}"/>
+      </ion-col>
+      <ion-col col-8>
+        <ion-card-content>
+          <ion-card-title style="font-size: medium">
+            {{restaurant.fantasy_name}}
+          </ion-card-title>
+          <p style="font-size: smaller">
+            {{restaurant.observation}}
+          </p>
+          <ion-badge style="margin-left: 3px; margin-top: 2px" color="fundo" col-5 *ngFor="let tag of restaurant.tags">{{tag.name}}</ion-badge>
+        </ion-card-content>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+
+<!--  <ion-list>
+    <ion-list-header>
+      Adicionais
+    </ion-list-header>
+    <ion-row *ngFor="let add of additionals">
+      <ion-col col-5>
+        <ion-item>{{add.name}}</ion-item>
+      </ion-col>
+      <ion-col col-4>
+        <ion-item>R$ {{add.value}}</ion-item>
+      </ion-col>
+      <ion-col col-3>
+        <button ion-fab mini color="fundo"><ion-icon name="add"></ion-icon></button>
+      </ion-col>
+    </ion-row>
+  </ion-list>-->
+
+</ion-content>

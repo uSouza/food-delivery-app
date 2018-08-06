@@ -5,6 +5,7 @@ import { Restaurant } from "../../models/restaurant";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
 import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
+import {RestaurantMenuPage} from "../restaurant-menu/restaurant-menu";
 
 @IonicPage()
 @Component({
@@ -35,15 +36,10 @@ export class RestaurantsPage {
     );
   }
 
-  initializeRestaurants() {
-
-  }
-
   getRestaurantsByName(ev) {
 
     var val = ev.target.value;
 
-    // if the value is an empty string don't filter the items
     if (val && val.trim() != '') {
       this.restaurants = this.restaurants.filter((restaurant) => {
         return (restaurant.fantasy_name.toLowerCase().indexOf(val.toLowerCase()) > -1);
@@ -52,22 +48,10 @@ export class RestaurantsPage {
     else {
       this.getRestaurants();
     }
-
   }
+
+  goToRestaurantMenuPage(restaurant: Restaurant) {
+    this.navCtrl.push(RestaurantMenuPage, {restaurant: restaurant});
+  }
+
 }
-/*
-export class ModalFilterPage {
-  character;
-
-  constructor(
-    public platform: Platform,
-    public params: NavParams,
-    public viewCtrl: ViewController
-  ) { }
-
-
-  dismiss() {
-    this.viewCtrl.dismiss();
-  }
-
-}*/

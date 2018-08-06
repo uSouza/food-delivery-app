@@ -15,6 +15,8 @@ export class AuthenticationProvider {
   constructor(public http: HttpClient) {
 
   }
+  url_api = 'http://localhost:8000/';
+  endpoint = 'oauth/token';
 
   getGuestBearer(): Observable<Authorization> {
     let headers = new HttpHeaders();
@@ -23,12 +25,12 @@ export class AuthenticationProvider {
     let data = {
       grant_type: 'password',
       client_id: 1,
-      client_secret: 'vm3QaTvpL4QEH3WQtEc8yZuQdUUnWFR3n6ZfhsJN',
+      client_secret: '0gOxlBjxcY7N9e1vIv1hFzpU7UoenFR6KIEkYF0Z',
       username: 'guest@pandeco.com.br',
       password: 'pandeco2018',
       scope: ''
-    }
-    return this.http.post<Authorization>('http://localhost:8000/oauth/token', data, {headers: headers});
+    };
+    return this.http.post<Authorization>(this.url_api + this.endpoint, data, {headers: headers});
   }
 
 }
