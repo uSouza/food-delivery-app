@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {Restaurant} from "../../models/restaurant";
-import {AdditionalRestaurant} from "../../models/additional-restaurant";
-import {RestaurantsProvider} from "../../providers/restaurants/restaurants";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
+import {MenusProvider} from "../../providers/menus/menus";
 import {Authorization} from "../../models/authorization";
+import {Menu} from "../../models/menu";
 import {Observable} from "rxjs/Observable";
+import {SelectProductIngredientsPage} from "../select-product-ingredients/select-product-ingredients";
 
 @IonicPage()
 @Component({
@@ -14,33 +15,38 @@ import {Observable} from "rxjs/Observable";
 })
 export class RestaurantMenuPage {
 
-  //additionals: AdditionalRestaurant[];
+  menus: Menu[];
   authorization: Observable<Authorization>;
   restaurant: Restaurant;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public restaurantService: RestaurantsProvider,
+              //public restaurantService: RestaurantsProvider,
+              public menuService: MenusProvider,
               public authenticationService: AuthenticationProvider) {
     this.authorization = this.authenticationService.getGuestBearer();
     this.restaurant = navParams.data.restaurant;
   }
 
   ionViewDidLoad() {
-    console.log(this.restaurant);
-    //this.getAdditionalsRestaurant();
+    this.getMenusByRestaurant();
   }
 
   goBack() {
     this.navCtrl.pop();
   }
 
-/*  getAdditionalsRestaurant() {
+  getMenusByRestaurant() {
     this.authorization.subscribe(
-      authorization => this.restaurantService.getAdditionalsFromRestaurant(authorization, this.navParams.data.restaurant).subscribe(
-        additionals => this.additionals = additionals
+      authorization => this.menuService.getMenuByRestaurant(authorization, this.restaurant).subscribe(
+        menus => this.menus = menus
       )
     );
-  }*/
+  }
+
+  goToIngredientsProductPage(menu: Menu) {
+    this.navCtrl.push(SelectProductIngredientsPage, {menu: menu});
+  }
+
 
 }

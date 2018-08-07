@@ -1,0 +1,24 @@
+<!--
+  Generated template for the SelectProductIngredientsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="fundo">
+    <ion-title>{{menu.description}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+<ion-list>
+  <ion-item *ngFor="let ingredient of menu.ingredients">
+    <ion-label>{{ingredient.name}}</ion-label>
+    <ion-checkbox color="dark" checked="false"></ion-checkbox>
+  </ion-item>
+</ion-list>
+</ion-content>

@@ -21,27 +21,51 @@
           <p style="font-size: smaller">
             {{restaurant.observation}}
           </p>
-          <ion-badge style="margin-left: 3px; margin-top: 2px" color="fundo" col-5 *ngFor="let tag of restaurant.tags">{{tag.name}}</ion-badge>
+          <ion-badge style="margin-left: 3px; margin-top: 2px" color="fundo" col-5 *ngFor="let tag of restaurant.tags">
+            {{tag.name}}
+          </ion-badge>
         </ion-card-content>
       </ion-col>
     </ion-row>
   </ion-card>
 
-<!--  <ion-list>
-    <ion-list-header>
-      Adicionais
-    </ion-list-header>
-    <ion-row *ngFor="let add of additionals">
-      <ion-col col-5>
-        <ion-item>{{add.name}}</ion-item>
-      </ion-col>
-      <ion-col col-4>
-        <ion-item>R$ {{add.value}}</ion-item>
-      </ion-col>
-      <ion-col col-3>
-        <button ion-fab mini color="fundo"><ion-icon name="add"></ion-icon></button>
+  <h3 style="margin-left: 10px; color: #801815">Marmitas do dia</h3>
+
+  <ion-card *ngFor="let menu of menus">
+    <ion-row>
+      <ion-col col-12>
+        <ion-row>
+          <ion-col col-4>
+            <img src="{{menu.image_base64}}"/>
+          </ion-col>
+          <ion-col col-8>
+            <ion-card-content>
+              <ion-card-title style="font-size: medium">
+                {{menu.description}}
+              </ion-card-title>
+              <ion-row>
+                <ion-col col-12>
+                  <p style="font-size: 11px">
+                    {{menu.observation}}
+                  </p>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-7>
+            <p style="font-size: smaller; color: #00b300">
+              <b>A partir de R$ {{menu.prices[0].price}}</b>
+            </p>
+          </ion-col>
+          <ion-col col-5>
+            <button ion-button small color="fundo" (click)="goToIngredientsProductPage(menu)">Quero essa</button>
+          </ion-col>
+        </ion-row>
       </ion-col>
     </ion-row>
-  </ion-list>-->
+  </ion-card>
 
 </ion-content>

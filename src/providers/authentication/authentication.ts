@@ -25,7 +25,7 @@ export class AuthenticationProvider {
     let data = {
       grant_type: 'password',
       client_id: 1,
-      client_secret: '0gOxlBjxcY7N9e1vIv1hFzpU7UoenFR6KIEkYF0Z',
+      client_secret: 'iYTBNZkqoAlxSKjAOYtWGJsyx77l0tnH0aJ1rcH8',
       username: 'guest@pandeco.com.br',
       password: 'pandeco2018',
       scope: ''
