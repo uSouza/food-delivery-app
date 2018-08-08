@@ -4,6 +4,8 @@ import {Menu} from "../../models/menu";
 import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
+import {Ingredient} from "../../models/ingredient";
+import {IngredientsProvider} from "../../providers/ingredients/ingredients";
 
 /**
  * Generated class for the SelectProductIngredientsPage page.
@@ -20,16 +22,26 @@ import {AuthenticationProvider} from "../../providers/authentication/authenticat
 export class SelectProductIngredientsPage {
 
   menu: Menu;
+  ingredients: Ingredient[];
   authorization: Observable<Authorization>;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public authenticationService: AuthenticationProvider) {
+              public authenticationService: AuthenticationProvider,
+              public ingredientsService: IngredientsProvider) {
     this.authorization = this.authenticationService.getGuestBearer();
     this.menu = navParams.data.menu;
   }
 
   ionViewDidLoad() {
+    this.getIngredients();
   }
 
+  getIngredients() {
+    this.authorization.subscribe(
+      authorization => this.ingredientsService.getIngredientsByMenu(authorization, this.menu).subscribe(
+        ingredients => this.ingredients = ingredients
+      )
+    );
+  }
 }

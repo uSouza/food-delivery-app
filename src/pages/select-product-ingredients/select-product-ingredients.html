@@ -14,11 +14,25 @@
 
 
 <ion-content padding>
+  <ion-item-group *ngFor="let ingredient of ingredients">
+    <ion-item-divider color="light">
+      <ion-row>
+        <ion-col col-6>
+          {{ingredient.name}}
+        </ion-col>
+        <ion-col col-6>
+          Opções restantes: {{ingredient.number_options}}
+        </ion-col>
+      </ion-row>
+    </ion-item-divider>
+    <ion-item *ngFor="let i of ingredient.ingredients">
+      <ion-label>{{i.name}}</ion-label>
+      <ion-checkbox color="dark" checked="false"></ion-checkbox>
+    </ion-item>
+  </ion-item-group>
+  <ion-fab right bottom>
+    <button ion-fab color="fundo"><ion-icon name="arrow-forward"></ion-icon></button>
+  </ion-fab>
 
-<ion-list>
-  <ion-item *ngFor="let ingredient of menu.ingredients">
-    <ion-label>{{ingredient.name}}</ion-label>
-    <ion-checkbox color="dark" checked="false"></ion-checkbox>
-  </ion-item>
-</ion-list>
+
 </ion-content>

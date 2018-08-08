@@ -15,6 +15,7 @@ import { AuthenticationProvider } from '../providers/authentication/authenticati
 import { RestaurantsProvider } from '../providers/restaurants/restaurants';
 import { ProductsProvider } from '../providers/products/products';
 import { MenusProvider } from '../providers/menus/menus';
+import { IngredientsProvider } from '../providers/ingredients/ingredients';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { MenusProvider } from '../providers/menus/menus';
     AuthenticationProvider,
     RestaurantsProvider,
     ProductsProvider,
-    MenusProvider
+    MenusProvider,
+    IngredientsProvider
   ]
 })
 export class AppModule {}
