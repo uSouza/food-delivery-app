@@ -1,6 +1,6 @@
 export class Ingredient {
   id: number;
+  ingredient_group_id: number;
   name: number;
-  number_options: string;
-  ingredients: object;
+  checked: boolean;
 }

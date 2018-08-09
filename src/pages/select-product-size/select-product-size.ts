@@ -19,7 +19,7 @@ export class SelectProductSizePage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SelectProductSizePage');
+    console.log(this.navParams.data);
   }
 
 }

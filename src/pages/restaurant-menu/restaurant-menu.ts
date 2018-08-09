@@ -45,7 +45,7 @@ export class RestaurantMenuPage {
   }
 
   goToIngredientsProductPage(menu: Menu) {
-    this.navCtrl.push(SelectProductIngredientsPage, {menu: menu});
+    this.navCtrl.push(SelectProductIngredientsPage, {menu: menu, restaurant: this.restaurant});
   }
 
 
