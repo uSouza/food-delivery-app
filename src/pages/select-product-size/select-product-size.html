@@ -6,13 +6,28 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>select-product-size</ion-title>
+  <ion-navbar color="fundo">
+    <ion-title>{{menu.description}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <h3 style="margin-left: 10px; margin-bottom: 20px; color: #801815">Escolha um tamanho</h3>
+  <ion-list radio-group>
+        <ion-item *ngFor="let price of menu.prices">
+          <ion-radio color="price" checked="false" value="{{price.id}}" (click)="updateValue(price)"></ion-radio>
+          <ion-label>{{price.size}}</ion-label>
+          <ion-label>R$ {{price.price}}</ion-label>
+        </ion-item>
+  </ion-list>
+  <ion-fab right bottom>
+    <button ion-fab color="fundo"><ion-icon name="arrow-forward"></ion-icon></button>
+  </ion-fab>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-title>Valor do pedido: {{value === 0 ? 'R$ 0,00' : value | currency: 'BRL': true}}</ion-title>
+  </ion-toolbar>
+</ion-footer>

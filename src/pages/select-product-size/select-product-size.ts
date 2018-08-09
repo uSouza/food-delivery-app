@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {Restaurant} from "../../models/restaurant";
+import {Menu} from "../../models/menu";
+import {Ingredient} from "../../models/ingredient";
+import {Price} from "../../models/price";
+import {AuthenticationProvider} from "../../providers/authentication/authentication";
+import {IngredientsProvider} from "../../providers/ingredients/ingredients";
+import {Observable} from "rxjs/Observable";
+import {Authorization} from "../../models/authorization";
 
 /**
  * Generated class for the SelectProductSizePage page.
@@ -15,11 +23,28 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SelectProductSizePage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  menu: Menu;
+  restaurant: Restaurant;
+  ingredients: Ingredient[];
+  authorization: Observable<Authorization>;
+  value: number;
+
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public authenticationService: AuthenticationProvider,
+              public alertCtrl: AlertController) {
+    this.authorization = this.authenticationService.getGuestBearer();
+    this.menu = navParams.data.menu;
+    this.restaurant = navParams.data.restaurant;
+    this.ingredients = navParams.data.ingredients;
+    this.value = 0;
   }
 
   ionViewDidLoad() {
-    console.log(this.navParams.data);
+  }
+
+  updateValue(price: Price) {
+    this.value = price.price;
   }
 
 }
