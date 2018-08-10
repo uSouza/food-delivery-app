@@ -34,4 +34,9 @@
     <button ion-fab color="fundo" (click)="goToSelectProductSizePage()"><ion-icon name="arrow-forward"></ion-icon></button>
   </ion-fab>
 
+  <ion-footer>
+    <ion-toolbar>
+      <ion-title>Valor do pedido: {{additional_value === 0 ? 'R$ 0,00' : additional_value | currency: 'BRL': true}}</ion-title>
+    </ion-toolbar>
+  </ion-footer>
 </ion-content>

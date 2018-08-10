@@ -29,6 +29,7 @@ export class SelectProductIngredientsPage {
   restaurant: Restaurant;
   ingredients_groups: IngredientGroup[];
   authorization: Observable<Authorization>;
+  additional_value: number;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -38,6 +39,7 @@ export class SelectProductIngredientsPage {
     this.authorization = this.authenticationService.getGuestBearer();
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
+    this.additional_value = 0;
   }
 
   ionViewDidLoad() {
@@ -61,12 +63,13 @@ export class SelectProductIngredientsPage {
       else {
         const confirm = this.alertCtrl.create({
           title: 'Item adicional identificado',
-          message: 'Itens adicionais serão cobrados separadamente. Deseja confirmar a inclusão?',
+          message: 'Será cobrado o valor de R$' + ingredient_group.additional_value + ' pelo(a) ' + ingredient.name + '. Deseja confirmar a inclusão?',
           buttons: [
             {
               text: 'Sim',
               handler: () => {
                 event.checked = true;
+                this.additional_value += ingredient_group.additional_value;
               }
             },
             {
@@ -88,7 +91,7 @@ export class SelectProductIngredientsPage {
 
   goToSelectProductSizePage() {
     let ingredients: Array<Ingredient> = this.getSelectedIngredients();
-    this.navCtrl.push(SelectProductSizePage, {ingredients: ingredients, menu: this.menu, restaurant: this.restaurant});
+    this.navCtrl.push(SelectProductSizePage, {ingredients: ingredients, menu: this.menu, restaurant: this.restaurant, additional_value: this.additional_value});
   }
 
   getSelectedIngredients() : Ingredient[]{

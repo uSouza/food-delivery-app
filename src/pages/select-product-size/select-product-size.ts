@@ -28,6 +28,7 @@ export class SelectProductSizePage {
   ingredients: Ingredient[];
   authorization: Observable<Authorization>;
   value: number;
+  additional_value: number;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -37,6 +38,7 @@ export class SelectProductSizePage {
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
     this.ingredients = navParams.data.ingredients;
+    this.additional_value = parseInt(navParams.data.additional_value);
     this.value = 0;
   }
 
@@ -44,7 +46,7 @@ export class SelectProductSizePage {
   }
 
   updateValue(price: Price) {
-    this.value = price.price;
+    this.value = parseInt(price.price.toString());
   }
 
 }
