@@ -15,7 +15,7 @@ export class AuthenticationProvider {
   constructor(public http: HttpClient) {
 
   }
-  url_api = 'http://localhost:8000/';
+  url_api = 'http://api.pandeco.com.br/';
   endpoint = 'oauth/token';
 
   getGuestBearer(): Observable<Authorization> {
@@ -25,7 +25,7 @@ export class AuthenticationProvider {
     let data = {
       grant_type: 'password',
       client_id: 1,
-      client_secret: 'iYTBNZkqoAlxSKjAOYtWGJsyx77l0tnH0aJ1rcH8',
+      client_secret: 'kss5gCVZ2wQyRuwf5AvfPbGbwo4AjCJ8DsXidza8',
       username: 'guest@pandeco.com.br',
       password: 'pandeco2018',
       scope: ''

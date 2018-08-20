@@ -16,6 +16,7 @@ import { RestaurantsProvider } from '../providers/restaurants/restaurants';
 import { ProductsProvider } from '../providers/products/products';
 import { MenusProvider } from '../providers/menus/menus';
 import { IngredientsProvider } from '../providers/ingredients/ingredients';
+import { LoginPage } from "../pages/login/login";
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { IngredientsProvider } from '../providers/ingredients/ingredients';
     RestaurantMenuPage,
     SelectProductIngredientsPage,
     SelectProductSizePage,
+    LoginPage,
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { IngredientsProvider } from '../providers/ingredients/ingredients';
     RestaurantsPage,
     RestaurantMenuPage,
     SelectProductIngredientsPage,
-    SelectProductSizePage
+    SelectProductSizePage,
+    LoginPage,
   ],
   providers: [
     StatusBar,

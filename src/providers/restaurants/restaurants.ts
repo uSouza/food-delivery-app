@@ -11,7 +11,7 @@ export class RestaurantsProvider {
   constructor(public http: HttpClient) {
 
   }
-  url_api = 'http://localhost:8000/api/v1/';
+  url_api = 'http://api.pandeco.com.br/api/v1/';
   endpoint = 'companies';
 
   getRestaurants (authorization: Authorization): Observable<Restaurant[]> {

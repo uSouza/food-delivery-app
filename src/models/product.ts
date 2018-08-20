@@ -2,7 +2,7 @@ export class Product {
   id: number;
   menu_id: number;
   description: string;
-  ingredients: object;
+  ingredients_ids: number[];
   price_id: number;
   observation: string;
 }

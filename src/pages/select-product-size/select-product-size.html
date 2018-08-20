@@ -23,11 +23,11 @@
         </ion-item>
   </ion-list>
   <ion-fab right bottom>
-    <button ion-fab color="fundo"><ion-icon name="arrow-forward"></ion-icon></button>
+    <button ion-fab color="fundo" (click)="createProduct()"><ion-icon name="arrow-forward"></ion-icon></button>
   </ion-fab>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-title>Valor do pedido: {{value + additional_value === 0 ? 'R$ 0,00' : (value + additional_value) | currency: 'BRL': true}}</ion-title>
+    <ion-title>Valor do pedido: {{value + additional_value === 0 ? 'R$ 0,00' : value + additional_value | currency: 'BRL': true }}</ion-title>
   </ion-toolbar>
 </ion-footer>

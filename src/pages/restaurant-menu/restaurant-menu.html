@@ -57,7 +57,7 @@
         <ion-row>
           <ion-col col-7>
             <p style="font-size: smaller; color: #00b300">
-              <b>A partir de R$ {{menu.prices[0].price}}</b>
+              <b>A partir de {{menu.min_price | currency: 'BRL': true}}</b>
             </p>
           </ion-col>
           <ion-col col-5>

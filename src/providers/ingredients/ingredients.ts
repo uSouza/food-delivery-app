@@ -17,7 +17,7 @@ export class IngredientsProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'http://localhost:8000/api/v1/';
+  url_api = 'http://http://api.pandeco.com.br/api/v1/';
   endpoint = 'ingredient_groups/menu/';
 
   getIngredientsGroupByMenu (authorization: Authorization, menu: Menu): Observable<IngredientGroup[]> {

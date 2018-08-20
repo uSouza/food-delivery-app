@@ -18,6 +18,7 @@ export class RestaurantMenuPage {
   menus: Menu[];
   authorization: Observable<Authorization>;
   restaurant: Restaurant;
+  minPrice: number;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,

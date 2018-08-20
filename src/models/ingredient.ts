@@ -3,4 +3,5 @@ export class Ingredient {
   ingredient_group_id: number;
   name: number;
   checked: boolean;
+  additional: boolean;
 }

@@ -56,6 +56,7 @@ export class SelectProductIngredientsPage {
 
   onCheckIngredient(ingredient_group: IngredientGroup, ingredient: Ingredient, event) {
 
+    let additional_ingredients: Array<Ingredient> = [];
     if (event.checked) {
       if (parseInt(ingredient_group.number_options) > 0) {
         ingredient_group.number_options = (parseInt(ingredient_group.number_options) - 1).toString();
@@ -70,6 +71,7 @@ export class SelectProductIngredientsPage {
               handler: () => {
                 event.checked = true;
                 this.additional_value += ingredient_group.additional_value;
+                ingredient.additional = true;
               }
             },
             {
@@ -84,7 +86,12 @@ export class SelectProductIngredientsPage {
         confirm.present();
       }
     } else {
+      console.log(additional_ingredients);
       ingredient_group.number_options = (parseInt(ingredient_group.number_options) + 1).toString();
+      if (ingredient.additional) {
+        this.additional_value -= ingredient_group.additional_value;
+        ingredient.additional = false;
+      }
     }
 
   }
