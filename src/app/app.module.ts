@@ -7,6 +7,7 @@ import { RestaurantsPage } from '../pages/restaurants/restaurants';
 import { RestaurantMenuPage } from "../pages/restaurant-menu/restaurant-menu";
 import { SelectProductIngredientsPage } from "../pages/select-product-ingredients/select-product-ingredients";
 import { SelectProductSizePage } from "../pages/select-product-size/select-product-size";
+import { AdditionalsPage } from "../pages/additionals/additionals";
 import { HttpClientModule } from "@angular/common/http";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -17,6 +18,7 @@ import { ProductsProvider } from '../providers/products/products';
 import { MenusProvider } from '../providers/menus/menus';
 import { IngredientsProvider } from '../providers/ingredients/ingredients';
 import { LoginPage } from "../pages/login/login";
+import { UsersProvider } from '../providers/users/users';
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import { LoginPage } from "../pages/login/login";
     SelectProductIngredientsPage,
     SelectProductSizePage,
     LoginPage,
+    AdditionalsPage,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +44,7 @@ import { LoginPage } from "../pages/login/login";
     SelectProductIngredientsPage,
     SelectProductSizePage,
     LoginPage,
+    AdditionalsPage
   ],
   providers: [
     StatusBar,
@@ -50,7 +54,8 @@ import { LoginPage } from "../pages/login/login";
     RestaurantsProvider,
     ProductsProvider,
     MenusProvider,
-    IngredientsProvider
+    IngredientsProvider,
+    UsersProvider
   ]
 })
 export class AppModule {}

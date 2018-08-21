@@ -7,12 +7,54 @@
 <ion-header>
 
   <ion-navbar color="fundo">
-    <ion-title>Autenticação de usuário</ion-title>
+    <ion-title>Continue sua compra :)</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-  <button ion-button full color="primary" (click)="loginFacebook()">Login com o Facebook</button>
+<ion-content>
+    <div class="centered">
+          <ion-card>
+            <ion-card-header>
+              Já sou cadastrado
+            </ion-card-header>
+          <ion-card-content>
+              <ion-list>
+                  <ion-item>
+                    <ion-label floating>Email</ion-label>
+                    <ion-input type="text"></ion-input>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label floating>Senha</ion-label>
+                    <ion-input type="password"></ion-input>
+                  </ion-item>
+
+                  <button ion-button block color="fundo" (click)="logar()">Continuar a compra</button>
+                </ion-list>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-header>
+            Entre por uma rede social
+          </ion-card-header>
+          <ion-card-content>
+              <button ion-button icon-end  (click)="loginFacebook()">
+                Facebook
+              </button>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-card-header>
+              Quero me cadastrar
+            </ion-card-header>
+            <ion-card-content>
+                <button ion-button icon-end color="fundo"  (click)="loginFacebook()">
+                  Realizar cadastro
+                </button>
+            </ion-card-content>
+          </ion-card>
+      </div>
+
 </ion-content>

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Authorization } from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
+import { UserPandeco } from '../../models/user-pandeco';
 
 /*
   Generated class for the AuthenticationProvider provider.
@@ -28,6 +29,21 @@ export class AuthenticationProvider {
       client_secret: 'kss5gCVZ2wQyRuwf5AvfPbGbwo4AjCJ8DsXidza8',
       username: 'guest@pandeco.com.br',
       password: 'pandeco2018',
+      scope: ''
+    };
+    return this.http.post<Authorization>(this.url_api + this.endpoint, data, {headers: headers});
+  }
+
+  getClientBearer(user: UserPandeco) {
+    let headers = new HttpHeaders();
+    headers.append('Accept', 'application/json');
+    headers.append('Content-Type', 'application/json');
+    let data = {
+      grant_type: 'password',
+      client_id: 1,
+      client_secret: 'kss5gCVZ2wQyRuwf5AvfPbGbwo4AjCJ8DsXidza8',
+      username: user.email,
+      password: user.password,
       scope: ''
     };
     return this.http.post<Authorization>(this.url_api + this.endpoint, data, {headers: headers});

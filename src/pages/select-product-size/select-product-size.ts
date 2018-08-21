@@ -10,6 +10,7 @@ import {Observable} from "rxjs/Observable";
 import {Authorization} from "../../models/authorization";
 import {Product} from "../../models/product";
 import {ProductsProvider} from "../../providers/products/products";
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the SelectProductSizePage page.
@@ -55,21 +56,16 @@ export class SelectProductSizePage {
     this.selected_price = price.id;
   }
 
-  createProduct() {
-    let ingredients_ids: Array<number> = [];
-    this.product = new Product();
-    this.product.menu_id = this.menu.id;
-    this.product.price_id = this.selected_price;
-    this.ingredients.forEach((ingredient) => {
-      ingredients_ids.push(ingredient.id);
+  login() {
+    this.navCtrl.push(LoginPage, {
+      menu: this.menu,
+      restaurant: this.restaurant,
+      ingredients: this.ingredients,
+      additional_value: this.additional_value,
+      value: this.value,
+      authorization: this.authorization,
+      selected_price: this.selected_price
     });
-    this.product.ingredients_ids = ingredients_ids;
-
-    this.authorization.subscribe(
-      authorization => this.productService.addProduct(authorization, this.product).subscribe(
-        product => console.log(product)//this.restaurants = restaurants
-      )
-    );
   }
 
 }
