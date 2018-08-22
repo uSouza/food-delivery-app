@@ -55,7 +55,10 @@
       "cordova-plugin-browsertab": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-customurlscheme": {
-        "URL_SCHEME": "com.firebase.cordova"
+        "URL_SCHEME": "com.firebase.cordova",
+        "ANDROID_SCHEME": " ",
+        "ANDROID_HOST": " ",
+        "ANDROID_PATHPREFIX": "/"
       },
       "cordova-plugin-whitelist": {},
       "cordova-plugin-device": {},

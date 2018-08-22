@@ -7,11 +7,10 @@
 <ion-header>
 
   <ion-navbar color="fundo">
-    <ion-title>Continue sua compra :)</ion-title>
+    <ion-title>Continue seu pedido :)</ion-title>
   </ion-navbar>
 
 </ion-header>
-
 
 <ion-content>
     <div class="centered">
@@ -23,19 +22,33 @@
               <ion-list>
                   <ion-item>
                     <ion-label floating>Email</ion-label>
-                    <ion-input type="text"></ion-input>
+                    <ion-input [(ngModel)] = "user.email" type="text"></ion-input>
                   </ion-item>
 
                   <ion-item>
                     <ion-label floating>Senha</ion-label>
-                    <ion-input type="password"></ion-input>
+                    <ion-input [(ngModel)] = "user.password" type="password"></ion-input>
                   </ion-item>
 
-                  <button ion-button block color="fundo" (click)="logar()">Continuar a compra</button>
+                  <button ion-button block color="fundo" (click)="login()">Login</button>
                 </ion-list>
           </ion-card-content>
         </ion-card>
         <ion-card>
+            <ion-card-header>
+              Quero me cadastrar
+            </ion-card-header>
+            <ion-card-content>
+                <button ion-button icon-end color="fundo" (click)="openRegisterPage()">
+                  Realizar cadastro
+                </button>
+            </ion-card-content>
+          </ion-card>
+      </div>
+</ion-content>
+
+
+<!--         <ion-card>
           <ion-card-header>
             Entre por uma rede social
           </ion-card-header>
@@ -44,17 +57,4 @@
                 Facebook
               </button>
           </ion-card-content>
-        </ion-card>
-        <ion-card>
-            <ion-card-header>
-              Quero me cadastrar
-            </ion-card-header>
-            <ion-card-content>
-                <button ion-button icon-end color="fundo"  (click)="loginFacebook()">
-                  Realizar cadastro
-                </button>
-            </ion-card-content>
-          </ion-card>
-      </div>
-
-</ion-content>
+        </ion-card> -->

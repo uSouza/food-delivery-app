@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the AdditionalsPage page.
+ * Generated class for the LocationsPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,10 +10,10 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-additionals',
-  templateUrl: 'additionals.html',
+  selector: 'page-locations',
+  templateUrl: 'locations.html',
 })
-export class AdditionalsPage {
+export class LocationsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }

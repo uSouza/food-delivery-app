@@ -8,6 +8,8 @@ import { RestaurantMenuPage } from "../pages/restaurant-menu/restaurant-menu";
 import { SelectProductIngredientsPage } from "../pages/select-product-ingredients/select-product-ingredients";
 import { SelectProductSizePage } from "../pages/select-product-size/select-product-size";
 import { AdditionalsPage } from "../pages/additionals/additionals";
+import { RegisterPage } from "../pages/register/register";
+import { LocationsPage } from "../pages/locations/locations";
 import { HttpClientModule } from "@angular/common/http";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -19,6 +21,7 @@ import { MenusProvider } from '../providers/menus/menus';
 import { IngredientsProvider } from '../providers/ingredients/ingredients';
 import { LoginPage } from "../pages/login/login";
 import { UsersProvider } from '../providers/users/users';
+import { ClientsProvider } from '../providers/clients/clients';
 
 
 @NgModule({
@@ -30,6 +33,7 @@ import { UsersProvider } from '../providers/users/users';
     SelectProductSizePage,
     LoginPage,
     AdditionalsPage,
+    RegisterPage
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,8 @@ import { UsersProvider } from '../providers/users/users';
     SelectProductIngredientsPage,
     SelectProductSizePage,
     LoginPage,
-    AdditionalsPage
+    AdditionalsPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
@@ -55,7 +60,8 @@ import { UsersProvider } from '../providers/users/users';
     ProductsProvider,
     MenusProvider,
     IngredientsProvider,
-    UsersProvider
+    UsersProvider,
+    ClientsProvider
   ]
 })
 export class AppModule {}

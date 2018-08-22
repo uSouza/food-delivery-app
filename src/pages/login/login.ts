@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import firebaseConfig from '../../app/firebase-config';
-import * as firebase from 'firebase';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+/* import firebaseConfig from '../../app/firebase-config';
+import * as firebase from 'firebase'; */
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
@@ -12,14 +12,9 @@ import { UserPandeco } from '../../models/user-pandeco';
 import { UsersProvider } from "../../providers/users/users";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
 import { AdditionalsPage } from "../additionals/additionals";
-import { User } from 'firebase';
+/* import { User } from 'firebase'; */
+import { RegisterPage } from '../register/register';
 
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -33,15 +28,17 @@ export class LoginPage {
   ingredients: Ingredient[];
   product: Product;
   authorization: Observable<Authorization>;
+  clientAuthorization: Observable<Authorization>;
   value: any;
   additional_value: any;
   selected_price: number;
-  user: UserPandeco;
+  user: UserPandeco = new UserPandeco();
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authenticationService: AuthenticationProvider,
-              private userService: UsersProvider) {
+              private userService: UsersProvider,
+              public toastCtrl: ToastController) {
     this.authorization = this.authenticationService.getGuestBearer();
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -52,10 +49,67 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-    this.firebaseInit();
+    //this.firebaseInit();
   }
 
-  firebaseInit() {
+  failed() {
+    let toast = this.toastCtrl.create({
+      message: 'Dados incorretos. Tente novamente!',
+      duration: 2000,
+      position: 'bottom'
+    });
+    toast.present(toast);
+    this.user.email = '';
+    this.user.password = '';
+  }
+
+  login() {
+    this.authorization
+    .subscribe(
+      authorization => this.userService
+        .findUserByEmail(authorization, this.user.email)
+        .subscribe(
+          userPandeco => {
+            this.authenticationService
+              .getClientBearer(this.user)
+              .subscribe(
+                clientAuthorization => {
+                    this.navCtrl.setRoot(AdditionalsPage, {
+                    clientAuthorization: clientAuthorization,
+                    menu: this.menu,
+                    restaurant: this.restaurant,
+                    ingredients: this.ingredients,
+                    additional_value: this.additional_value,
+                    value: this.value,
+                    authorization: this.authorization,
+                    selected_price: this.selected_price
+                  })
+                },
+                err => {
+                  this.failed();
+                }
+              )
+          },
+          err => {
+            this.failed();
+          }
+        )
+    );
+  }
+
+  openRegisterPage() {
+    this.navCtrl.push(RegisterPage, {
+      menu: this.menu,
+      restaurant: this.restaurant,
+      ingredients: this.ingredients,
+      additional_value: this.additional_value,
+      value: this.value,
+      authorization: this.authorization,
+      selected_price: this.selected_price
+    });
+  }
+
+/*   firebaseInit() {
     firebase.initializeApp(firebaseConfig);
     this.firebaseLoginResult();
   }
@@ -68,9 +122,9 @@ export class LoginPage {
       .signInWithRedirect(facebookProvider)
       .then(() => {
       })
-  }
+  } */
 
-  login(userPandeco: UserPandeco, user?:User) {
+/*   login(userPandeco: UserPandeco, user?:User) {
     if (userPandeco == null) {
       this.authorization
       .subscribe(
@@ -104,9 +158,9 @@ export class LoginPage {
       });
     }
 
-  }
+  } */
 
-  firebaseLoginResult() {
+/*   firebaseLoginResult() {
     firebase.auth().onAuthStateChanged((user) => {
       console.log(user);
       this.authorization
@@ -116,6 +170,6 @@ export class LoginPage {
           )
       )
     })
-  }
+  } */
 
 }
