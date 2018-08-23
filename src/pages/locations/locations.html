@@ -6,13 +6,60 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>locations</ion-title>
+  <ion-navbar color="fundo">
+    <ion-title>Locais de entrega</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
+    <div class="centered">
+        <ion-card>
+          <ion-card-header>
+            Novo local de entrega
+          </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item>
+                  <ion-label floating>Endereço</ion-label>
+                  <ion-input [(ngModel)] = "location.address" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Número</ion-label>
+                  <ion-input [(ngModel)] = "location.number" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Bairro</ion-label>
+                  <ion-input [(ngModel)] = "location.district" type="text"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Observações sobre o local</ion-label>
+                  <ion-input [(ngModel)] = "location.observation" type="text"></ion-input>
+                </ion-item>
+                <button ion-button block color="fundo" (click)="locationSave()">Cadastrar local</button>
+              </ion-list>
+        </ion-card-content>
+      </ion-card>
+      <ion-card *ngFor="let location of locations">
+          <ion-item>
+              <h2>
+                <strong>Endereço: </strong> {{location.address}}
+              </h2>
+              <h2>
+                <strong>Número: </strong> {{location.number}}
+              </h2>
+              <h2>
+                <strong>Bairro: </strong> {{location.district}}
+              </h2>
+              <h2>
+                <strong>Observações: </strong> {{location.observation}}
+              </h2>
+            </ion-item>
+        </ion-card>
+    </div>
+    <ion-fab right bottom>
+        <button ion-fab color="fundo" (click)="goToAdditionalsPage()"><ion-icon name="arrow-forward"></ion-icon></button>
+    </ion-fab>
 </ion-content>

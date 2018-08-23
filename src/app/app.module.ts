@@ -22,7 +22,8 @@ import { IngredientsProvider } from '../providers/ingredients/ingredients';
 import { LoginPage } from "../pages/login/login";
 import { UsersProvider } from '../providers/users/users';
 import { ClientsProvider } from '../providers/clients/clients';
-
+import { LocationsProvider } from '../providers/locations/locations';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ClientsProvider } from '../providers/clients/clients';
     SelectProductSizePage,
     LoginPage,
     AdditionalsPage,
-    RegisterPage
+    RegisterPage,
+    LocationsPage
   ],
   imports: [
     BrowserModule,
@@ -49,7 +51,8 @@ import { ClientsProvider } from '../providers/clients/clients';
     SelectProductSizePage,
     LoginPage,
     AdditionalsPage,
-    RegisterPage
+    RegisterPage,
+    LocationsPage
   ],
   providers: [
     StatusBar,
@@ -61,7 +64,11 @@ import { ClientsProvider } from '../providers/clients/clients';
     MenusProvider,
     IngredientsProvider,
     UsersProvider,
-    ClientsProvider
-  ]
+    ClientsProvider,
+    LocationsProvider
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
+  ],
 })
 export class AppModule {}

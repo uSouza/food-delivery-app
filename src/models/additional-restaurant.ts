@@ -3,4 +3,5 @@ export class AdditionalRestaurant {
   company_id: number;
   additional_id: number;
   value: number;
+  quantity: any;
 }

@@ -82,7 +82,8 @@ export class LoginPage {
                     additional_value: this.additional_value,
                     value: this.value,
                     authorization: this.authorization,
-                    selected_price: this.selected_price
+                    selected_price: this.selected_price,
+                    user: userPandeco
                   })
                 },
                 err => {
