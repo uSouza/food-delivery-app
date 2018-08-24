@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { Restaurant } from "../../models/restaurant";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
 import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
 import {RestaurantMenuPage} from "../restaurant-menu/restaurant-menu";
+import { LoadingController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -15,25 +16,45 @@ import {RestaurantMenuPage} from "../restaurant-menu/restaurant-menu";
 export class RestaurantsPage {
 
   restaurants: Restaurant[];
-  authorization: Observable<Authorization>;
+  authorizationService: Observable<Authorization>;
+  authorization: Authorization;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public restaurantService: RestaurantsProvider,
-              public authenticationService: AuthenticationProvider) {
-    this.authorization = this.authenticationService.getGuestBearer();
+              public authenticationService: AuthenticationProvider,
+              public loadingCtrl: LoadingController) {
+
   }
 
   ionViewDidLoad() {
+    this.authenticationService
+      .getGuestBearer()
+      .subscribe(
+        authorization => {
+          this.setAuthorization(authorization)
+        }
+      );
+  }
+
+  setAuthorization(authorization: Authorization) {
+    this.authorization = authorization;
     this.getRestaurants();
   }
 
+  showLoading() {
+    const loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      duration: 2000
+    });
+    loader.present();
+  }
+
   getRestaurants() {
-    this.authorization.subscribe(
-      authorization => this.restaurantService.getRestaurants(authorization).subscribe(
+    this.restaurantService.getRestaurants(this.authorization).subscribe(
         restaurants => this.restaurants = restaurants
-      )
     );
+    this.showLoading();
   }
 
   getRestaurantsByName(ev) {
@@ -51,7 +72,8 @@ export class RestaurantsPage {
   }
 
   goToRestaurantMenuPage(restaurant: Restaurant) {
-    this.navCtrl.push(RestaurantMenuPage, {restaurant: restaurant});
+    this.showLoading();
+    this.navCtrl.push(RestaurantMenuPage, {restaurant: restaurant, authorization: this.authorization});
   }
 
 }

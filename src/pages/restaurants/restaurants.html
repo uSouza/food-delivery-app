@@ -19,23 +19,24 @@
       </button>
     </ion-col>
   </ion-row>
+
   <ion-card *ngFor="let restaurant of restaurants">
-    <img src="{{restaurant.image_base64}}"/>
-    <ion-card-content>
-      <ion-card-title>
-        {{restaurant.fantasy_name}}
-      </ion-card-title>
-      <p>
-        Abre às {{restaurant.opening_time}}
-      </p>
-    </ion-card-content>
-    <ion-row no-padding>
-      <ion-col text-right>
-        <button ion-button clear small color="fundo" icon-start (click)="goToRestaurantMenuPage(restaurant)">
-          <ion-icon name='share-alt'></ion-icon>
-          Ver cardápio
-        </button>
-      </ion-col>
-    </ion-row>
-  </ion-card>
+      <ion-row>
+        <ion-col col-6>
+          <img src="{{restaurant.image_base64}}"/>
+        </ion-col>
+        <ion-col col-6>
+          <ion-card-title style="font-size: large">
+              {{restaurant.fantasy_name}}
+          </ion-card-title>
+            <p>
+              Realiza entregas
+            </p>
+            <p>
+              Abre às {{restaurant.opening_time}} horas
+            </p>
+            <button ion-button small color="fundo" (click)="goToRestaurantMenuPage(restaurant)">Conferir o cardápio</button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
 </ion-content>

@@ -21,6 +21,9 @@
           <p style="font-size: smaller">
             {{restaurant.observation}}
           </p>
+          <p style="font-size: smaller; color: #00b300">
+            <b>{{restaurant.delivery_value === null ? 'Entrega gratuíta' : restaurant.delivery_value}}</b>
+          </p>
           <ion-badge style="margin-left: 3px; margin-top: 2px" color="fundo" col-5 *ngFor="let tag of restaurant.tags">
             {{tag.name}}
           </ion-badge>
@@ -32,40 +35,22 @@
   <h3 style="margin-left: 10px; color: #801815">Marmitas do dia</h3>
 
   <ion-card *ngFor="let menu of menus">
-    <ion-row>
-      <ion-col col-12>
-        <ion-row>
-          <ion-col col-3>
-            <ion-icon name="restaurant" ></ion-icon>
-          </ion-col>
-          <ion-col col-9>
-            <ion-card-content>
-              <ion-card-title style="font-size: medium">
-                {{menu.description}}
-              </ion-card-title>
-              <ion-row>
-                <ion-col col-12>
-                  <p style="font-size: 11px">
-                    {{menu.observation}}
-                  </p>
-                </ion-col>
-              </ion-row>
-            </ion-card-content>
-          </ion-col>
-        </ion-row>
-
-        <ion-row>
-          <ion-col col-7>
+      <ion-row>
+        <ion-col col-4>
+          <ion-icon name="restaurant" style="margin-left: 20px"></ion-icon>
+        </ion-col>
+        <ion-col col-8>
+          <ion-card-title style="font-size: large">
+              {{menu.description}}
+          </ion-card-title>
+            <p>
+              {{menu.observation}}
+            </p>
             <p style="font-size: smaller; color: #00b300">
               <b>A partir de {{menu.min_price | currency: 'BRL': true}}</b>
             </p>
-          </ion-col>
-          <ion-col col-5>
-            <button ion-button small color="fundo" (click)="goToIngredientsProductPage(menu)">Quero essa</button>
-          </ion-col>
-        </ion-row>
-      </ion-col>
-    </ion-row>
-  </ion-card>
-
+            <button style="margin-left: 120px" ion-button small color="fundo" (click)="goToIngredientsProductPage(menu)">Quero essa</button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
 </ion-content>

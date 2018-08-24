@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, LoadingController} from 'ionic-angular';
 import {Menu} from "../../models/menu";
 import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
@@ -28,15 +28,16 @@ export class SelectProductIngredientsPage {
   menu: Menu;
   restaurant: Restaurant;
   ingredients_groups: IngredientGroup[];
-  authorization: Observable<Authorization>;
+  authorization: Authorization;
   additional_value: number;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authenticationService: AuthenticationProvider,
               public ingredientsService: IngredientsProvider,
-              public alertCtrl: AlertController) {
-    this.authorization = this.authenticationService.getGuestBearer();
+              public alertCtrl: AlertController,
+              public loadingCtrl: LoadingController) {
+    this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
     this.additional_value = 0;
@@ -46,12 +47,19 @@ export class SelectProductIngredientsPage {
     this.getIngredients();
   }
 
+  showLoading() {
+    const loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      duration: 2000
+    });
+    loader.present();
+  }
+
   getIngredients() {
-    this.authorization.subscribe(
-      authorization => this.ingredientsService.getIngredientsGroupByMenu(authorization, this.menu).subscribe(
+    this.ingredientsService.getIngredientsGroupByMenu(this.authorization, this.menu).subscribe(
         ingredients => this.ingredients_groups = ingredients
-      )
     );
+    this.showLoading();
   }
 
   onCheckIngredient(ingredient_group: IngredientGroup, ingredient: Ingredient, event) {
@@ -98,7 +106,7 @@ export class SelectProductIngredientsPage {
 
   goToSelectProductSizePage() {
     let ingredients: Array<Ingredient> = this.getSelectedIngredients();
-    this.navCtrl.push(SelectProductSizePage, {ingredients: ingredients, menu: this.menu, restaurant: this.restaurant, additional_value: this.additional_value});
+    this.navCtrl.push(SelectProductSizePage, {ingredients: ingredients, menu: this.menu, restaurant: this.restaurant, additional_value: this.additional_value, authorization: this.authorization});
   }
 
   getSelectedIngredients() : Ingredient[]{

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
@@ -11,6 +11,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { UsersProvider } from '../../providers/users/users';
 import { LocationsPage } from '../locations/locations';
 import { ClientsProvider } from '../../providers/clients/clients';
+import { AdditionalRestaurant } from '../../models/additional-restaurant';
 
 /**
  * Generated class for the RegisterPage page.
@@ -32,40 +33,48 @@ export class RegisterPage {
   restaurant: Restaurant;
   ingredients: Ingredient[];
   product: Product;
-  authorization: Observable<Authorization>;
+  authorization: Authorization;
   value: any;
-  additional_value: any;
   selected_price: number;
   user: UserPandeco;
   phone: any;
+  selected_additionals: AdditionalRestaurant[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authenticationService: AuthenticationProvider,
               public clientService: ClientsProvider,
               private userService: UsersProvider,
-              public toastCtrl: ToastController) {
-    this.authorization = this.authenticationService.getGuestBearer();
+              public toastCtrl: ToastController,
+              public loadingCtrl: LoadingController) {
+    this.authorization = navParams.data.authorization;
     this.user = new UserPandeco();
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
     this.ingredients = navParams.data.ingredients;
-    this.additional_value = parseFloat(navParams.data.additional_value);
     this.value = navParams.data.value;
     this.selected_price = navParams.data.selected_price;
+    this.selected_additionals = navParams.data.selected_additionals;
   }
 
   ionViewDidLoad() {
 
   }
 
+  showLoading() {
+    const loader = this.loadingCtrl.create({
+      content: "Criando o usuário...",
+      duration: 6000
+    });
+    loader.present();
+  }
+
   register() {
     if (this.confirm_password == this.user.password) {
       if (this.phone != null && this.user.name != null && this.user.email != null) {
-        this.authorization
-        .subscribe(
-          authorization => this.userService
-            .addUser(authorization, this.user.email, this.user.name, this.user.password)
+        this.showLoading();
+        this.userService
+            .addUser(this.authorization, this.user.email, this.user.name, this.user.password)
             .subscribe(
               userPandeco => {
                 this.authenticationService
@@ -82,17 +91,16 @@ export class RegisterPage {
                             menu: this.menu,
                             restaurant: this.restaurant,
                             ingredients: this.ingredients,
-                            additional_value: this.additional_value,
                             value: this.value,
                             authorization: this.authorization,
-                            selected_price: this.selected_price
+                            selected_price: this.selected_price,
+                            selected_additionals: this.selected_additionals
                           })
                         }
                       )
                   })
               }
             )
-          )
       } else {
         let toast = this.toastCtrl.create({
           message: 'Todos os dados são obrigatórios!',
@@ -113,5 +121,4 @@ export class RegisterPage {
         this.user.password = '';
       }
   }
-
 }

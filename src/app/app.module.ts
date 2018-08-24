@@ -10,6 +10,7 @@ import { SelectProductSizePage } from "../pages/select-product-size/select-produ
 import { AdditionalsPage } from "../pages/additionals/additionals";
 import { RegisterPage } from "../pages/register/register";
 import { LocationsPage } from "../pages/locations/locations";
+import { OrderCompletionPage } from "../pages/order-completion/order-completion";
 import { HttpClientModule } from "@angular/common/http";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -35,7 +36,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     LoginPage,
     AdditionalsPage,
     RegisterPage,
-    LocationsPage
+    LocationsPage,
+    OrderCompletionPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     LoginPage,
     AdditionalsPage,
     RegisterPage,
-    LocationsPage
+    LocationsPage,
+    OrderCompletionPage
   ],
   providers: [
     StatusBar,

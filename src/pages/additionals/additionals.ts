@@ -9,6 +9,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserPandeco } from '../../models/user-pandeco';
 import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the AdditionalsPage page.
@@ -28,30 +29,27 @@ export class AdditionalsPage {
   restaurant: Restaurant;
   ingredients: Ingredient[];
   product: Product;
-  clientAuthorization: Authorization;
+  authorization: Authorization;
   value: any;
-  additional_value: any;
   selected_price: number;
-  user: UserPandeco;
-  additionals: AdditionalRestaurant[];
+  additionals: AdditionalRestaurant[] = [];
+  selected_additionals: AdditionalRestaurant[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private restauranteService: RestaurantsProvider) {
-    this.clientAuthorization = this.navParams.data.clientAuthorization;
+    this.authorization = this.navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
     this.ingredients = navParams.data.ingredients;
-    this.additional_value = parseFloat(navParams.data.additional_value);
     this.value = parseFloat(navParams.data.value);
     this.selected_price = navParams.data.selected_price;
-    this.user = navParams.data.user;
   }
 
   ionViewDidLoad() {
     console.log(this.navParams.data);
     this.restauranteService
-      .getAdditionalsFromRestaurant(this.clientAuthorization, this.restaurant)
+      .getAdditionalsFromRestaurant(this.authorization, this.restaurant)
       .subscribe(
         additionals => {
           this.updateAdditionals(additionals)
@@ -72,8 +70,31 @@ export class AdditionalsPage {
   }
 
   rmAdd(add: AdditionalRestaurant) {
-    add.quantity -= 1;
-    this.value -= parseFloat(add.value.toString());
+    if (add.quantity > 0) {
+      add.quantity -= 1;
+      this.value -= parseFloat(add.value.toString());
+    }
+  }
+
+  getSelectedAdditionals() {
+    this.additionals.forEach((add) => {
+      if (add.quantity > 0) {
+        this.selected_additionals.push(add);
+      }
+    });
+  }
+
+  goToLoginPage() {
+    this.getSelectedAdditionals();
+    this.navCtrl.push(LoginPage, {
+      menu: this.menu,
+      restaurant: this.restaurant,
+      ingredients: this.ingredients,
+      value: this.value,
+      authorization: this.authorization,
+      selected_price: this.selected_price,
+      selected_additionals: this.selected_additionals
+    })
   }
 
 }

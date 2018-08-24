@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import {Restaurant} from "../../models/restaurant";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
 import {MenusProvider} from "../../providers/menus/menus";
@@ -16,7 +16,7 @@ import {SelectProductIngredientsPage} from "../select-product-ingredients/select
 export class RestaurantMenuPage {
 
   menus: Menu[];
-  authorization: Observable<Authorization>;
+  authorization: Authorization;
   restaurant: Restaurant;
   minPrice: number;
 
@@ -24,8 +24,9 @@ export class RestaurantMenuPage {
               public navParams: NavParams,
               //public restaurantService: RestaurantsProvider,
               public menuService: MenusProvider,
-              public authenticationService: AuthenticationProvider) {
-    this.authorization = this.authenticationService.getGuestBearer();
+              public authenticationService: AuthenticationProvider,
+              public loadingCtrl: LoadingController) {
+    this.authorization = navParams.data.authorization;
     this.restaurant = navParams.data.restaurant;
   }
 
@@ -38,15 +39,21 @@ export class RestaurantMenuPage {
   }
 
   getMenusByRestaurant() {
-    this.authorization.subscribe(
-      authorization => this.menuService.getMenuByRestaurant(authorization, this.restaurant).subscribe(
+    this.menuService.getMenuByRestaurant(this.authorization, this.restaurant).subscribe(
         menus => this.menus = menus
-      )
     );
   }
 
   goToIngredientsProductPage(menu: Menu) {
-    this.navCtrl.push(SelectProductIngredientsPage, {menu: menu, restaurant: this.restaurant});
+    this.navCtrl.push(SelectProductIngredientsPage, {menu: menu, restaurant: this.restaurant, authorization: this.authorization});
+  }
+
+  showLoading() {
+    const loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      duration: 2000
+    });
+    loader.present();
   }
 
 
