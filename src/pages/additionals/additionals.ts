@@ -117,9 +117,14 @@ export class AdditionalsPage {
 
   getUser(val: any) {
     this.userService.getUser(val)
-    .subscribe(userPandeco => {
-      this.goToOrderPage(userPandeco, val)
-    });
+    .subscribe(
+      userPandeco => {
+        this.goToOrderPage(userPandeco, val)
+      },
+      err => {
+        this.goToLoginPage()
+      }
+    );
   }
 
   goToOrderPage(user: any, val: any) {
