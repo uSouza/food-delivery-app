@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ToastController, LoadingController
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
-import { Product } from '../../models/product';
 import { Authorization } from '../../models/authorization';
 import { Observable } from 'rxjs/Observable';
 import { UserPandeco } from '../../models/user-pandeco';
@@ -12,6 +11,7 @@ import {AuthenticationProvider} from "../../providers/authentication/authenticat
 import { OrderCompletionPage } from "../order-completion/order-completion";
 import { RegisterPage } from '../register/register';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
+import { Storage } from '@ionic/storage';
 
 
 @IonicPage()
@@ -24,7 +24,6 @@ export class LoginPage {
   menu: Menu;
   restaurant: Restaurant;
   ingredients: Ingredient[];
-  product: Product;
   authorization: Authorization;
   clientAuthorization: Observable<Authorization>;
   value: any;
@@ -37,7 +36,8 @@ export class LoginPage {
               public authenticationService: AuthenticationProvider,
               private userService: UsersProvider,
               public toastCtrl: ToastController,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              private storage: Storage) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -80,17 +80,7 @@ export class LoginPage {
               .getClientBearer(this.user)
               .subscribe(
                 clientAuthorization => {
-                    this.navCtrl.push(OrderCompletionPage, {
-                    clientAuthorization: clientAuthorization,
-                    menu: this.menu,
-                    restaurant: this.restaurant,
-                    ingredients: this.ingredients,
-                    value: this.value,
-                    authorization: this.authorization,
-                    selected_price: this.selected_price,
-                    selected_additionals: this.selected_additionals,
-                    user: userPandeco
-                  })
+                  this.goToOrderCompletion(userPandeco, clientAuthorization);
                 },
                 err => {
                   this.failed();
@@ -101,6 +91,22 @@ export class LoginPage {
             this.failed();
           }
         );
+  }
+
+  goToOrderCompletion(user: UserPandeco, clientAuthorization: Authorization) {
+    this.storage.set('token', clientAuthorization.access_token);
+    this.navCtrl.push(OrderCompletionPage, {
+      clientAuthorization: clientAuthorization,
+      menu: this.menu,
+      restaurant: this.restaurant,
+      ingredients: this.ingredients,
+      value: this.value,
+      authorization: this.authorization,
+      selected_price: this.selected_price,
+      selected_additionals: this.selected_additionals,
+      user: user
+    })
+
   }
 
   openRegisterPage() {

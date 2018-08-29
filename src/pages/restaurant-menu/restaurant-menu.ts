@@ -19,14 +19,15 @@ export class RestaurantMenuPage {
   authorization: Authorization;
   restaurant: Restaurant;
   minPrice: number;
+  clientAuthorization?: Authorization;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              //public restaurantService: RestaurantsProvider,
               public menuService: MenusProvider,
               public authenticationService: AuthenticationProvider,
               public loadingCtrl: LoadingController) {
     this.authorization = navParams.data.authorization;
+    this.clientAuthorization = navParams.data.clientAuthorization;
     this.restaurant = navParams.data.restaurant;
   }
 
@@ -45,7 +46,7 @@ export class RestaurantMenuPage {
   }
 
   goToIngredientsProductPage(menu: Menu) {
-    this.navCtrl.push(SelectProductIngredientsPage, {menu: menu, restaurant: this.restaurant, authorization: this.authorization});
+    this.navCtrl.push(SelectProductIngredientsPage, {menu: menu, restaurant: this.restaurant, authorization: this.authorization, clientAuthorization: this.clientAuthorization});
   }
 
   showLoading() {

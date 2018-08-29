@@ -14,12 +14,20 @@
 
 
 <ion-content padding>
-  <h3 style="margin-left: 10px; margin-bottom: 20px; color: #801815">Escolha um tamanho</h3>
+
+
   <ion-list radio-group>
+      <ion-item-divider color="light">
+          <ion-row>
+            <ion-col col-12>
+              Tamanho da marmita
+            </ion-col>
+          </ion-row>
+        </ion-item-divider>
         <ion-item *ngFor="let price of menu.prices">
-          <ion-radio color="price" checked="false" value="{{price.id}}" (click)="updateValue(price)"></ion-radio>
+          <ion-radio color="price" checked="false" value="{{price.id}}" (click)="updateValue(price)" item-start></ion-radio>
           <ion-label>{{price.size}}</ion-label>
-          <ion-label>{{price.price | currency: 'BRL': true}}</ion-label>
+          <ion-label item-end>{{price.price | currency: 'BRL': true}}</ion-label>
         </ion-item>
   </ion-list>
   <ion-fab right bottom>

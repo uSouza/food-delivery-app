@@ -38,4 +38,14 @@ export class LocationsProvider {
     });
   }
 
+  getLocations(authorization: Authorization): Observable<Location[]> {
+    return this.http.get<Location[]>(this.url_api + this.endpoint,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + authorization.access_token
+        }
+      });
+  }
+
 }

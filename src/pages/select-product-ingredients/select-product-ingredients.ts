@@ -30,6 +30,7 @@ export class SelectProductIngredientsPage {
   ingredients_groups: IngredientGroup[];
   authorization: Authorization;
   additional_value: number;
+  clientAuthorization?: Authorization;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -40,6 +41,7 @@ export class SelectProductIngredientsPage {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
+    this.clientAuthorization = navParams.data.clientAuthorization;
     this.additional_value = 0;
   }
 
@@ -75,17 +77,17 @@ export class SelectProductIngredientsPage {
           message: 'Será cobrado o valor de R$' + ingredient_group.additional_value + ' pelo(a) ' + ingredient.name + '. Deseja confirmar a inclusão?',
           buttons: [
             {
+              text: 'Não',
+              handler: () => {
+                event.checked = false;
+              }
+            },
+            {
               text: 'Sim',
               handler: () => {
                 event.checked = true;
                 this.additional_value += ingredient_group.additional_value;
                 ingredient.additional = true;
-              }
-            },
-            {
-              text: 'Não',
-              handler: () => {
-                event.checked = false;
               }
             }
           ]
@@ -106,7 +108,7 @@ export class SelectProductIngredientsPage {
 
   goToSelectProductSizePage() {
     let ingredients: Array<Ingredient> = this.getSelectedIngredients();
-    this.navCtrl.push(SelectProductSizePage, {ingredients: ingredients, menu: this.menu, restaurant: this.restaurant, additional_value: this.additional_value, authorization: this.authorization});
+    this.navCtrl.push(SelectProductSizePage, {ingredients: ingredients, menu: this.menu, restaurant: this.restaurant, additional_value: this.additional_value, authorization: this.authorization, clientAuthorization: this.clientAuthorization});
   }
 
   getSelectedIngredients() : Ingredient[]{

@@ -35,7 +35,8 @@ export class SelectProductSizePage {
   authorization: Authorization;
   value: any = 0;
   additional_value: any;
-  selected_price: number;
+  selected_price: Price;
+  clientAuthorization?: Authorization;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -49,6 +50,7 @@ export class SelectProductSizePage {
     this.ingredients = navParams.data.ingredients;
     this.additional_value = parseFloat(navParams.data.additional_value);
     this.selected_additionals = navParams.data.selected_additionals;
+    this.clientAuthorization = navParams.data.clientAuthorization;
   }
 
   ionViewDidLoad() {
@@ -64,7 +66,7 @@ export class SelectProductSizePage {
 
   updateValue(price: Price) {
     this.value = parseFloat(price.price);
-    this.selected_price = price.id;
+    this.selected_price = price;
   }
 
   goToAdditionalsPage() {
@@ -76,7 +78,8 @@ export class SelectProductSizePage {
       value: this.value + this.additional_value,
       authorization: this.authorization,
       selected_price: this.selected_price,
-      selected_additionals: this.selected_additionals
+      selected_additionals: this.selected_additionals,
+      clientAuthorization: this.clientAuthorization
     });
   }
 

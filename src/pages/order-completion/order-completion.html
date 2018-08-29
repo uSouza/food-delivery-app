@@ -6,13 +6,82 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>order-completion</ion-title>
+  <ion-navbar color="fundo">
+    <ion-title>Finalização do pedido</ion-title>
   </ion-navbar>
 
 </ion-header>
 
-
-<ion-content padding>
-
+<ion-content>
+  <div class="centered">
+      <ion-card>
+          <ion-card-header>
+            Dados de encerramento do pedido
+          </ion-card-header>
+        <ion-card-content>
+            <ion-list>
+                <ion-item>
+                    <ion-label *ngIf="restaurant.delivery_value == 0">Receber o pedido no local?</ion-label>
+                    <ion-label *ngIf="restaurant.delivery_value > 0">Entregar por {{restaurant.delivery_value | currency: 'BRL': true}}?</ion-label>
+                    <ion-checkbox (ionChange)="orderDeliver($event)" color="dark" [(ngModel)] = "deliver" checked="false"></ion-checkbox>
+                </ion-item>
+                <ion-item *ngIf="deliver">
+                    <ion-label floating>Selecione o local</ion-label>
+                    <ion-select (click)="locationValidade()" [(ngModel)]="location" interface="popover">
+                      <ion-option name="item-select" ngDefaultControl *ngFor="let location of locations" value="{{location.id}}">{{location.address + ' - ' + location.number + ' - ' + location.district}}</ion-option>
+                    </ion-select>
+                </ion-item>
+                <ion-item>
+                  <ion-label floating>Selecione a forma de pagamento</ion-label>
+                  <ion-select [(ngModel)]="formPayment" interface="popover">
+                    <ion-option name="item-select" ngDefaultControl *ngFor="let form of restaurant.form_payments" value="{{form.id}}">{{form.description}}</ion-option>
+                  </ion-select>
+              </ion-item>
+              <ion-item>
+                  <ion-label floating>Horário de retirada do pedido</ion-label>
+                  <ion-input type="text"></ion-input>
+              </ion-item>
+                <ion-item>
+                    <ion-label floating>Observações para o pedido</ion-label>
+                    <ion-textarea></ion-textarea>
+                </ion-item>
+              </ion-list>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header>
+          <h2><strong>Resumo do pedido</strong></h2>
+        </ion-card-header>
+        <ion-item>
+          <h2>
+            <strong>Restaurante: </strong> {{restaurant.fantasy_name}}
+          </h2>
+          <h2 style="margin-bottom: 10px">
+            <strong>Marmita: </strong> {{selected_price.size}} - {{selected_price.price | currency: 'BRL': true}}
+          </h2>
+          <accordion-list *ngFor="let item of items; let index = index"
+                          [title]="item.name"
+                          textColor="#222"
+                          hasMargin="true"
+                          headerColor="#f4f4f4">
+            <ion-list no-lines>
+              <button color="#8888" ion-item *ngFor="let i of item.subItems">
+              {{i.name}} <p *ngIf="i.value > 0">{{i.value | currency: 'BRL': true}}</p>
+              </button>
+            </ion-list>
+          </accordion-list>
+          <h2 *ngIf="restaurant.delivery_value > 0 && deliver">
+            <strong>Valor de entrega: </strong> {{restaurant.delivery_value | currency: 'BRL': true}}
+          </h2>
+        </ion-item>
+      </ion-card>
+  </div>
+  <ion-fab right bottom>
+    <button ion-fab color="fundo" (click)="orderSave()"><ion-icon name="checkmark"></ion-icon></button>
+  </ion-fab>
+  <ion-footer-bar>
+    <ion-toolbar>
+      <ion-title>Valor do pedido: {{value === 0 ? 'R$ 0,00' : value | currency: 'BRL': true}}</ion-title>
+    </ion-toolbar>
+  </ion-footer-bar>
 </ion-content>

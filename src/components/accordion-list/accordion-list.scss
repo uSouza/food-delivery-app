@@ -4,7 +4,7 @@ accordion-list {
   }
 
   .accordion-header {
-      color: white;
+      color: #222;
 
       .item-inner {
           margin-left: 0 !important;
@@ -12,7 +12,6 @@ accordion-list {
 
       ion-icon {
           transition: all .25s ease-in;
-          transform: rotate(0);
       }
   }
 
@@ -30,4 +29,5 @@ accordion-list {
   .label {
       margin: 0px;
   }
+
 }

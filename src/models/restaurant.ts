@@ -15,4 +15,5 @@ export class Restaurant {
   opening_time: string;
   tags: object;
   additionals: object;
+  delivery_value: number;
 }

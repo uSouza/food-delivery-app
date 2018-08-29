@@ -22,7 +22,7 @@
             {{restaurant.observation}}
           </p>
           <p style="font-size: smaller; color: #00b300">
-            <b>{{restaurant.delivery_value === null ? 'Entrega gratuíta' : restaurant.delivery_value}}</b>
+            <b>Entrega: {{restaurant.delivery_value === null ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
           </p>
           <ion-badge style="margin-left: 3px; margin-top: 2px" color="fundo" col-5 *ngFor="let tag of restaurant.tags">
             {{tag.name}}
@@ -49,7 +49,7 @@
             <p style="font-size: smaller; color: #00b300">
               <b>A partir de {{menu.min_price | currency: 'BRL': true}}</b>
             </p>
-            <button style="margin-left: 120px" ion-button small color="fundo" (click)="goToIngredientsProductPage(menu)">Quero essa</button>
+            <button style="margin-left: 110px" ion-button small color="fundo" (click)="goToIngredientsProductPage(menu)">Quero essa</button>
         </ion-col>
       </ion-row>
     </ion-card>

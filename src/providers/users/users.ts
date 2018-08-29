@@ -44,4 +44,13 @@ export class UsersProvider {
       });
   }
 
+  getUser(access_token: any) {
+    return this.http.get<UserPandeco>(this.url_api + this.endpoint + '/me',
+    {headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + access_token
+            }
+    });
+  }
+
 }

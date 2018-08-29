@@ -12,6 +12,8 @@ import { UsersProvider } from '../../providers/users/users';
 import { LocationsPage } from '../locations/locations';
 import { ClientsProvider } from '../../providers/clients/clients';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
+import { Client } from '../../models/client';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the RegisterPage page.
@@ -46,7 +48,8 @@ export class RegisterPage {
               public clientService: ClientsProvider,
               private userService: UsersProvider,
               public toastCtrl: ToastController,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              private storage: Storage) {
     this.authorization = navParams.data.authorization;
     this.user = new UserPandeco();
     this.menu = navParams.data.menu;
@@ -85,17 +88,7 @@ export class RegisterPage {
                       .addClient(clientAuthorization, userPandeco, this.phone, '(45)3252-0434')
                       .subscribe(
                         client => {
-                          this.navCtrl.setRoot(LocationsPage, {
-                            client: client,
-                            clientAuthorization: clientAuthorization,
-                            menu: this.menu,
-                            restaurant: this.restaurant,
-                            ingredients: this.ingredients,
-                            value: this.value,
-                            authorization: this.authorization,
-                            selected_price: this.selected_price,
-                            selected_additionals: this.selected_additionals
-                          })
+                          this.goToLocationsPage(client, clientAuthorization);
                         }
                       )
                   })
@@ -121,4 +114,20 @@ export class RegisterPage {
         this.user.password = '';
       }
   }
+
+  goToLocationsPage(client: Client, clientAuthorization: Authorization) {
+    this.storage.set('token', clientAuthorization.access_token);
+    this.navCtrl.push(LocationsPage, {
+      client: client,
+      clientAuthorization: clientAuthorization,
+      menu: this.menu,
+      restaurant: this.restaurant,
+      ingredients: this.ingredients,
+      value: this.value,
+      authorization: this.authorization,
+      selected_price: this.selected_price,
+      selected_additionals: this.selected_additionals
+    })
+  }
+
 }

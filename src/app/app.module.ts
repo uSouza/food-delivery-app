@@ -25,6 +25,10 @@ import { UsersProvider } from '../providers/users/users';
 import { ClientsProvider } from '../providers/clients/clients';
 import { LocationsProvider } from '../providers/locations/locations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AccordionListComponent } from '../components/accordion-list/accordion-list';
+import { SQLite } from '@ionic-native/sqlite';
+import { IonicStorageModule } from '@ionic/storage';
+import { BrMaskerModule } from 'brmasker-ionic-3';
 
 @NgModule({
   declarations: [
@@ -37,12 +41,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     AdditionalsPage,
     RegisterPage,
     LocationsPage,
-    OrderCompletionPage
+    OrderCompletionPage,
+    AccordionListComponent
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
+    IonicStorageModule.forRoot(),
+    BrMaskerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -55,7 +62,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     AdditionalsPage,
     RegisterPage,
     LocationsPage,
-    OrderCompletionPage
+    OrderCompletionPage,
+    AccordionListComponent
   ],
   providers: [
     StatusBar,
@@ -68,10 +76,11 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
     IngredientsProvider,
     UsersProvider,
     ClientsProvider,
-    LocationsProvider
+    LocationsProvider,
+    SQLite
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
-  ],
+  ]
 })
 export class AppModule {}

@@ -1,3 +1,5 @@
+import { Client } from "./client";
+
 export class UserPandeco {
   id: number;
   name: string;
@@ -5,4 +7,5 @@ export class UserPandeco {
   email: string;
   password: string;
   token: string;
+  client: Client;
 }

@@ -7,6 +7,7 @@ import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
 import {RestaurantMenuPage} from "../restaurant-menu/restaurant-menu";
 import { LoadingController } from 'ionic-angular';
+import { SQLiteObject } from '@ionic-native/sqlite';
 
 @IonicPage()
 @Component({
@@ -18,13 +19,14 @@ export class RestaurantsPage {
   restaurants: Restaurant[];
   authorizationService: Observable<Authorization>;
   authorization: Authorization;
+  clientAuthorization: Authorization;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public restaurantService: RestaurantsProvider,
               public authenticationService: AuthenticationProvider,
-              public loadingCtrl: LoadingController) {
-
+              public loadingCtrl: LoadingController
+            ) {
   }
 
   ionViewDidLoad() {
@@ -35,6 +37,7 @@ export class RestaurantsPage {
           this.setAuthorization(authorization)
         }
       );
+
   }
 
   setAuthorization(authorization: Authorization) {
@@ -58,7 +61,6 @@ export class RestaurantsPage {
   }
 
   getRestaurantsByName(ev) {
-
     var val = ev.target.value;
 
     if (val && val.trim() != '') {
@@ -73,7 +75,7 @@ export class RestaurantsPage {
 
   goToRestaurantMenuPage(restaurant: Restaurant) {
     this.showLoading();
-    this.navCtrl.push(RestaurantMenuPage, {restaurant: restaurant, authorization: this.authorization});
+    this.navCtrl.push(RestaurantMenuPage, {restaurant: restaurant, authorization: this.authorization, clientAuthorization: this.clientAuthorization});
   }
 
 }

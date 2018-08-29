@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar color="fundo">
-    <ion-title>Continue seu pedido :)</ion-title>
+    <ion-title>Finalize seu pedido :)</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -36,13 +36,33 @@
         </ion-card>
         <ion-card>
             <ion-card-header>
-              Quero me cadastrar
+              Ainda não possui um cadastro?
             </ion-card-header>
             <ion-card-content>
-                <button ion-button icon-end color="fundo" (click)="openRegisterPage()">
+                <button ion-button block icon-end color="fundo" (click)="openRegisterPage()">
                   Realizar cadastro
                 </button>
             </ion-card-content>
+        </ion-card>
+        <ion-card>
+            <ion-row>
+              <ion-col col-12>
+                  <ion-card-header>
+                      <h2><strong>Resumo do pedido</strong></h2>
+                  </ion-card-header>
+                  <ion-item>
+                      <h2>
+                        <strong>Restaurante: </strong> {{restaurant.fantasy_name}}
+                      </h2>
+                      <h2>
+                        <strong>Tamanho da marmita: </strong> {{selected_price.size}}
+                      </h2>
+                      <h2>
+                        <strong>Valor total: </strong> {{value | currency: 'BRL': true}}
+                      </h2>
+                    </ion-item>
+              </ion-col>
+            </ion-row>
           </ion-card>
       </div>
 </ion-content>
