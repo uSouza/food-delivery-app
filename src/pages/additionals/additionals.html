@@ -12,20 +12,22 @@
 
 <ion-content padding>
   <ion-item-group>
-    <ion-item-divider color="light">
-      <ion-row>
-        <ion-col col-12>
-          Adicionais e bebidas
-        </ion-col>
-      </ion-row>
-    </ion-item-divider>
-    <ion-item *ngFor="let add of additionals">
-      <ion-icon (click)="rmAdd(add)" item-start name="remove-circle"></ion-icon>
-      <p item-start>{{add.quantity < 0 ? 0 : add.quantity}}</p>
-      <ion-icon (click)="addAdd(add)" item-start name="add-circle"></ion-icon>
-      <ion-label>{{add.name}}</ion-label>
-      <ion-label item-right>{{add.value | currency: 'BRL': true}}</ion-label>
-    </ion-item>
+      <ion-item-divider color="light">
+        <ion-row>
+          <ion-col col-12>
+            Adicionais e bebidas
+          </ion-col>
+        </ion-row>
+      </ion-item-divider>
+      <ion-list no-lines>
+        <ion-item *ngFor="let add of additionals">
+          <ion-icon (click)="rmAdd(add)" item-start name="remove-circle"></ion-icon>
+          <p style="color:black" item-start>{{add.quantity < 0 ? 0 : add.quantity}}</p>
+          <ion-icon (click)="addAdd(add)" item-start name="add-circle"></ion-icon>
+          <p style="color:black" item-left>{{add.name}}</p>
+          <p style="color:black" item-right>{{add.value | currency: 'BRL': true}}</p>
+        </ion-item>
+    </ion-list>
   </ion-item-group>
 </ion-content>
 <ion-fab right bottom>
