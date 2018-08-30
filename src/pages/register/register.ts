@@ -4,7 +4,6 @@ import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
 import { Product } from '../../models/product';
-import { Observable } from 'rxjs/Observable';
 import { Authorization } from '../../models/authorization';
 import { UserPandeco } from '../../models/user-pandeco';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';

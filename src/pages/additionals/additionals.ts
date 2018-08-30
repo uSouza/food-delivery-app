@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
 import { Product } from '../../models/product';
 import { Authorization } from '../../models/authorization';
-import { Observable } from 'rxjs/Observable';
-import { UserPandeco } from '../../models/user-pandeco';
 import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { LoginPage } from '../login/login';
@@ -45,7 +43,8 @@ export class AdditionalsPage {
               public navParams: NavParams,
               private restauranteService: RestaurantsProvider,
               private storage: Storage,
-              private userService: UsersProvider) {
+              private userService: UsersProvider,
+              public loadingCtrl: LoadingController) {
     this.authorization = this.navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -63,6 +62,14 @@ export class AdditionalsPage {
           this.updateAdditionals(additionals)
         }
       )
+  }
+
+  showLoading() {
+    const loader = this.loadingCtrl.create({
+      content: "Carregando...",
+      duration: 2000
+    });
+    loader.present();
   }
 
   updateAdditionals(adds: AdditionalRestaurant[]) {
@@ -116,6 +123,7 @@ export class AdditionalsPage {
   }
 
   getUser(val: any) {
+    this.showLoading();
     this.userService.getUser(val)
     .subscribe(
       userPandeco => {
@@ -128,12 +136,7 @@ export class AdditionalsPage {
   }
 
   goToOrderPage(user: any, val: any) {
-
-    console.log(user);
-
     this.clientAuthorization.access_token = val;
-    console.log(this.clientAuthorization.access_token);
-
     this.navCtrl.push(OrderCompletionPage, {
       clientAuthorization: this.clientAuthorization,
       menu: this.menu,
@@ -143,7 +146,8 @@ export class AdditionalsPage {
       authorization: this.authorization,
       selected_price: this.selected_price,
       selected_additionals: this.selected_additionals,
-      user: user
+      user: user,
+      client: user.client
     });
   }
 

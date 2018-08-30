@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
@@ -11,6 +11,7 @@ import { LocationsProvider } from '../../providers/locations/locations';
 import { Location } from '../../models/location';
 import { RestaurantsPage } from '../restaurants/restaurants';
 import { LocationsPage } from '../locations/locations';
+import { Client } from '../../models/client';
 
 @IonicPage()
 @Component({
@@ -25,6 +26,7 @@ export class OrderCompletionPage {
   product: Product;
   authorization: Authorization;
   clientAuthorization: Authorization;
+  client: Client;
   value: any;
   selected_price: number;
   user: UserPandeco = new UserPandeco();
@@ -33,13 +35,16 @@ export class OrderCompletionPage {
   locations: Location[] = [];
   deliver: any;
   formPayment: any;
+  hour: any;
+  observation_order: string;
 
   items = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public locationService: LocationsProvider,
-              public alertCtrl: AlertController) {
+              public alertCtrl: AlertController,
+              public toastCtrl: ToastController) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -49,16 +54,13 @@ export class OrderCompletionPage {
     this.selected_additionals = navParams.data.selected_additionals;
     this.user = navParams.data.user;
     this.clientAuthorization = navParams.data.clientAuthorization;
+    this.client = navParams.data.client;
   }
 
   ionViewDidLoad() {
     console.log(this.navParams.data);
-    if (this.navParams.get('locations') == null) {
-      this.getClientLocations();
-    }
-    else {
-      this.locations = this.navParams.data.locations
-    }
+    this.getClientLocations();
+
     if (this.restaurant.delivery_value == null) {
       this.restaurant.delivery_value = 0;
     }
@@ -83,13 +85,40 @@ export class OrderCompletionPage {
   }
 
   orderSave() {
-    const alert = this.alertCtrl.create({
-      title: 'Pedido realizado com sucesso!',
-      subTitle: 'Obrigado por fazer o seu pedido pelo Pandeco!',
-      buttons: ['OK']
-    });
-    alert.present();
-    this.navCtrl.push(RestaurantsPage);
+    if (this.hour == null) {
+      let toast = this.toastCtrl.create({
+        message: 'É necessário informar o horário de retirada!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+    }
+    else if (this.formPayment == null) {
+      let toast = this.toastCtrl.create({
+        message: 'É necessário informar a forma de pagamento!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+    }
+    else if (this.deliver && this.location == null) {
+      let toast = this.toastCtrl.create({
+        message: 'É necessário selecionar o local de entrega!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+    }
+    else {
+      const alert = this.alertCtrl.create({
+        title: 'Pedido realizado com sucesso!',
+        subTitle: 'Obrigado por fazer o seu pedido pelo Pandeco!',
+        buttons: ['OK']
+      });
+      alert.present();
+      this.navCtrl.push(RestaurantsPage);
+    }
+
   }
 
   orderDeliver(event) {
@@ -105,34 +134,18 @@ export class OrderCompletionPage {
 
   }
 
-  locationValidade() {
-    if (this.locations.length <= 0) {
-      const confirm = this.alertCtrl.create({
-        title: 'Cadastrar local de entrega',
-        message: 'É necessário cadastrar ao menos um local de entrega para finalizar o pedido.',
-        buttons: [
-          {
-            text: 'Ok',
-            handler: () => {
-              this.navCtrl.push(LocationsPage, {
-                client: this.user.client,
-                clientAuthorization: this.clientAuthorization,
-                menu: this.menu,
-                restaurant: this.restaurant,
-                ingredients: this.ingredients,
-                value: this.value,
-                authorization: this.authorization,
-                selected_price: this.selected_price,
-                selected_additionals: this.selected_additionals
-              })
-            }
-          }
-        ]
-      });
-      confirm.present();
-    }
-
-
+  addLocation() {
+    this.navCtrl.push(LocationsPage, {
+      client: this.client,
+      clientAuthorization: this.clientAuthorization,
+      menu: this.menu,
+      restaurant: this.restaurant,
+      ingredients: this.ingredients,
+      value: this.value,
+      authorization: this.authorization,
+      selected_price: this.selected_price,
+      selected_additionals: this.selected_additionals
+    });
   }
 
 }

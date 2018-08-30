@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Authorization } from '../../models/authorization';
-import { Client } from '../../models/client';
 import { Location } from '../../models/location';
 import { Observable } from 'rxjs/Observable';
 

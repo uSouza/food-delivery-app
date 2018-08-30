@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
 import { Product } from "../../models/product";
-import {Restaurant} from "../../models/restaurant";
 /*
   Generated class for the ProductsProvider provider.
 

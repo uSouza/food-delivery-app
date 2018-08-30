@@ -2,13 +2,11 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, LoadingController} from 'ionic-angular';
 import {Menu} from "../../models/menu";
 import {Authorization} from "../../models/authorization";
-import {Observable} from "rxjs/Observable";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
 import {Ingredient} from "../../models/ingredient";
 import {IngredientGroup} from "../../models/ingredient-group";
 import {IngredientsProvider} from "../../providers/ingredients/ingredients";
 import {Restaurant} from "../../models/restaurant";
-import {RestaurantMenuPage} from "../restaurant-menu/restaurant-menu";
 import {SelectProductSizePage} from "../select-product-size/select-product-size";
 
 /**
@@ -30,7 +28,6 @@ export class SelectProductIngredientsPage {
   ingredients_groups: IngredientGroup[];
   authorization: Authorization;
   additional_value: number;
-  clientAuthorization?: Authorization;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -41,7 +38,6 @@ export class SelectProductIngredientsPage {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
-    this.clientAuthorization = navParams.data.clientAuthorization;
     this.additional_value = 0;
   }
 
@@ -108,7 +104,13 @@ export class SelectProductIngredientsPage {
 
   goToSelectProductSizePage() {
     let ingredients: Array<Ingredient> = this.getSelectedIngredients();
-    this.navCtrl.push(SelectProductSizePage, {ingredients: ingredients, menu: this.menu, restaurant: this.restaurant, additional_value: this.additional_value, authorization: this.authorization, clientAuthorization: this.clientAuthorization});
+    this.navCtrl.push(SelectProductSizePage, {
+      ingredients: ingredients,
+      menu: this.menu,
+      restaurant: this.restaurant,
+      additional_value: this.additional_value,
+      authorization: this.authorization
+    });
   }
 
   getSelectedIngredients() : Ingredient[]{

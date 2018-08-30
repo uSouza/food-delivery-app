@@ -104,7 +104,8 @@ export class LoginPage {
       authorization: this.authorization,
       selected_price: this.selected_price,
       selected_additionals: this.selected_additionals,
-      user: user
+      user: user,
+      client: user.client
     })
 
   }

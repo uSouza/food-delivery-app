@@ -25,11 +25,16 @@
                     <ion-label *ngIf="restaurant.delivery_value > 0">Entregar por {{restaurant.delivery_value | currency: 'BRL': true}}?</ion-label>
                     <ion-checkbox (ionChange)="orderDeliver($event)" color="dark" [(ngModel)] = "deliver" checked="false"></ion-checkbox>
                 </ion-item>
-                <ion-item *ngIf="deliver">
+                <ion-item *ngIf="deliver && locations.length > 0">
                     <ion-label floating>Selecione o local</ion-label>
                     <ion-select (click)="locationValidade()" [(ngModel)]="location" interface="popover">
                       <ion-option name="item-select" ngDefaultControl *ngFor="let location of locations" value="{{location.id}}">{{location.address + ' - ' + location.number + ' - ' + location.district}}</ion-option>
                     </ion-select>
+                </ion-item>
+                <ion-item *ngIf="deliver">
+                  <button (click)="addLocation()" color="fundo" ion-button block>
+                    Adicionar local
+                  </button>
                 </ion-item>
                 <ion-item>
                   <ion-label floating>Selecione a forma de pagamento</ion-label>
@@ -39,11 +44,11 @@
               </ion-item>
               <ion-item>
                   <ion-label floating>Horário de retirada do pedido</ion-label>
-                  <ion-input type="text"></ion-input>
+                  <ion-datetime displayFormat="HH:mm" [(ngModel)]="hour" type="text"></ion-datetime>
               </ion-item>
                 <ion-item>
                     <ion-label floating>Observações para o pedido</ion-label>
-                    <ion-textarea></ion-textarea>
+                    <ion-textarea [(ngModel)]="observation_order"></ion-textarea>
                 </ion-item>
               </ion-list>
         </ion-card-content>

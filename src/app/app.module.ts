@@ -25,10 +25,10 @@ import { UsersProvider } from '../providers/users/users';
 import { ClientsProvider } from '../providers/clients/clients';
 import { LocationsProvider } from '../providers/locations/locations';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { AccordionListComponent } from '../components/accordion-list/accordion-list';
 import { SQLite } from '@ionic-native/sqlite';
 import { IonicStorageModule } from '@ionic/storage';
 import { BrMaskerModule } from 'brmasker-ionic-3';
+import { AccordionListComponent } from '../components/accordion-list/accordion-list';
 
 @NgModule({
   declarations: [

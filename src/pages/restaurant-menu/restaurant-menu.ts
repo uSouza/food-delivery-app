@@ -5,7 +5,6 @@ import {AuthenticationProvider} from "../../providers/authentication/authenticat
 import {MenusProvider} from "../../providers/menus/menus";
 import {Authorization} from "../../models/authorization";
 import {Menu} from "../../models/menu";
-import {Observable} from "rxjs/Observable";
 import {SelectProductIngredientsPage} from "../select-product-ingredients/select-product-ingredients";
 
 @IonicPage()
@@ -19,7 +18,6 @@ export class RestaurantMenuPage {
   authorization: Authorization;
   restaurant: Restaurant;
   minPrice: number;
-  clientAuthorization?: Authorization;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -27,7 +25,6 @@ export class RestaurantMenuPage {
               public authenticationService: AuthenticationProvider,
               public loadingCtrl: LoadingController) {
     this.authorization = navParams.data.authorization;
-    this.clientAuthorization = navParams.data.clientAuthorization;
     this.restaurant = navParams.data.restaurant;
   }
 
@@ -46,7 +43,11 @@ export class RestaurantMenuPage {
   }
 
   goToIngredientsProductPage(menu: Menu) {
-    this.navCtrl.push(SelectProductIngredientsPage, {menu: menu, restaurant: this.restaurant, authorization: this.authorization, clientAuthorization: this.clientAuthorization});
+    this.navCtrl.push(SelectProductIngredientsPage, {
+      menu: menu,
+      restaurant: this.restaurant,
+      authorization: this.authorization
+    });
   }
 
   showLoading() {

@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, LoadingController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, LoadingController, ToastController} from 'ionic-angular';
 import {Restaurant} from "../../models/restaurant";
 import {Menu} from "../../models/menu";
 import {Ingredient} from "../../models/ingredient";
 import {Price} from "../../models/price";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
-import {IngredientsProvider} from "../../providers/ingredients/ingredients";
-import {Observable} from "rxjs/Observable";
 import {Authorization} from "../../models/authorization";
 import {Product} from "../../models/product";
 import {ProductsProvider} from "../../providers/products/products";
@@ -36,21 +34,20 @@ export class SelectProductSizePage {
   value: any = 0;
   additional_value: any;
   selected_price: Price;
-  clientAuthorization?: Authorization;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authenticationService: AuthenticationProvider,
               public productService: ProductsProvider,
               public alertCtrl: AlertController,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              public toastCtrl: ToastController) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
     this.ingredients = navParams.data.ingredients;
     this.additional_value = parseFloat(navParams.data.additional_value);
     this.selected_additionals = navParams.data.selected_additionals;
-    this.clientAuthorization = navParams.data.clientAuthorization;
   }
 
   ionViewDidLoad() {
@@ -70,17 +67,25 @@ export class SelectProductSizePage {
   }
 
   goToAdditionalsPage() {
-    this.showLoading();
-    this.navCtrl.push(AdditionalsPage, {
-      menu: this.menu,
-      restaurant: this.restaurant,
-      ingredients: this.ingredients,
-      value: this.value + this.additional_value,
-      authorization: this.authorization,
-      selected_price: this.selected_price,
-      selected_additionals: this.selected_additionals,
-      clientAuthorization: this.clientAuthorization
-    });
+    if (this.selected_price != null) {
+      this.showLoading();
+      this.navCtrl.push(AdditionalsPage, {
+        menu: this.menu,
+        restaurant: this.restaurant,
+        ingredients: this.ingredients,
+        value: this.value + this.additional_value,
+        authorization: this.authorization,
+        selected_price: this.selected_price,
+        selected_additionals: this.selected_additionals
+      });
+    } else {
+      let toast = this.toastCtrl.create({
+        message: 'É necessário selecionar um tamanho de marmita!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+    }
   }
 
 }
