@@ -15,23 +15,18 @@
 <ion-content>
   <div class="centered">
       <ion-card>
-          <ion-card-header>
-            Dados de encerramento do pedido
-          </ion-card-header>
-        <ion-card-content>
             <ion-list>
                 <ion-item>
-                    <ion-label *ngIf="restaurant.delivery_value == 0">Receber o pedido no local?</ion-label>
-                    <ion-label *ngIf="restaurant.delivery_value > 0">Entregar por {{restaurant.delivery_value | currency: 'BRL': true}}?</ion-label>
+                    <ion-label>Retirar o pedido no restaurante?</ion-label>
                     <ion-checkbox (ionChange)="orderDeliver($event)" color="dark" [(ngModel)] = "deliver" checked="false"></ion-checkbox>
                 </ion-item>
-                <ion-item *ngIf="deliver && locations.length > 0">
+                <ion-item *ngIf="!deliver && locations.length > 0">
                     <ion-label floating>Selecione o local</ion-label>
-                    <ion-select (click)="locationValidade()" [(ngModel)]="location" interface="popover">
+                    <ion-select [(ngModel)]="location" interface="popover">
                       <ion-option name="item-select" ngDefaultControl *ngFor="let location of locations" value="{{location.id}}">{{location.address + ' - ' + location.number + ' - ' + location.district}}</ion-option>
                     </ion-select>
                 </ion-item>
-                <ion-item *ngIf="deliver">
+                <ion-item *ngIf="!deliver">
                   <button (click)="addLocation()" color="fundo" ion-button block>
                     Adicionar local
                   </button>
@@ -51,7 +46,6 @@
                     <ion-textarea [(ngModel)]="observation_order"></ion-textarea>
                 </ion-item>
               </ion-list>
-        </ion-card-content>
       </ion-card>
       <ion-card>
         <ion-card-header>
@@ -71,11 +65,11 @@
                           headerColor="#f4f4f4">
             <ion-list no-lines>
               <button color="#8888" ion-item *ngFor="let i of item.subItems">
-              {{i.name}} <p *ngIf="i.value > 0">{{i.value | currency: 'BRL': true}}</p>
+                {{i.name}} <p *ngIf="i.value > 0">{{i.value | currency: 'BRL': true}}</p>
               </button>
             </ion-list>
           </accordion-list>
-          <h2 *ngIf="restaurant.delivery_value > 0 && deliver">
+          <h2 *ngIf="restaurant.delivery_value > 0 && !deliver">
             <strong>Valor de entrega: </strong> {{restaurant.delivery_value | currency: 'BRL': true}}
           </h2>
         </ion-item>

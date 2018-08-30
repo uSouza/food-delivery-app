@@ -61,6 +61,8 @@ export class OrderCompletionPage {
     console.log(this.navParams.data);
     this.getClientLocations();
 
+    this.value += parseFloat(this.restaurant.delivery_value.toString());
+
     if (this.restaurant.delivery_value == null) {
       this.restaurant.delivery_value = 0;
     }
@@ -124,11 +126,11 @@ export class OrderCompletionPage {
   orderDeliver(event) {
     if (event.checked) {
       if (this.restaurant.delivery_value > 0) {
-        this.value += parseFloat(this.restaurant.delivery_value.toString());
+        this.value -= parseFloat(this.restaurant.delivery_value.toString());
       }
     } else {
       if (this.restaurant.delivery_value > 0) {
-        this.value -= parseFloat(this.restaurant.delivery_value.toString());
+        this.value += parseFloat(this.restaurant.delivery_value.toString());
       }
     }
 
