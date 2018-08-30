@@ -33,7 +33,7 @@
               Realiza entregas
             </p>
             <p>
-              Abre às {{restaurant.opening_time}} horas
+              Abre às {{'2018-01-01 ' + restaurant.opening_time | date:'h:mm'}} <!-- gambis marota -->
             </p>
             <button ion-button small color="fundo" (click)="goToRestaurantMenuPage(restaurant)">Ver o cardápio</button>
         </ion-col>

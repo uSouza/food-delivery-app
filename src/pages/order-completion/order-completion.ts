@@ -12,6 +12,7 @@ import { Location } from '../../models/location';
 import { RestaurantsPage } from '../restaurants/restaurants';
 import { LocationsPage } from '../locations/locations';
 import { Client } from '../../models/client';
+import { ProductsProvider } from '../../providers/products/products';
 
 @IonicPage()
 @Component({
@@ -44,7 +45,8 @@ export class OrderCompletionPage {
               public navParams: NavParams,
               public locationService: LocationsProvider,
               public alertCtrl: AlertController,
-              public toastCtrl: ToastController) {
+              public toastCtrl: ToastController,
+              private productService: ProductsProvider) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -87,6 +89,7 @@ export class OrderCompletionPage {
   }
 
   orderSave() {
+    this.addProduct();
     if (this.hour == null) {
       let toast = this.toastCtrl.create({
         message: 'É necessário informar o horário de retirada!',
@@ -148,6 +151,10 @@ export class OrderCompletionPage {
       selected_price: this.selected_price,
       selected_additionals: this.selected_additionals
     });
+  }
+
+  addProduct() {
+
   }
 
 }

@@ -39,7 +39,7 @@
               </ion-item>
               <ion-item>
                   <ion-label floating>Horário de retirada do pedido</ion-label>
-                  <ion-datetime displayFormat="HH:mm" [(ngModel)]="hour" type="text"></ion-datetime>
+                  <ion-input [brmasker]="{mask:'00:00', len:5, type:'num'}" [(ngModel)]="hour"></ion-input>
               </ion-item>
                 <ion-item>
                     <ion-label floating>Observações para o pedido</ion-label>
