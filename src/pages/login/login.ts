@@ -12,6 +12,7 @@ import { OrderCompletionPage } from "../order-completion/order-completion";
 import { RegisterPage } from '../register/register';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { Storage } from '@ionic/storage';
+import { Price } from '../../models/price';
 
 
 @IonicPage()
@@ -27,7 +28,7 @@ export class LoginPage {
   authorization: Authorization;
   clientAuthorization: Observable<Authorization>;
   value: any;
-  selected_price: number;
+  selected_price: Price;
   user: UserPandeco = new UserPandeco();
   selected_additionals: AdditionalRestaurant[];
 

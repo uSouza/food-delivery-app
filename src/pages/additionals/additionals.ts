@@ -11,6 +11,7 @@ import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
 import { OrderCompletionPage } from '../order-completion/order-completion';
 import { UsersProvider } from '../../providers/users/users';
+import { Price } from '../../models/price';
 
 /**
  * Generated class for the AdditionalsPage page.
@@ -32,7 +33,7 @@ export class AdditionalsPage {
   product: Product;
   authorization: Authorization;
   value: any;
-  selected_price: number;
+  selected_price: Price;
   additionals: AdditionalRestaurant[] = [];
   selected_additionals: AdditionalRestaurant[] = [];
   clientAuthorization = {

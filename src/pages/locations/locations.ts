@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
 import { Location } from '../../models/location';
 import { Authorization } from '../../models/authorization';
 import { LocationsProvider } from '../../providers/locations/locations';
@@ -9,6 +9,7 @@ import { Menu } from '../../models/menu';
 import { Client } from '../../models/client';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { OrderCompletionPage } from '../order-completion/order-completion';
+import { Price } from '../../models/price';
 
 @IonicPage()
 @Component({
@@ -25,14 +26,15 @@ export class LocationsPage {
   authorization: Authorization;
   value: any;
   client: Client;
-  selected_price: number;
+  selected_price: Price;
   menu: Menu;
   selected_additionals: AdditionalRestaurant[];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private locationsService: LocationsProvider,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              public toastCtrl: ToastController) {
     this.clientAuthorization = this.navParams.data.clientAuthorization;
     this.menu = navParams.data.menu;
     this.authorization = navParams.data.authorization;
@@ -65,14 +67,30 @@ export class LocationsPage {
   }
 
   locationSave() {
-    this.showLoading();
-    this.locationsService
-      .addLocation(this.clientAuthorization, this.location)
-      .subscribe(
-        location => {
-          this.addLocation(location)
-        }
-      )
+    if (this.location.address == null) {
+      let toast = this.toastCtrl.create({
+        message: 'É necessário informar o endereço!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+    } else if (this.location.district == null) {
+      let toast = this.toastCtrl.create({
+        message: 'É necessário informar o bairro!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+    } else {
+      this.showLoading();
+      this.locationsService
+        .addLocation(this.clientAuthorization, this.location)
+        .subscribe(
+          location => {
+            this.addLocation(location)
+          }
+        )
+    }
   }
 
   goToOrderCompletionPage() {

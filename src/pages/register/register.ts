@@ -13,6 +13,7 @@ import { ClientsProvider } from '../../providers/clients/clients';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { Client } from '../../models/client';
 import { Storage } from '@ionic/storage';
+import { Price } from '../../models/price';
 
 /**
  * Generated class for the RegisterPage page.
@@ -36,7 +37,7 @@ export class RegisterPage {
   product: Product;
   authorization: Authorization;
   value: any;
-  selected_price: number;
+  selected_price: Price;
   user: UserPandeco;
   phone: any;
   selected_additionals: AdditionalRestaurant[];
@@ -91,6 +92,14 @@ export class RegisterPage {
                         }
                       )
                   })
+              },
+              err => {
+                let toast = this.toastCtrl.create({
+                  message: 'O email informado já está cadastrado na base de dados!',
+                  duration: 2000,
+                  position: 'bottom'
+                });
+                toast.present(toast);
               }
             )
       } else {

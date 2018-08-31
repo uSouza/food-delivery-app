@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
@@ -16,22 +16,23 @@ export class ProductsProvider {
   }
 
   url_api = 'http://api.pandeco.com.br/api/v1/';
-  endpoint = 'products/';
+  endpoint = 'products';
 
   addProduct(authorization: Authorization, product: Product): Observable<Product> {
-    let headers = new HttpHeaders();
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-    headers.append('Authorization', 'Bearer ' + authorization.access_token);
-
     let data = {
       menu_id: product.menu_id,
       price_id: product.price_id,
-      description: 'MARMITA',
+      description: product.description,
       observation: 'nobody',
       ingredients_ids: product.ingredients_ids
     };
-    return this.http.post<Product>(this.url_api + this.endpoint, data, {headers: headers});
+    return this.http.post<Product>(this.url_api + this.endpoint, data,{
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + authorization.access_token,
+        'Content-Type': 'application/json'
+      }
+    });
   }
 
 }

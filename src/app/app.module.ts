@@ -29,6 +29,7 @@ import { SQLite } from '@ionic-native/sqlite';
 import { IonicStorageModule } from '@ionic/storage';
 import { BrMaskerModule } from 'brmasker-ionic-3';
 import { AccordionListComponent } from '../components/accordion-list/accordion-list';
+import { OrdersProvider } from '../providers/orders/orders';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { AccordionListComponent } from '../components/accordion-list/accordion-l
     UsersProvider,
     ClientsProvider,
     LocationsProvider,
-    SQLite
+    SQLite,
+    OrdersProvider
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
