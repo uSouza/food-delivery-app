@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { Restaurant } from "../../models/restaurant";
-import {AuthenticationProvider} from "../../providers/authentication/authentication";
-import {Authorization} from "../../models/authorization";
-import {Observable} from "rxjs/Observable";
-import {RestaurantMenuPage} from "../restaurant-menu/restaurant-menu";
+import { AuthenticationProvider } from "../../providers/authentication/authentication";
+import { Authorization } from "../../models/authorization";
+import { Observable } from "rxjs/Observable";
+import { RestaurantMenuPage } from "../restaurant-menu/restaurant-menu";
 import { LoadingController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -18,12 +19,15 @@ export class RestaurantsPage {
   restaurants: Restaurant[];
   authorizationService: Observable<Authorization>;
   authorization: Authorization;
+  logged: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public restaurantService: RestaurantsProvider,
               public authenticationService: AuthenticationProvider,
-              public loadingCtrl: LoadingController
+              private storage: Storage,
+              public loadingCtrl: LoadingController,
+              public alertCtrl: AlertController,
             ) {
   }
 
@@ -35,10 +39,37 @@ export class RestaurantsPage {
           this.setAuthorization(authorization)
         }
       );
+      this.storage.get('token').then((val) => {
+        if(val != null) {
+          this.logged = true;
+        }
+      });
+  }
 
+  logoff() {
+    const confirm = this.alertCtrl.create({
+      title: 'Deseja mesmo sair do Pandeco?',
+      message: '',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.storage.set('token', null);
+            this.logged = false;
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   setAuthorization(authorization: Authorization) {
+
     this.authorization = authorization;
     this.getRestaurants();
   }

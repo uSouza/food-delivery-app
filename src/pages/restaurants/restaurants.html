@@ -4,6 +4,12 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
+    <ion-buttons *ngIf="logged" end>
+      <button ion-button icon-only (click)='logoff()'>
+        <ion-icon color='white' name='log-out'>
+        </ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Pandeco</ion-title>
   </ion-navbar>
 </ion-header>
