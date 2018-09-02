@@ -35,4 +35,13 @@ export class ProductsProvider {
     });
   }
 
+  getProduct(access_token: any, product_id: any) {
+    return this.http.get<Product>(this.url_api + this.endpoint + '/' + product_id,
+      {headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + access_token
+              }
+      });
+    }
+
 }

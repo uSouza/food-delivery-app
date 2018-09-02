@@ -128,7 +128,7 @@ export class OrderCompletionPage {
         buttons: ['OK']
       });
       alert.present();
-      this.navCtrl.push(RestaurantsPage);
+      this.navCtrl.setRoot(RestaurantsPage);
     }
 
   }
@@ -190,12 +190,11 @@ export class OrderCompletionPage {
     order.products_ids = product_ids;
     order.company_id = this.restaurant.id;
     order.receive_at = this.hour;
-    order.price = this.selected_price.id;
+    order.price = this.value;
     order.location_id = this.location;
     order.deliver = !this.deliver;
     order.observation = this.observation_order;
     order.form_payment_id = this.formPayment;
-    order.value = this.value;
 
     this.orderService.addOrder(this.clientAuthorization, order)
       .subscribe(order => console.log(order));

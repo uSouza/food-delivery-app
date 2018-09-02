@@ -5,14 +5,40 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>my-orders</ion-title>
+  <ion-navbar color="fundo">
+    <ion-title>Meus pedidos</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only (click)='goToHome()'>
+          <ion-icon color='white' name='home'>
+          </ion-icon>
+        </button>
+    </ion-buttons>
   </ion-navbar>
-
 </ion-header>
 
+<ion-content>
+  <ion-card *ngFor="let order of orders">
+        <ion-row>
+          <ion-col col-4>
+            <ion-icon name="restaurant" style="margin-left: 20px"></ion-icon>
+          </ion-col>
+          <ion-col col-8>
+            <h2>Pedido realizado no dia {{order.created_at | date:'dd/MM/yyyy'}}</h2>
+            <p>
+                <strong>Restaurante: </strong> {{order.company.fantasy_name}}
+            </p>
+              <p style="font-size: smaller; color: #00b300">
+                <b>Preço: {{order.price | currency: 'BRL': true}}</b>
+              </p>
+              <p *ngIf="order.status_id == 1">
+                  <strong>Situação: </strong> aberto
+              </p>
+              <p *ngIf="order.status_id == 2">
+                  <strong>Situação: </strong> confirmado
+              </p>
 
-<ion-content padding>
-
+              <button style="margin-left: 85px" ion-button small color="fundo" (click)="goToOrderDetailPage(order)">Mais detalhes</button>
+          </ion-col>
+        </ion-row>
+      </ion-card>
 </ion-content>

@@ -7,7 +7,14 @@
 <ion-header>
 
   <ion-navbar color="fundo">
-    <ion-title>Finalize seu pedido :)</ion-title>
+    <ion-buttons *ngIf="page == 'myOrdersPage'" end>
+        <button ion-button icon-only (click)='goToHome()'>
+          <ion-icon color='white' name='home'>
+          </ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-title *ngIf="page == 'additionalsPage'">Finalize seu pedido :)</ion-title>
+    <ion-title *ngIf="page == 'myOrdersPage'">Realize o seu login</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -44,7 +51,7 @@
                 </button>
             </ion-card-content>
         </ion-card>
-        <ion-card>
+        <ion-card *ngIf="page == 'additionalsPage'">
             <ion-row>
               <ion-col col-12>
                   <ion-card-header>

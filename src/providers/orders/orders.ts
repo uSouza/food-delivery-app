@@ -40,4 +40,13 @@ export class OrdersProvider {
       }
     });
   }
+
+  getOrders(access_token: any, client_id: any): Observable<Order[]> {
+    return this.http.get<Order[]>(this.url_api + this.endpoint + '/client/' + client_id,
+      {headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + access_token
+              }
+      });
+    }
 }

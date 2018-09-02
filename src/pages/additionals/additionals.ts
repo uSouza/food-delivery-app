@@ -119,7 +119,8 @@ export class AdditionalsPage {
       value: this.value,
       authorization: this.authorization,
       selected_price: this.selected_price,
-      selected_additionals: this.selected_additionals
+      selected_additionals: this.selected_additionals,
+      page: 'additionalsPage'
     });
   }
 

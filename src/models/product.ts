@@ -1,3 +1,5 @@
+import { Ingredient } from "./ingredient";
+
 export class Product {
   id: number;
   menu_id: number;
@@ -5,4 +7,5 @@ export class Product {
   ingredients_ids: number[];
   price_id: number;
   observation: string;
+  ingredients: Ingredient[];
 }

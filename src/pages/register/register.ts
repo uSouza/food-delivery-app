@@ -41,6 +41,7 @@ export class RegisterPage {
   user: UserPandeco;
   phone: any;
   selected_additionals: AdditionalRestaurant[];
+  page: string;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -58,6 +59,7 @@ export class RegisterPage {
     this.value = navParams.data.value;
     this.selected_price = navParams.data.selected_price;
     this.selected_additionals = navParams.data.selected_additionals;
+    this.page = navParams.data.page;
   }
 
   ionViewDidLoad() {
@@ -88,7 +90,7 @@ export class RegisterPage {
                       .addClient(clientAuthorization, userPandeco, this.phone, '(45)3252-0434')
                       .subscribe(
                         client => {
-                          this.goToLocationsPage(client, clientAuthorization);
+                          this.goToLocationsPage(client, clientAuthorization, userPandeco);
                         }
                       )
                   })
@@ -123,7 +125,7 @@ export class RegisterPage {
       }
   }
 
-  goToLocationsPage(client: Client, clientAuthorization: Authorization) {
+  goToLocationsPage(client: Client, clientAuthorization: Authorization, user: UserPandeco) {
     this.storage.set('token', clientAuthorization.access_token);
     this.navCtrl.push(LocationsPage, {
       client: client,
@@ -134,7 +136,9 @@ export class RegisterPage {
       value: this.value,
       authorization: this.authorization,
       selected_price: this.selected_price,
-      selected_additionals: this.selected_additionals
+      selected_additionals: this.selected_additionals,
+      page: this.page,
+      user: user
     })
   }
 

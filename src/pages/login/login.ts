@@ -13,6 +13,7 @@ import { RegisterPage } from '../register/register';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { Storage } from '@ionic/storage';
 import { Price } from '../../models/price';
+import { MyOrdersPage } from '../my-orders/my-orders';
 
 
 @IonicPage()
@@ -22,15 +23,16 @@ import { Price } from '../../models/price';
 })
 export class LoginPage {
 
-  menu: Menu;
-  restaurant: Restaurant;
-  ingredients: Ingredient[];
+  menu?: Menu;
+  restaurant?: Restaurant;
+  ingredients?: Ingredient[];
   authorization: Authorization;
   clientAuthorization: Observable<Authorization>;
-  value: any;
-  selected_price: Price;
+  value?: any;
+  selected_price?: Price;
   user: UserPandeco = new UserPandeco();
-  selected_additionals: AdditionalRestaurant[];
+  selected_additionals?: AdditionalRestaurant[];
+  page: string = null;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -39,13 +41,16 @@ export class LoginPage {
               public toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
               private storage: Storage) {
+    if (navParams.data.page == 'additionalsPage') {
+      this.menu = this.navParams.data.menu;
+      this.restaurant = this.navParams.data.restaurant;
+      this.ingredients = this.navParams.data.ingredients;
+      this.value = this.navParams.data.value;
+      this.selected_price = this.navParams.data.selected_price;
+      this.selected_additionals = this.navParams.data.selected_additionals;
+    }
+    this.page = navParams.data.page;
     this.authorization = navParams.data.authorization;
-    this.menu = navParams.data.menu;
-    this.restaurant = navParams.data.restaurant;
-    this.ingredients = navParams.data.ingredients;
-    this.value = navParams.data.value;
-    this.selected_price = navParams.data.selected_price;
-    this.selected_additionals = navParams.data.selected_additionals;
   }
 
   ionViewDidLoad() {
@@ -81,7 +86,7 @@ export class LoginPage {
               .getClientBearer(this.user)
               .subscribe(
                 clientAuthorization => {
-                  this.goToOrderCompletion(userPandeco, clientAuthorization);
+                  this.goToNextPage(userPandeco, clientAuthorization);
                 },
                 err => {
                   this.failed();
@@ -94,9 +99,18 @@ export class LoginPage {
         );
   }
 
-  goToOrderCompletion(user: UserPandeco, clientAuthorization: Authorization) {
+  goToNextPage(user: UserPandeco, clientAuthorization: Authorization) {
     this.storage.set('token', clientAuthorization.access_token);
-    this.navCtrl.push(OrderCompletionPage, {
+    if (this.page == 'additionalsPage') {
+      this.goToOrderCompletion(user, clientAuthorization);
+    }
+    else {
+      this.goToMyOrdersPage(user, clientAuthorization);
+    }
+  }
+
+  goToOrderCompletion(user: UserPandeco, clientAuthorization: Authorization) {
+    this.navCtrl.setRoot(OrderCompletionPage, {
       clientAuthorization: clientAuthorization,
       menu: this.menu,
       restaurant: this.restaurant,
@@ -108,7 +122,13 @@ export class LoginPage {
       user: user,
       client: user.client
     })
+  }
 
+  goToMyOrdersPage(user: UserPandeco, clientAuthorization: Authorization) {
+    this.navCtrl.setRoot(MyOrdersPage, {
+      clientAuthorization: clientAuthorization,
+      user: user
+    })
   }
 
   openRegisterPage() {
@@ -119,7 +139,8 @@ export class LoginPage {
       value: this.value,
       authorization: this.authorization,
       selected_price: this.selected_price,
-      selected_additionals: this.selected_additionals
+      selected_additionals: this.selected_additionals,
+      page: this.page
     });
   }
 

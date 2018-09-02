@@ -10,6 +10,8 @@ import { Client } from '../../models/client';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { OrderCompletionPage } from '../order-completion/order-completion';
 import { Price } from '../../models/price';
+import { UserPandeco } from '../../models/user-pandeco';
+import { MyOrdersPage } from '../my-orders/my-orders';
 
 @IonicPage()
 @Component({
@@ -29,6 +31,8 @@ export class LocationsPage {
   selected_price: Price;
   menu: Menu;
   selected_additionals: AdditionalRestaurant[];
+  page: string;
+  user: UserPandeco;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -44,6 +48,8 @@ export class LocationsPage {
     this.selected_price = navParams.data.selected_price;
     this.client = navParams.data.client;
     this.selected_additionals = navParams.data.selected_additionals;
+    this.page = navParams.data.page;
+    this.user = navParams.data.user;
   }
 
   ionViewDidLoad() {
@@ -93,6 +99,14 @@ export class LocationsPage {
     }
   }
 
+  goToNextPage() {
+    if (this.page == 'additionalsPage') {
+      this.goToOrderCompletionPage();
+    } else {
+      this.goToNextPage();
+    }
+  }
+
   goToOrderCompletionPage() {
     this.navCtrl.setRoot(OrderCompletionPage, {
       client: this.client,
@@ -105,6 +119,13 @@ export class LocationsPage {
       selected_price: this.selected_price,
       locations: this.locations,
       selected_additionals: this.selected_additionals
+    });
+  }
+
+  goToMyOrdersPage() {
+    this.navCtrl.setRoot(MyOrdersPage, {
+      user: this.user,
+      clientAuthorization: this.clientAuthorization
     })
   }
 

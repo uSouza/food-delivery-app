@@ -8,6 +8,7 @@ import { RestaurantMenuPage } from "../pages/restaurant-menu/restaurant-menu";
 import { SelectProductIngredientsPage } from "../pages/select-product-ingredients/select-product-ingredients";
 import { SelectProductSizePage } from "../pages/select-product-size/select-product-size";
 import { AdditionalsPage } from "../pages/additionals/additionals";
+import { MyOrdersPage } from "../pages/my-orders/my-orders";
 import { RegisterPage } from "../pages/register/register";
 import { LocationsPage } from "../pages/locations/locations";
 import { OrderCompletionPage } from "../pages/order-completion/order-completion";
@@ -43,6 +44,7 @@ import { OrdersProvider } from '../providers/orders/orders';
     RegisterPage,
     LocationsPage,
     OrderCompletionPage,
+    MyOrdersPage,
     AccordionListComponent
   ],
   imports: [
@@ -64,6 +66,7 @@ import { OrdersProvider } from '../providers/orders/orders';
     RegisterPage,
     LocationsPage,
     OrderCompletionPage,
+    MyOrdersPage,
     AccordionListComponent
   ],
   providers: [
