@@ -6,11 +6,17 @@
 -->
 <ion-header>
   <ion-navbar color="fundo">
+      <ion-buttons end>
+          <button ion-button icon-only (click)='goToHome()'>
+            <ion-icon color='white' name='home'>
+            </ion-icon>
+          </button>
+      </ion-buttons>
     <ion-title>{{menu.description}}</ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-item-group>
       <ion-item-divider color="light">
         <ion-row>

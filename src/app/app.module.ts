@@ -12,6 +12,7 @@ import { MyOrdersPage } from "../pages/my-orders/my-orders";
 import { RegisterPage } from "../pages/register/register";
 import { LocationsPage } from "../pages/locations/locations";
 import { OrderCompletionPage } from "../pages/order-completion/order-completion";
+import { OrderDetailPage } from "../pages/order-detail/order-detail";
 import { HttpClientModule } from "@angular/common/http";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -45,6 +46,7 @@ import { OrdersProvider } from '../providers/orders/orders';
     LocationsPage,
     OrderCompletionPage,
     MyOrdersPage,
+    OrderDetailPage,
     AccordionListComponent
   ],
   imports: [
@@ -67,6 +69,7 @@ import { OrdersProvider } from '../providers/orders/orders';
     LocationsPage,
     OrderCompletionPage,
     MyOrdersPage,
+    OrderDetailPage,
     AccordionListComponent
   ],
   providers: [

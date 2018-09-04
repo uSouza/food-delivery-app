@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
@@ -12,6 +12,7 @@ import { Storage } from '@ionic/storage';
 import { OrderCompletionPage } from '../order-completion/order-completion';
 import { UsersProvider } from '../../providers/users/users';
 import { Price } from '../../models/price';
+import { RestaurantsPage } from '../restaurants/restaurants';
 
 /**
  * Generated class for the AdditionalsPage page.
@@ -45,7 +46,8 @@ export class AdditionalsPage {
               private restauranteService: RestaurantsProvider,
               private storage: Storage,
               private userService: UsersProvider,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              public alertCtrl: AlertController,) {
     this.authorization = this.navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -151,6 +153,27 @@ export class AdditionalsPage {
       user: user,
       client: user.client
     });
+  }
+
+  goToHome() {
+    const confirm = this.alertCtrl.create({
+      title: 'Retornar a tela inicial',
+      message: 'Tem certeza? Os dados do pedido serão perdidos!',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.setRoot(RestaurantsPage);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

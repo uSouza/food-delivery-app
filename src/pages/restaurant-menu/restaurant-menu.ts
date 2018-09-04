@@ -6,6 +6,7 @@ import {MenusProvider} from "../../providers/menus/menus";
 import {Authorization} from "../../models/authorization";
 import {Menu} from "../../models/menu";
 import {SelectProductIngredientsPage} from "../select-product-ingredients/select-product-ingredients";
+import { SelectProductSizePage } from '../select-product-size/select-product-size';
 
 @IonicPage()
 @Component({
@@ -42,8 +43,8 @@ export class RestaurantMenuPage {
     );
   }
 
-  goToIngredientsProductPage(menu: Menu) {
-    this.navCtrl.push(SelectProductIngredientsPage, {
+  goToProductSizePage(menu: Menu) {
+    this.navCtrl.push(SelectProductSizePage, {
       menu: menu,
       restaurant: this.restaurant,
       authorization: this.authorization

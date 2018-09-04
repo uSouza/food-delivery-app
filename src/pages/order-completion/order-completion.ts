@@ -200,4 +200,25 @@ export class OrderCompletionPage {
       .subscribe(order => console.log(order));
   }
 
+  goToHome() {
+    const confirm = this.alertCtrl.create({
+      title: 'Retornar a tela inicial',
+      message: 'Tem certeza? Todos os dados do pedido serão perdidos!',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.setRoot(RestaurantsPage);
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
 }

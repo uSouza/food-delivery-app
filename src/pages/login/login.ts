@@ -14,6 +14,7 @@ import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { Storage } from '@ionic/storage';
 import { Price } from '../../models/price';
 import { MyOrdersPage } from '../my-orders/my-orders';
+import { RestaurantsPage } from '../restaurants/restaurants';
 
 
 @IonicPage()
@@ -142,6 +143,10 @@ export class LoginPage {
       selected_additionals: this.selected_additionals,
       page: this.page
     });
+  }
+
+  goToHome() {
+    this.navCtrl.setRoot(RestaurantsPage);
   }
 
 }

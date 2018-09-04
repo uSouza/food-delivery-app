@@ -7,7 +7,10 @@ import {Ingredient} from "../../models/ingredient";
 import {IngredientGroup} from "../../models/ingredient-group";
 import {IngredientsProvider} from "../../providers/ingredients/ingredients";
 import {Restaurant} from "../../models/restaurant";
-import {SelectProductSizePage} from "../select-product-size/select-product-size";
+import { RestaurantsPage } from '../restaurants/restaurants';
+import { AdditionalRestaurant } from '../../models/additional-restaurant';
+import { AdditionalsPage } from '../additionals/additionals';
+import { Price } from '../../models/price';
 
 /**
  * Generated class for the SelectProductIngredientsPage page.
@@ -25,9 +28,12 @@ export class SelectProductIngredientsPage {
 
   menu: Menu;
   restaurant: Restaurant;
+  ingredients: Ingredient[];
   ingredients_groups: IngredientGroup[];
   authorization: Authorization;
   additional_value: number;
+  selected_price: Price;
+  value: any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -38,10 +44,14 @@ export class SelectProductIngredientsPage {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
-    this.additional_value = 0;
+    this.ingredients = navParams.data.ingredients;
+    this.selected_price = navParams.data.selected_price;
+    this.value = navParams.data.value;
   }
 
   ionViewDidLoad() {
+    console.log(this.value);
+    console.log(this.navParams.data);
     this.getIngredients();
   }
 
@@ -62,7 +72,6 @@ export class SelectProductIngredientsPage {
 
   onCheckIngredient(ingredient_group: IngredientGroup, ingredient: Ingredient, event) {
 
-    let additional_ingredients: Array<Ingredient> = [];
     if (event.checked) {
       if (parseInt(ingredient_group.number_options) > 0) {
         ingredient_group.number_options = (parseInt(ingredient_group.number_options) - 1).toString();
@@ -82,7 +91,7 @@ export class SelectProductIngredientsPage {
               text: 'Sim',
               handler: () => {
                 event.checked = true;
-                this.additional_value += ingredient_group.additional_value;
+                this.value += parseFloat(ingredient_group.additional_value);
                 ingredient.additional = true;
               }
             }
@@ -92,24 +101,24 @@ export class SelectProductIngredientsPage {
         confirm.present();
       }
     } else {
-      console.log(additional_ingredients);
       ingredient_group.number_options = (parseInt(ingredient_group.number_options) + 1).toString();
       if (ingredient.additional) {
-        this.additional_value -= ingredient_group.additional_value;
+        this.value -= parseFloat(ingredient_group.additional_value);
         ingredient.additional = false;
       }
     }
 
   }
 
-  goToSelectProductSizePage() {
+  goToAdditionalsPage() {
     let ingredients: Array<Ingredient> = this.getSelectedIngredients();
-    this.navCtrl.push(SelectProductSizePage, {
-      ingredients: ingredients,
+    this.navCtrl.push(AdditionalsPage, {
       menu: this.menu,
       restaurant: this.restaurant,
-      additional_value: this.additional_value,
-      authorization: this.authorization
+      ingredients: ingredients,
+      value: this.value,
+      authorization: this.authorization,
+      selected_price: this.selected_price
     });
   }
 
@@ -124,8 +133,28 @@ export class SelectProductIngredientsPage {
         }
       })
     });
-
     return ingredients;
+  }
+
+  goToHome() {
+    const confirm = this.alertCtrl.create({
+      title: 'Retornar a tela inicial',
+      message: 'Tem certeza? Os dados do pedido serão perdidos!',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.setRoot(RestaurantsPage);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

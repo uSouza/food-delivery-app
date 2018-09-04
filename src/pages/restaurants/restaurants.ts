@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
 import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { Restaurant } from "../../models/restaurant";
 import { AuthenticationProvider } from "../../providers/authentication/authentication";
@@ -28,6 +28,7 @@ export class RestaurantsPage {
               private storage: Storage,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
+              public platform: Platform
             ) {
   }
 
@@ -61,6 +62,7 @@ export class RestaurantsPage {
           handler: () => {
             this.storage.set('token', null);
             this.logged = false;
+            this.platform.exitApp();
           }
         }
       ]

@@ -1,3 +1,6 @@
+import { Product } from "./product";
+import { AdditionalRestaurant } from "./additional-restaurant";
+
 export class Order {
   price: number;
   observation: string;
@@ -11,4 +14,6 @@ export class Order {
   additionals_ids: number[];
   location_id: number;
   value: number;
+  products: Product[];
+  additionals: AdditionalRestaurant[];
 }

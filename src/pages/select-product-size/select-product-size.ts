@@ -10,6 +10,8 @@ import {Product} from "../../models/product";
 import {ProductsProvider} from "../../providers/products/products";
 import { AdditionalsPage } from '../additionals/additionals';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
+import { SelectProductIngredientsPage } from '../select-product-ingredients/select-product-ingredients';
+import { RestaurantsPage } from '../restaurants/restaurants';
 
 /**
  * Generated class for the SelectProductSizePage page.
@@ -27,12 +29,9 @@ export class SelectProductSizePage {
 
   menu: Menu;
   restaurant: Restaurant;
-  ingredients: Ingredient[];
-  selected_additionals: AdditionalRestaurant[];
   product: Product;
   authorization: Authorization;
   value: any = 0;
-  additional_value: any;
   selected_price: Price;
 
   constructor(public navCtrl: NavController,
@@ -45,9 +44,6 @@ export class SelectProductSizePage {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
-    this.ingredients = navParams.data.ingredients;
-    this.additional_value = parseFloat(navParams.data.additional_value);
-    this.selected_additionals = navParams.data.selected_additionals;
   }
 
   ionViewDidLoad() {
@@ -66,17 +62,15 @@ export class SelectProductSizePage {
     this.selected_price = price;
   }
 
-  goToAdditionalsPage() {
+  goToSelectIngredientsPage() {
     if (this.selected_price != null) {
       this.showLoading();
-      this.navCtrl.push(AdditionalsPage, {
+      this.navCtrl.push(SelectProductIngredientsPage, {
         menu: this.menu,
         restaurant: this.restaurant,
-        ingredients: this.ingredients,
-        value: this.value + this.additional_value,
+        value: this.value,
         authorization: this.authorization,
-        selected_price: this.selected_price,
-        selected_additionals: this.selected_additionals
+        selected_price: this.selected_price
       });
     } else {
       let toast = this.toastCtrl.create({
@@ -86,6 +80,27 @@ export class SelectProductSizePage {
       });
       toast.present(toast);
     }
+  }
+
+  goToHome() {
+    const confirm = this.alertCtrl.create({
+      title: 'Retornar a tela inicial',
+      message: 'Tem certeza? Os dados do pedido serão perdidos!',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.setRoot(RestaurantsPage);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

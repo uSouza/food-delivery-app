@@ -7,13 +7,19 @@
 <ion-header>
 
   <ion-navbar color="fundo">
+      <ion-buttons end>
+          <button ion-button icon-only (click)='goToHome()'>
+            <ion-icon color='white' name='home'>
+            </ion-icon>
+          </button>
+      </ion-buttons>
     <ion-title>{{menu.description}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
 
   <ion-list radio-group>
@@ -31,11 +37,11 @@
         </ion-item>
   </ion-list>
   <ion-fab right bottom>
-    <button ion-fab color="fundo" (click)="goToAdditionalsPage()"><ion-icon name="arrow-forward"></ion-icon></button>
+    <button ion-fab color="fundo" (click)="goToSelectIngredientsPage()"><ion-icon name="arrow-forward"></ion-icon></button>
   </ion-fab>
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-title>Valor do pedido: {{value + additional_value === 0 ? 'R$ 0,00' : value + additional_value | currency: 'BRL': true }}</ion-title>
+    <ion-title>Valor do pedido: {{value === 0 ? 'R$ 0,00' : value | currency: 'BRL': true }}</ion-title>
   </ion-toolbar>
 </ion-footer>

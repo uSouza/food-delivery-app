@@ -83,17 +83,17 @@ export class RegisterPage {
             .subscribe(
               userPandeco => {
                 this.authenticationService
-                .getClientBearer(this.user)
-                .subscribe(
-                  clientAuthorization => {
-                    this.clientService
-                      .addClient(clientAuthorization, userPandeco, this.phone, '(45)3252-0434')
-                      .subscribe(
-                        client => {
-                          this.goToLocationsPage(client, clientAuthorization, userPandeco);
-                        }
-                      )
-                  })
+                  .getClientBearer(this.user)
+                  .subscribe(
+                    clientAuthorization => {
+                      this.clientService
+                        .addClient(clientAuthorization, userPandeco, this.phone, '(45)3252-0434')
+                        .subscribe(
+                          client => {
+                            this.goToLocationsPage(client, clientAuthorization, userPandeco);
+                          }
+                        )
+                    })
               },
               err => {
                 let toast = this.toastCtrl.create({

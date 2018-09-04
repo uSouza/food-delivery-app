@@ -11,6 +11,7 @@ import { RestaurantsPage } from '../restaurants/restaurants';
 import { Observable } from 'rxjs/Observable';
 import { Authorization } from '../../models/authorization';
 import { AuthenticationProvider } from '../../providers/authentication/authentication';
+import { OrderDetailPage } from '../order-detail/order-detail';
 
 @IonicPage()
 @Component({
@@ -109,7 +110,7 @@ export class MyOrdersPage {
   }
 
   goToOrderDetailPage(order: Order) {
-
+    this.navCtrl.push(OrderDetailPage, {order: order});
   }
 
 }
