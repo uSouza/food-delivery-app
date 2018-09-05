@@ -32,6 +32,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { BrMaskerModule } from 'brmasker-ionic-3';
 import { AccordionListComponent } from '../components/accordion-list/accordion-list';
 import { OrdersProvider } from '../providers/orders/orders';
+import {DatePipe} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -85,7 +86,8 @@ import { OrdersProvider } from '../providers/orders/orders';
     ClientsProvider,
     LocationsProvider,
     SQLite,
-    OrdersProvider
+    OrdersProvider,
+    DatePipe
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

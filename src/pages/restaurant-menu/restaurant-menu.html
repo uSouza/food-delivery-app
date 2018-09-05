@@ -32,25 +32,22 @@
     </ion-row>
   </ion-card>
 
-  <h3 style="margin-left: 10px; color: #801815">Marmitas do dia</h3>
-
-  <ion-card *ngFor="let menu of menus">
-      <ion-row>
-        <ion-col col-4>
-          <ion-icon name="restaurant" style="margin-left: 20px"></ion-icon>
-        </ion-col>
-        <ion-col col-8>
-          <ion-card-title style="font-size: large">
-              {{menu.description}}
-          </ion-card-title>
-            <p>
-              {{menu.observation}}
-            </p>
-            <p style="font-size: smaller; color: #00b300">
-              <b>A partir de {{menu.min_price | currency: 'BRL': true}}</b>
-            </p>
-            <button style="margin-left: 110px" ion-button small color="fundo" (click)="goToProductSizePage(menu)">Quero essa</button>
-        </ion-col>
-      </ion-row>
-    </ion-card>
+  <ion-card>
+    <ion-card-header>
+      <h2><strong>Marmitas</strong></h2>
+    </ion-card-header>
+    <ion-item>
+      <accordion-list *ngFor="let item of items; let index = index"
+                      [title]="item.date"
+                      textColor="#222"
+                      hasMargin="true"
+                      headerColor="#f4f4f4">
+        <ion-list no-lines>
+            <button color="#8888" ion-item *ngFor="let menu of item.menus" (click)="goToProductSizePage(menu)">
+                {{menu.description}} <p style="font-size: smaller; color: #00b300"><b>A partir de {{menu.min_price | currency: 'BRL': true}}</b></p>
+            </button>
+        </ion-list>
+  </accordion-list>
+</ion-item>
+  </ion-card>
 </ion-content>
