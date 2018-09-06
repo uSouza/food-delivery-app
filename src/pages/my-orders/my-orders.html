@@ -17,28 +17,21 @@
 </ion-header>
 
 <ion-content>
-  <ion-card *ngFor="let order of orders">
-        <ion-row>
-          <ion-col col-4>
-            <ion-icon name="restaurant" style="margin-left: 20px"></ion-icon>
-          </ion-col>
-          <ion-col col-8>
-            <h2>Pedido realizado no dia {{order.created_at | date:'dd/MM/yyyy'}}</h2>
-            <p>
-                <strong>Restaurante: </strong> {{order.company.fantasy_name}}
-            </p>
-              <p style="font-size: smaller; color: #00b300">
-                <b>Preço: {{order.price | currency: 'BRL': true}}</b>
-              </p>
-              <p *ngIf="order.status_id == 1">
-                  <strong>Situação: </strong> aberto
-              </p>
-              <p *ngIf="order.status_id == 2">
-                  <strong>Situação: </strong> confirmado
-              </p>
-
-              <button style="margin-left: 85px" ion-button small color="fundo" (click)="goToOrderDetailPage(order)">Mais detalhes</button>
-          </ion-col>
-        </ion-row>
-      </ion-card>
+    <ion-card>
+        <ion-item>
+          <accordion-list *ngFor="let item of items; let index = index"
+                          [title]="item.name"
+                          textColor="#222"
+                          hasMargin="true"
+                          headerColor="#f4f4f4">
+            <ion-list no-lines>
+                <button style="margin-bottom: 5px; padding: 5px" color="#8888" ion-item *ngFor="let order of item.orders" (click)="goToOrderDetailPage(order)">
+                    <p style="font-size: smaller; color: black"><strong>Data de entrega: </strong> {{order.receive_at | date: 'dd/MM/yyyy hh:mm'}}</p>
+                    <p style="font-size: smaller; color: black"><strong>Restaurante: </strong> {{order.company.fantasy_name}}</p>
+                    <p style="font-size: smaller; color: black"><strong>Preço: </strong> {{order.price | currency: 'BRL': true}}</p>
+                </button>
+            </ion-list>
+      </accordion-list>
+    </ion-item>
+  </ion-card>
 </ion-content>

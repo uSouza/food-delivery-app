@@ -44,7 +44,8 @@
                   </ion-select>
               </ion-item>
               <ion-item>
-                  <ion-label floating>Horário de retirada do pedido</ion-label>
+                  <ion-label *ngIf="!deliver" floating>Horário de entrega do pedido</ion-label>
+                  <ion-label *ngIf="deliver" floating>Horário de retirada do pedido</ion-label>
                   <ion-input [brmasker]="{mask:'00:00', len:5, type:'num'}" [(ngModel)]="hour"></ion-input>
               </ion-item>
                 <ion-item>

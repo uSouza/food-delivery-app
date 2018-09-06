@@ -43,10 +43,10 @@
         </ion-list>
       </accordion-list>
       <h2 *ngIf="order.company.delivery_value > 0">
-        <strong>Valor de adicionais: </strong> {{order.price - order.products[0].price.price - order.company.delivery_value | currency: 'BRL': true}}
+        <strong>Valor de adicionais e bebidas: </strong> {{order.price - order.products[0].price.price - order.company.delivery_value | currency: 'BRL': true}}
       </h2>
       <h2 *ngIf="order.company.delivery_value == 0 || order.company.delivery_value == null">
-        <strong>Valor de adicionais: </strong> {{order.price - order.products[0].price.price | currency: 'BRL': true}}
+        <strong>Valor de adicionais e bebidas: </strong> {{order.price - order.products[0].price.price | currency: 'BRL': true}}
       </h2>
       <h2 *ngIf="order.company.delivery_value > 0">
         <strong>Valor de entrega: </strong> {{order.company.delivery_value | currency: 'BRL': true}}
@@ -56,4 +56,7 @@
       </h2>
     </ion-item>
   </ion-card>
+  <ion-fab right bottom>
+    <button ion-button color="fundo" round>Cancelar pedido</button>
+  </ion-fab>
 </ion-content>

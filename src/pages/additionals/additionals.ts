@@ -36,6 +36,7 @@ export class AdditionalsPage {
   value: any;
   selected_price: Price;
   additionals: AdditionalRestaurant[] = [];
+  drinks: AdditionalRestaurant[] = [];
   selected_additionals: AdditionalRestaurant[] = [];
   clientAuthorization = {
     access_token: ''
@@ -57,7 +58,7 @@ export class AdditionalsPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.navParams.data);
+    this.showLoading();
     this.restauranteService
       .getAdditionalsFromRestaurant(this.authorization, this.restaurant)
       .subscribe(
@@ -70,16 +71,21 @@ export class AdditionalsPage {
   showLoading() {
     const loader = this.loadingCtrl.create({
       content: "Carregando...",
-      duration: 2000
+      duration: 3000
     });
     loader.present();
   }
 
   updateAdditionals(adds: AdditionalRestaurant[]) {
+    console.log(adds);
     adds.forEach((add) => {
       add.quantity = 0;
+      if (add.isDrink) {
+        this.drinks.push(add);
+      } else {
+        this.additionals.push(add);
+      }
     });
-    this.additionals = adds;
   }
 
   addAdd(add: AdditionalRestaurant) {
@@ -96,6 +102,11 @@ export class AdditionalsPage {
 
   getSelectedAdditionals() {
     this.additionals.forEach((add) => {
+      if (add.quantity > 0) {
+        this.selected_additionals.push(add);
+      }
+    });
+    this.drinks.forEach((add) => {
       if (add.quantity > 0) {
         this.selected_additionals.push(add);
       }

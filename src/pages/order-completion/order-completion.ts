@@ -16,6 +16,7 @@ import { ProductsProvider } from '../../providers/products/products';
 import { Price } from '../../models/price';
 import { Order } from '../../models/order';
 import { OrdersProvider } from '../../providers/orders/orders';
+import { DatePipe } from '@angular/common';
 
 @IonicPage()
 @Component({
@@ -35,7 +36,9 @@ export class OrderCompletionPage {
   selected_price: Price;
   user: UserPandeco = new UserPandeco();
   selected_additionals: AdditionalRestaurant[];
-  location: number;
+  additionals: AdditionalRestaurant[] = [];
+  drinks: AdditionalRestaurant[] = [];
+  location: number = 1;
   locations: Location[] = [];
   deliver: boolean = false;
   formPayment: any;
@@ -51,7 +54,8 @@ export class OrderCompletionPage {
               public alertCtrl: AlertController,
               public toastCtrl: ToastController,
               private productService: ProductsProvider,
-              private orderService: OrdersProvider) {
+              private orderService: OrdersProvider,
+              public datepipe: DatePipe) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -68,6 +72,16 @@ export class OrderCompletionPage {
     console.log(this.navParams.data);
     this.getClientLocations();
 
+    if (this.selected_additionals.length > 0) {
+      this.selected_additionals.forEach((add) => {
+        if (add.isDrink) {
+          this.drinks.push(add);
+        } else {
+          this.additionals.push(add);
+        }
+      });
+    }
+
     if (this.restaurant.delivery_value != null) {
       this.value += parseFloat(this.restaurant.delivery_value.toString());
     }
@@ -81,9 +95,13 @@ export class OrderCompletionPage {
         subItems: this.ingredients
       },
       {
-        name: 'Adicionais e bebidas',
-        subItems: this.selected_additionals
-      }
+        name: 'Adicionais',
+        subItems: this.additionals
+      },
+      {
+        name: 'Bebidas',
+        subItems: this.drinks
+      },
     ];
   }
 
@@ -189,12 +207,20 @@ export class OrderCompletionPage {
     order.additionals_ids = additionals_ids;
     order.products_ids = product_ids;
     order.company_id = this.restaurant.id;
-    order.receive_at = this.hour;
+    order.receive_at = this.menu.date + ' ' + this.hour;
     order.price = this.value;
     order.location_id = this.location;
     order.deliver = !this.deliver;
     order.observation = this.observation_order;
     order.form_payment_id = this.formPayment;
+
+    let today = new Date();
+
+    if (this.datepipe.transform(today, 'yyyy-MM-dd') == this.menu.date) {
+      order.status_id = 1;
+    } else {
+      order.status_id = 3;
+    }
 
     this.orderService.addOrder(this.clientAuthorization, order)
       .subscribe(order => console.log(order));

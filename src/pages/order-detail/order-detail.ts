@@ -18,6 +18,8 @@ export class OrderDetailPage {
 
   order: Order;
   items = [];
+  additionals = [];
+  drinks = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams) {
@@ -25,15 +27,27 @@ export class OrderDetailPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.order);
+
+    this.order.additionals.forEach((add) => {
+      if (add.isDrink) {
+        this.drinks.push(add);
+      } else {
+        this.additionals.push(add);
+      }
+    });
+
     this.items = [
       {
         name: 'Ingredientes',
         subItems: this.order.products[0].ingredients
       },
       {
-        name: 'Adicionais e bebidas',
-        subItems: this.order.additionals
+        name: 'Adicionais',
+        subItems: this.additionals
+      },
+      {
+        name: 'Bebidas',
+        subItems: this.drinks
       }
     ];
 

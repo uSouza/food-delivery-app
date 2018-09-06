@@ -20,10 +20,12 @@ import { OrderDetailPage } from '../order-detail/order-detail';
 })
 export class MyOrdersPage {
 
-  orders: Order[];
   ingredients: Ingredient[];
   authorizationService: Observable<Authorization>;
   authorization: Authorization;
+  outstanding: Order[] = [];
+  confirmed: Order[] = [];
+  items = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -81,7 +83,7 @@ export class MyOrdersPage {
   }
 
   setOrders(orders: Order[]) {
-    this.orders = orders;
+
     if (orders.length <= 0) {
       const alert = this.alertCtrl.create({
         title: 'Não possui pedidos',
@@ -91,6 +93,31 @@ export class MyOrdersPage {
       alert.present();
       this.navCtrl.setRoot(RestaurantsPage);
     }
+
+    orders.forEach((order) => {
+      if (order.status_id == 2) {
+        this.confirmed.push(order);
+      }
+      else {
+        this.outstanding.push(order);
+      }
+    });
+
+    if (this.outstanding.length > 0) {
+      let item = {
+        name: 'Pendentes',
+        orders: this.outstanding
+      }
+      this.items.push(item);
+    }
+    if (this.confirmed.length > 0) {
+      let item = {
+        name: 'Encerrados',
+        orders: this.confirmed
+      }
+      this.items.push(item);
+    }
+
   }
 
   goToLoginPage() {

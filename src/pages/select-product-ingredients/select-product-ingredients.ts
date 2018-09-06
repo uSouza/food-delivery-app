@@ -95,7 +95,8 @@ export class SelectProductIngredientsPage {
                 ingredient.additional = true;
               }
             }
-          ]
+          ],
+          enableBackdropDismiss: false
         });
         ingredient_group.number_options = "-1";
         confirm.present();

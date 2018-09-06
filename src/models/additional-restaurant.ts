@@ -4,4 +4,5 @@ export class AdditionalRestaurant {
   additional_id: number;
   value: number;
   quantity: any;
+  isDrink: boolean;
 }
