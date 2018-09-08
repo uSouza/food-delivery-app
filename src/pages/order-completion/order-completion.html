@@ -48,11 +48,15 @@
                   <ion-label *ngIf="deliver" floating>Horário de retirada do pedido</ion-label>
                   <ion-input [brmasker]="{mask:'00:00', len:5, type:'num'}" [(ngModel)]="hour"></ion-input>
               </ion-item>
-                <ion-item>
-                    <ion-label floating>Observações para o pedido</ion-label>
-                    <ion-textarea [(ngModel)]="observation_order"></ion-textarea>
-                </ion-item>
-              </ion-list>
+              <ion-item>
+                <ion-label floating>Observações para o troco</ion-label>
+                <ion-input [(ngModel)]="change_remarks"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label floating>Observações para o pedido</ion-label>
+                <ion-textarea [(ngModel)]="observation_order"></ion-textarea>
+              </ion-item>
+            </ion-list>
       </ion-card>
       <ion-card>
         <ion-card-header>

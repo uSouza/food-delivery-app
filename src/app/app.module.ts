@@ -13,6 +13,7 @@ import { RegisterPage } from "../pages/register/register";
 import { LocationsPage } from "../pages/locations/locations";
 import { OrderCompletionPage } from "../pages/order-completion/order-completion";
 import { OrderDetailPage } from "../pages/order-detail/order-detail";
+import { UserEditPage } from "../pages/user-edit/user-edit";
 import { HttpClientModule } from "@angular/common/http";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -48,6 +49,7 @@ import {DatePipe} from '@angular/common';
     OrderCompletionPage,
     MyOrdersPage,
     OrderDetailPage,
+    UserEditPage,
     AccordionListComponent
   ],
   imports: [
@@ -71,6 +73,7 @@ import {DatePipe} from '@angular/common';
     OrderCompletionPage,
     MyOrdersPage,
     OrderDetailPage,
+    UserEditPage,
     AccordionListComponent
   ],
   providers: [

@@ -12,6 +12,7 @@ import { OrderCompletionPage } from '../order-completion/order-completion';
 import { Price } from '../../models/price';
 import { UserPandeco } from '../../models/user-pandeco';
 import { MyOrdersPage } from '../my-orders/my-orders';
+import { UserEditPage } from '../user-edit/user-edit';
 
 @IonicPage()
 @Component({
@@ -102,8 +103,11 @@ export class LocationsPage {
   goToNextPage() {
     if (this.page == 'additionalsPage') {
       this.goToOrderCompletionPage();
-    } else {
-      this.goToNextPage();
+    } else if (this.page == 'userEditPage') {
+      this.goToUserEditPage();
+    }
+    else {
+      this.goToMyOrdersPage();
     }
   }
 
@@ -124,6 +128,13 @@ export class LocationsPage {
 
   goToMyOrdersPage() {
     this.navCtrl.setRoot(MyOrdersPage, {
+      user: this.user,
+      clientAuthorization: this.clientAuthorization
+    })
+  }
+
+  goToUserEditPage() {
+    this.navCtrl.setRoot(UserEditPage, {
       user: this.user,
       clientAuthorization: this.clientAuthorization
     })

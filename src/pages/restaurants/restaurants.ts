@@ -71,7 +71,6 @@ export class RestaurantsPage {
   }
 
   setAuthorization(authorization: Authorization) {
-
     this.authorization = authorization;
     this.getRestaurants();
   }

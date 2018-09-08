@@ -14,7 +14,7 @@
         </button>
     </ion-buttons>
     <ion-title *ngIf="page == 'additionalsPage'">Finalize seu pedido :)</ion-title>
-    <ion-title *ngIf="page == 'myOrdersPage'">Realize o seu login</ion-title>
+    <ion-title *ngIf="page != 'additionalsPage'">Realize o seu login</ion-title>
   </ion-navbar>
 
 </ion-header>

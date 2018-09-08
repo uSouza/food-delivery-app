@@ -47,4 +47,26 @@ export class LocationsProvider {
       });
   }
 
+  getLocationsAccessToken(access_token: any): Observable<Location[]> {
+    return this.http.get<Location[]>(this.url_api + this.endpoint,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
+      });
+  }
+
+  deleteLocation(access_token: any, location: any) {
+    console.log(access_token);
+    console.log(this.url_api + this.endpoint + '/' + location);
+    return this.http.delete(this.url_api + this.endpoint + '/' + location,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
+      });
+  }
+
 }

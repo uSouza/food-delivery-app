@@ -1,0 +1,32 @@
+<ion-header>
+
+  <ion-navbar color="fundo">
+    <ion-buttons end>
+        <button ion-button icon-only (click)='goToHome()'>
+          <ion-icon color='white' name='home'>
+          </ion-icon>
+        </button>
+    </ion-buttons>
+    <ion-title>Locais de entrega</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngFor="let location of locations">
+      <ion-item>
+        <h2>
+          <strong>Local: </strong> {{location.address}} - {{location.number}} - {{location.district}}
+        </h2>
+      </ion-item>
+      <ion-item>
+        <ion-buttons start>
+          <button (click)="editLocation(location)" ion-button small color="secondary">
+            Editar
+          </button>
+          <button (click)="deleteLocation(location.id)" ion-button small color="danger">
+            Deletar
+          </button>
+        </ion-buttons>
+      </ion-item>
+  </ion-card>
+</ion-content>

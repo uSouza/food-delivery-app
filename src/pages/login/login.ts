@@ -15,6 +15,7 @@ import { Storage } from '@ionic/storage';
 import { Price } from '../../models/price';
 import { MyOrdersPage } from '../my-orders/my-orders';
 import { RestaurantsPage } from '../restaurants/restaurants';
+import { UserEditPage } from '../user-edit/user-edit';
 
 
 @IonicPage()
@@ -105,6 +106,9 @@ export class LoginPage {
     if (this.page == 'additionalsPage') {
       this.goToOrderCompletion(user, clientAuthorization);
     }
+    else if (this.page == 'userEditPage') {
+      this.goToUserEditPage(user, clientAuthorization);
+    }
     else {
       this.goToMyOrdersPage(user, clientAuthorization);
     }
@@ -127,6 +131,13 @@ export class LoginPage {
 
   goToMyOrdersPage(user: UserPandeco, clientAuthorization: Authorization) {
     this.navCtrl.setRoot(MyOrdersPage, {
+      clientAuthorization: clientAuthorization,
+      user: user
+    })
+  }
+
+  goToUserEditPage(user: UserPandeco, clientAuthorization: Authorization) {
+    this.navCtrl.setRoot(UserEditPage, {
       clientAuthorization: clientAuthorization,
       user: user
     })
