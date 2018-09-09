@@ -37,6 +37,25 @@ export class LocationsProvider {
     });
   }
 
+  addLocationAccessToken(authorization: any, location: Location): Observable<Location> {
+    let data = {
+      city: 'Toledo',
+      state: 'Paraná',
+      address: location.address,
+      number: location.number,
+      district: location.district,
+      postal_code: '99999-999',
+      observation: location.observation,
+    };
+    return this.http.post<Location>(this.url_api + this.endpoint, data, {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + authorization,
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
   getLocations(authorization: Authorization): Observable<Location[]> {
     return this.http.get<Location[]>(this.url_api + this.endpoint,
       {
@@ -58,15 +77,31 @@ export class LocationsProvider {
   }
 
   deleteLocation(access_token: any, location: any) {
-    console.log(access_token);
-    console.log(this.url_api + this.endpoint + '/' + location);
     return this.http.delete(this.url_api + this.endpoint + '/' + location,
       {
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + access_token
         }
-      });
+      })
   }
 
+  updateLocation(access_token: any, location: Location): Observable<Location> {
+    let data = {
+      city: 'Toledo',
+      state: 'Paraná',
+      address: location.address,
+      number: location.number,
+      district: location.district,
+      postal_code: '99999-999',
+      observation: location.observation,
+    };
+    return this.http.put<Location>(this.url_api + this.endpoint + '/' + location.id, data,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
+      })
+  }
 }

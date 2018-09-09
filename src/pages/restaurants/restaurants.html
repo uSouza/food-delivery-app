@@ -1,13 +1,9 @@
 
 <ion-header>
   <ion-navbar color="fundo">
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
     <ion-buttons *ngIf="logged" end>
-      <button ion-button icon-only (click)='logoff()'>
-        <ion-icon color='white' name='power'>
-        </ion-icon>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
     <ion-title>Pandeco</ion-title>

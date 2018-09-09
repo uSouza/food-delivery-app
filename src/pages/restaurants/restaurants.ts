@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, Platform, PopoverController } from 'ionic-angular';
 import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { Restaurant } from "../../models/restaurant";
 import { AuthenticationProvider } from "../../providers/authentication/authentication";
@@ -8,6 +8,8 @@ import { Observable } from "rxjs/Observable";
 import { RestaurantMenuPage } from "../restaurant-menu/restaurant-menu";
 import { LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { PopoverRestaurantPage } from './popover-restaurant/popover-restaurant';
+
 
 @IonicPage()
 @Component({
@@ -28,7 +30,8 @@ export class RestaurantsPage {
               private storage: Storage,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
-              public platform: Platform
+              public platform: Platform,
+              public popoverCtrl: PopoverController
             ) {
   }
 
@@ -45,29 +48,6 @@ export class RestaurantsPage {
           this.logged = true;
         }
       });
-  }
-
-  logoff() {
-    const confirm = this.alertCtrl.create({
-      title: 'Deseja mesmo sair do Pandeco?',
-      message: '',
-      buttons: [
-        {
-          text: 'Não',
-          handler: () => {
-          }
-        },
-        {
-          text: 'Sim',
-          handler: () => {
-            this.storage.set('token', null);
-            this.logged = false;
-            this.platform.exitApp();
-          }
-        }
-      ]
-    });
-    confirm.present();
   }
 
   setAuthorization(authorization: Authorization) {
@@ -106,6 +86,13 @@ export class RestaurantsPage {
   goToRestaurantMenuPage(restaurant: Restaurant) {
     this.showLoading();
     this.navCtrl.push(RestaurantMenuPage, {restaurant: restaurant, authorization: this.authorization});
+  }
+
+  presentPopover(event) {
+    let popover = this.popoverCtrl.create(PopoverRestaurantPage);
+    popover.present({
+      ev: event
+    });
   }
 
 }

@@ -4,6 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
 import { RestaurantsPage } from '../pages/restaurants/restaurants';
+import { PopoverRestaurantPage } from '../pages/restaurants/popover-restaurant/popover-restaurant';
 import { RestaurantMenuPage } from "../pages/restaurant-menu/restaurant-menu";
 import { SelectProductIngredientsPage } from "../pages/select-product-ingredients/select-product-ingredients";
 import { SelectProductSizePage } from "../pages/select-product-size/select-product-size";
@@ -14,6 +15,7 @@ import { LocationsPage } from "../pages/locations/locations";
 import { OrderCompletionPage } from "../pages/order-completion/order-completion";
 import { OrderDetailPage } from "../pages/order-detail/order-detail";
 import { UserEditPage } from "../pages/user-edit/user-edit";
+import { LocationsManagerPage } from "../pages/user-edit/locations-manager/locations-manager";
 import { HttpClientModule } from "@angular/common/http";
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -50,6 +52,8 @@ import {DatePipe} from '@angular/common';
     MyOrdersPage,
     OrderDetailPage,
     UserEditPage,
+    LocationsManagerPage,
+    PopoverRestaurantPage,
     AccordionListComponent
   ],
   imports: [
@@ -74,7 +78,9 @@ import {DatePipe} from '@angular/common';
     MyOrdersPage,
     OrderDetailPage,
     UserEditPage,
-    AccordionListComponent
+    AccordionListComponent,
+    LocationsManagerPage,
+    PopoverRestaurantPage
   ],
   providers: [
     StatusBar,

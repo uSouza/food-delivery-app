@@ -9,6 +9,7 @@ import { AuthenticationProvider } from '../../providers/authentication/authentic
 import { UsersProvider } from '../../providers/users/users';
 import { UserPandeco } from '../../models/user-pandeco';
 import { Storage } from '@ionic/storage';
+import { LocationsManagerPage } from './locations-manager/locations-manager';
 
 /**
  * Generated class for the UserEditPage page.
@@ -113,7 +114,17 @@ export class UserEditPage {
   }
 
   editLocation(location: any) {
+    this.navCtrl.push(LocationsManagerPage,
+      {
+        edit: true,
+        location: location,
+        access_token: this.access_token
+      }
+    );
+  }
 
+  addLocation() {
+    this.navCtrl.push(LocationsManagerPage, {access_token: this.access_token});
   }
 
   deleteLocation(location_id: any) {
@@ -129,7 +140,11 @@ export class UserEditPage {
         {
           text: 'Sim',
           handler: () => {
-            this.locationService.deleteLocation(this.access_token, location_id);
+            this.locationService
+              .deleteLocation(this.access_token, location_id)
+              .subscribe(
+                () => this.navCtrl.setRoot(UserEditPage)
+              );
           }
         }
       ]

@@ -127,6 +127,8 @@ export class RegisterPage {
 
   goToLocationsPage(client: Client, clientAuthorization: Authorization, user: UserPandeco) {
     this.storage.set('token', clientAuthorization.access_token);
+    this.storage.set('username', user.name);
+    this.storage.set('email', user.email);
     this.navCtrl.push(LocationsPage, {
       client: client,
       clientAuthorization: clientAuthorization,

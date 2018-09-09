@@ -103,6 +103,8 @@ export class LoginPage {
 
   goToNextPage(user: UserPandeco, clientAuthorization: Authorization) {
     this.storage.set('token', clientAuthorization.access_token);
+    this.storage.set('username', user.name);
+    this.storage.set('email', user.email);
     if (this.page == 'additionalsPage') {
       this.goToOrderCompletion(user, clientAuthorization);
     }
