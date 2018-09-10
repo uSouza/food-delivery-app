@@ -42,6 +42,7 @@ export class RegisterPage {
   phone: any;
   selected_additionals: AdditionalRestaurant[];
   page: string;
+  products: Product[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -60,6 +61,7 @@ export class RegisterPage {
     this.selected_price = navParams.data.selected_price;
     this.selected_additionals = navParams.data.selected_additionals;
     this.page = navParams.data.page;
+    this.products = navParams.get('products');
   }
 
   ionViewDidLoad() {
@@ -140,7 +142,8 @@ export class RegisterPage {
       selected_price: this.selected_price,
       selected_additionals: this.selected_additionals,
       page: this.page,
-      user: user
+      user: user,
+      products: this.products
     })
   }
 

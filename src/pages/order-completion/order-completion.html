@@ -66,20 +66,6 @@
           <h2>
             <strong>Restaurante: </strong> {{restaurant.fantasy_name}}
           </h2>
-          <h2 style="margin-bottom: 10px">
-            <strong>Marmita: </strong> {{selected_price.size}} - {{selected_price.price | currency: 'BRL': true}}
-          </h2>
-          <accordion-list *ngFor="let item of items; let index = index"
-                          [title]="item.name"
-                          textColor="#222"
-                          hasMargin="true"
-                          headerColor="#f4f4f4">
-            <ion-list no-lines>
-              <button color="#8888" ion-item *ngFor="let i of item.subItems">
-                {{i.name}} <p *ngIf="i.value > 0">{{i.value | currency: 'BRL': true}}</p>
-              </button>
-            </ion-list>
-          </accordion-list>
           <h2 *ngIf="restaurant.delivery_value > 0 && !deliver">
             <strong>Valor de entrega: </strong> {{restaurant.delivery_value | currency: 'BRL': true}}
           </h2>

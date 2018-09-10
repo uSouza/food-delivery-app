@@ -20,6 +20,7 @@ export class OrderDetailPage {
   items = [];
   additionals = [];
   drinks = [];
+  additionalsProduct = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams) {
@@ -27,8 +28,10 @@ export class OrderDetailPage {
   }
 
   ionViewDidLoad() {
-
-    this.order.additionals.forEach((add) => {
+    if (this.order.products[0].additionals.length > 0) {
+      this.additionalsProduct = this.order.products[0].additionals;
+    }
+    this.additionalsProduct.forEach((add) => {
       if (add.isDrink) {
         this.drinks.push(add);
       } else {

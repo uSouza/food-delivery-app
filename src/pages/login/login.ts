@@ -16,6 +16,8 @@ import { Price } from '../../models/price';
 import { MyOrdersPage } from '../my-orders/my-orders';
 import { RestaurantsPage } from '../restaurants/restaurants';
 import { UserEditPage } from '../user-edit/user-edit';
+import { Product } from '../../models/product';
+import { PreOrderCompletionPage } from '../pre-order-completion/pre-order-completion';
 
 
 @IonicPage()
@@ -35,6 +37,7 @@ export class LoginPage {
   user: UserPandeco = new UserPandeco();
   selected_additionals?: AdditionalRestaurant[];
   page: string = null;
+  products: Product[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -50,6 +53,7 @@ export class LoginPage {
       this.value = this.navParams.data.value;
       this.selected_price = this.navParams.data.selected_price;
       this.selected_additionals = this.navParams.data.selected_additionals;
+      this.products = navParams.get('products');
     }
     this.page = navParams.data.page;
     this.authorization = navParams.data.authorization;
@@ -117,7 +121,7 @@ export class LoginPage {
   }
 
   goToOrderCompletion(user: UserPandeco, clientAuthorization: Authorization) {
-    this.navCtrl.setRoot(OrderCompletionPage, {
+    this.navCtrl.setRoot(PreOrderCompletionPage, {
       clientAuthorization: clientAuthorization,
       menu: this.menu,
       restaurant: this.restaurant,
@@ -127,7 +131,8 @@ export class LoginPage {
       selected_price: this.selected_price,
       selected_additionals: this.selected_additionals,
       user: user,
-      client: user.client
+      client: user.client,
+      products: this.products,
     })
   }
 
@@ -154,7 +159,8 @@ export class LoginPage {
       authorization: this.authorization,
       selected_price: this.selected_price,
       selected_additionals: this.selected_additionals,
-      page: this.page
+      page: this.page,
+      products: this.products,
     });
   }
 

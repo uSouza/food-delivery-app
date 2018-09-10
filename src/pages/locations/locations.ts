@@ -13,6 +13,8 @@ import { Price } from '../../models/price';
 import { UserPandeco } from '../../models/user-pandeco';
 import { MyOrdersPage } from '../my-orders/my-orders';
 import { UserEditPage } from '../user-edit/user-edit';
+import { PreOrderCompletionPage } from '../pre-order-completion/pre-order-completion';
+import { Product } from '../../models/product';
 
 @IonicPage()
 @Component({
@@ -34,6 +36,7 @@ export class LocationsPage {
   selected_additionals: AdditionalRestaurant[];
   page: string;
   user: UserPandeco;
+  products: Product[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -51,6 +54,7 @@ export class LocationsPage {
     this.selected_additionals = navParams.data.selected_additionals;
     this.page = navParams.data.page;
     this.user = navParams.data.user;
+    this.products = navParams.get('products');
   }
 
   ionViewDidLoad() {
@@ -102,9 +106,11 @@ export class LocationsPage {
 
   goToNextPage() {
     if (this.page == 'additionalsPage') {
-      this.goToOrderCompletionPage();
+      this.goToPreOrderCompletionPage();
     } else if (this.page == 'userEditPage') {
       this.goToUserEditPage();
+    } else if (this.page == 'orderCompletionPage') {
+      this.goToOrderCompletionPage();
     }
     else {
       this.goToMyOrdersPage();
@@ -117,12 +123,26 @@ export class LocationsPage {
       clientAuthorization: this.clientAuthorization,
       menu: this.menu,
       restaurant: this.restaurant,
+      value: this.value,
+      authorization: this.authorization,
+      locations: this.locations,
+      products: this.products
+    });
+  }
+
+  goToPreOrderCompletionPage() {
+    this.navCtrl.setRoot(PreOrderCompletionPage, {
+      client: this.client,
+      clientAuthorization: this.clientAuthorization,
+      menu: this.menu,
+      restaurant: this.restaurant,
       ingredients: this.ingredients,
       value: this.value,
       authorization: this.authorization,
       selected_price: this.selected_price,
       locations: this.locations,
-      selected_additionals: this.selected_additionals
+      selected_additionals: this.selected_additionals,
+      products: this.products
     });
   }
 

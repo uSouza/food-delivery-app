@@ -15,5 +15,4 @@ export class Order {
   location_id: number;
   value: number;
   products: Product[];
-  additionals: AdditionalRestaurant[];
 }

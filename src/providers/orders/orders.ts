@@ -29,7 +29,6 @@ export class OrdersProvider {
       status_id: order.status_id,
       form_payment_id: order.form_payment_id,
       products_ids: order.products_ids,
-      additionals_ids: order.additionals_ids,
       location_id: order.location_id
     };
     return this.http.post<Order>(this.url_api + this.endpoint, data,{

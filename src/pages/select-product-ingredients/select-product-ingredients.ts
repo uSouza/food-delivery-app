@@ -11,6 +11,7 @@ import { RestaurantsPage } from '../restaurants/restaurants';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { AdditionalsPage } from '../additionals/additionals';
 import { Price } from '../../models/price';
+import { Product } from '../../models/product';
 
 /**
  * Generated class for the SelectProductIngredientsPage page.
@@ -34,6 +35,7 @@ export class SelectProductIngredientsPage {
   additional_value: number;
   selected_price: Price;
   value: any;
+  products: Product[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -47,6 +49,7 @@ export class SelectProductIngredientsPage {
     this.ingredients = navParams.data.ingredients;
     this.selected_price = navParams.data.selected_price;
     this.value = navParams.data.value;
+    this.products = navParams.get('products');
   }
 
   ionViewDidLoad() {
@@ -119,7 +122,8 @@ export class SelectProductIngredientsPage {
       ingredients: ingredients,
       value: this.value,
       authorization: this.authorization,
-      selected_price: this.selected_price
+      selected_price: this.selected_price,
+      products: this.products,
     });
   }
 

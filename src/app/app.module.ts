@@ -13,6 +13,7 @@ import { MyOrdersPage } from "../pages/my-orders/my-orders";
 import { RegisterPage } from "../pages/register/register";
 import { LocationsPage } from "../pages/locations/locations";
 import { OrderCompletionPage } from "../pages/order-completion/order-completion";
+import { PreOrderCompletionPage } from "../pages/pre-order-completion/pre-order-completion";
 import { OrderDetailPage } from "../pages/order-detail/order-detail";
 import { UserEditPage } from "../pages/user-edit/user-edit";
 import { LocationsManagerPage } from "../pages/user-edit/locations-manager/locations-manager";
@@ -54,6 +55,7 @@ import {DatePipe} from '@angular/common';
     UserEditPage,
     LocationsManagerPage,
     PopoverRestaurantPage,
+    PreOrderCompletionPage,
     AccordionListComponent
   ],
   imports: [
@@ -80,6 +82,7 @@ import {DatePipe} from '@angular/common';
     UserEditPage,
     AccordionListComponent,
     LocationsManagerPage,
+    PreOrderCompletionPage,
     PopoverRestaurantPage
   ],
   providers: [

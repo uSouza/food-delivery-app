@@ -24,7 +24,8 @@ export class ProductsProvider {
       price_id: product.price_id,
       description: product.description,
       observation: 'nobody',
-      ingredients_ids: product.ingredients_ids
+      ingredients_ids: product.ingredients_ids,
+      additionals: product.additionals
     };
     return this.http.post<Product>(this.url_api + this.endpoint, data,{
       headers: {

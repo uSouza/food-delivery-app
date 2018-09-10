@@ -42,6 +42,6 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-title>Valor do pedido: {{value === 0 ? 'R$ 0,00' : value | currency: 'BRL': true }}</ion-title>
+    <ion-title>Valor do pedido: {{value + valueOrder === 0 ? 'R$ 0,00' : value + valueOrder | currency: 'BRL': true }}</ion-title>
   </ion-toolbar>
 </ion-footer>

@@ -9,7 +9,7 @@ import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
-import { OrderCompletionPage } from '../order-completion/order-completion';
+import { PreOrderCompletionPage } from '../pre-order-completion/pre-order-completion';
 import { UsersProvider } from '../../providers/users/users';
 import { Price } from '../../models/price';
 import { RestaurantsPage } from '../restaurants/restaurants';
@@ -35,12 +35,14 @@ export class AdditionalsPage {
   authorization: Authorization;
   value: any;
   selected_price: Price;
+  additionals_restaurant: AdditionalRestaurant[] = [];
   additionals: AdditionalRestaurant[] = [];
   drinks: AdditionalRestaurant[] = [];
   selected_additionals: AdditionalRestaurant[] = [];
   clientAuthorization = {
     access_token: ''
   };
+  products: Product[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -54,31 +56,26 @@ export class AdditionalsPage {
     this.restaurant = navParams.data.restaurant;
     this.ingredients = navParams.data.ingredients;
     this.value = parseFloat(navParams.data.value);
-    this.selected_price = navParams.data.selected_price
+    this.selected_price = navParams.data.selected_price;
+    this.additionals_restaurant = navParams.data.restaurant.additionals;
+    this.products = navParams.get('products');
   }
 
   ionViewDidLoad() {
     this.showLoading();
-    this.restauranteService
-      .getAdditionalsFromRestaurant(this.authorization, this.restaurant)
-      .subscribe(
-        additionals => {
-          this.updateAdditionals(additionals)
-        }
-      )
+    this.updateAdditionals();
   }
 
   showLoading() {
     const loader = this.loadingCtrl.create({
       content: "Carregando...",
-      duration: 3000
+      duration: 1500
     });
     loader.present();
   }
 
-  updateAdditionals(adds: AdditionalRestaurant[]) {
-    console.log(adds);
-    adds.forEach((add) => {
+  updateAdditionals() {
+    this.additionals_restaurant.forEach((add) => {
       add.quantity = 0;
       if (add.isDrink) {
         this.drinks.push(add);
@@ -133,7 +130,8 @@ export class AdditionalsPage {
       authorization: this.authorization,
       selected_price: this.selected_price,
       selected_additionals: this.selected_additionals,
-      page: 'additionalsPage'
+      page: 'additionalsPage',
+      products: this.products,
     });
   }
 
@@ -152,7 +150,7 @@ export class AdditionalsPage {
 
   goToOrderPage(user: any, val: any) {
     this.clientAuthorization.access_token = val;
-    this.navCtrl.push(OrderCompletionPage, {
+    this.navCtrl.setRoot(PreOrderCompletionPage, {
       clientAuthorization: this.clientAuthorization,
       menu: this.menu,
       restaurant: this.restaurant,
@@ -162,7 +160,8 @@ export class AdditionalsPage {
       selected_price: this.selected_price,
       selected_additionals: this.selected_additionals,
       user: user,
-      client: user.client
+      client: user.client,
+      products: this.products,
     });
   }
 

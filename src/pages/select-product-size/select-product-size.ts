@@ -29,8 +29,9 @@ export class SelectProductSizePage {
 
   menu: Menu;
   restaurant: Restaurant;
-  product: Product;
+  products: Product[] = [];
   authorization: Authorization;
+  valueOrder: any;
   value: any = 0;
   selected_price: Price;
 
@@ -44,9 +45,15 @@ export class SelectProductSizePage {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
+    this.products = navParams.get('products');
   }
 
   ionViewDidLoad() {
+    if (this.navParams.get('value') != null) {
+      this.valueOrder = this.navParams.get('value');
+    } else {
+      this.valueOrder = 0;
+    }
   }
 
   showLoading() {
@@ -68,9 +75,10 @@ export class SelectProductSizePage {
       this.navCtrl.push(SelectProductIngredientsPage, {
         menu: this.menu,
         restaurant: this.restaurant,
-        value: this.value,
+        value: parseFloat(this.value) + parseFloat(this.valueOrder),
         authorization: this.authorization,
-        selected_price: this.selected_price
+        selected_price: this.selected_price,
+        products: this.products
       });
     } else {
       let toast = this.toastCtrl.create({

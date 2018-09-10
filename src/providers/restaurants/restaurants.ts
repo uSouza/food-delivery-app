@@ -23,13 +23,4 @@ export class RestaurantsProvider {
         });
   }
 
-  getAdditionalsFromRestaurant(authorization: Authorization, restaurant: Restaurant): Observable<AdditionalRestaurant[]> {
-    return this.http.get<AdditionalRestaurant[]>(this.url_api + 'additionals_company/' + restaurant.id,
-      {headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authorization.access_token
-        }
-      });
-  }
-
 }
