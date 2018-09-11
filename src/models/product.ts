@@ -10,9 +10,12 @@ export class Product {
   observation: string;
   ingredients: Ingredient[];
   additionals: AdditionalProduct[];
+  price: any;
 }
 
 export class AdditionalProduct {
   add_id: number;
   add_quantity: number;
+  isDrink: any;
+  value: any;
 }

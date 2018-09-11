@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import {Restaurant} from "../../models/restaurant";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
 import {MenusProvider} from "../../providers/menus/menus";
@@ -7,6 +7,8 @@ import {Authorization} from "../../models/authorization";
 import {Menu} from "../../models/menu";
 import { SelectProductSizePage } from '../select-product-size/select-product-size';
 import { DatePipe } from '@angular/common';
+import { Product } from '../../models/product';
+import { RestaurantsPage } from '../restaurants/restaurants';
 
 @IonicPage()
 @Component({
@@ -20,18 +22,33 @@ export class RestaurantMenuPage {
   restaurant: Restaurant;
   minPrice: number;
   items = [];
+  date: any = null;
+  valueOrder: any;
+  products: Product[] = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public menuService: MenusProvider,
               public authenticationService: AuthenticationProvider,
               public loadingCtrl: LoadingController,
+              public alertCtrl: AlertController,
               public datepipe: DatePipe) {
     this.authorization = navParams.data.authorization;
     this.restaurant = navParams.data.restaurant;
   }
 
   ionViewDidLoad() {
+    if (this.navParams.get('value') != null) {
+      this.valueOrder = this.navParams.get('value');
+    }
+    if (this.navParams.get('products') != null) {
+      this.products = this.navParams.get('products');
+    }
+    if (this.navParams.get('date') != null) {
+      this.date = this.navParams.get('date');
+      console.log(this.date);
+    }
+
     this.getMenusByRestaurant();
   }
 
@@ -41,7 +58,7 @@ export class RestaurantMenuPage {
 
   getMenusByRestaurant() {
     this.menuService.getMenuByRestaurant(this.authorization, this.restaurant).subscribe(
-        menus => this.prepareMenus(menus)
+        menus => this.verifyMenus(menus)
     );
   }
 
@@ -50,7 +67,9 @@ export class RestaurantMenuPage {
     this.navCtrl.push(SelectProductSizePage, {
       menu: menu,
       restaurant: this.restaurant,
-      authorization: this.authorization
+      authorization: this.authorization,
+      value: this.valueOrder,
+      products: this.products
     });
   }
 
@@ -62,8 +81,37 @@ export class RestaurantMenuPage {
     loader.present();
   }
 
-  prepareMenus(menus: Menu[]) {
+  verifyMenus(menus: Menu[]) {
 
+    if (this.date == null) {
+      this.prepareAllMenus(menus);
+    } else {
+      this.prepareMenusFromDate(menus);
+    }
+
+  }
+
+  prepareMenusFromDate(menus: Menu[]) {
+    let dateMenus: Array<Menu> = [];
+    let today = new Date();
+
+    menus.forEach((menu) => {
+      if (menu.date == this.date) {
+        dateMenus.push(menu);
+      }
+    });
+
+    if (dateMenus.length > 0) {
+      let item = {
+        date: 'Dia ' + this.datepipe.transform(this.date, 'dd/MM/yyyy'),
+        menus: dateMenus
+      }
+      this.items.push(item);
+    }
+
+  }
+
+  prepareAllMenus(menus: Menu[]) {
     let todayMenus: Array<Menu> = [];
     let oneMenus: Array<Menu> = [];
     let twoMenus: Array<Menu> = [];
@@ -134,6 +182,27 @@ export class RestaurantMenuPage {
       }
       this.items.push(item);
     }
+  }
+
+  goToHome() {
+    const confirm = this.alertCtrl.create({
+      title: 'Retornar a tela inicial',
+      message: 'Tem certeza? Todos os dados do pedido serão perdidos!',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.setRoot(RestaurantsPage);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 

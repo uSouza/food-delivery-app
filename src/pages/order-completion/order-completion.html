@@ -58,19 +58,6 @@
               </ion-item>
             </ion-list>
       </ion-card>
-      <ion-card>
-        <ion-card-header>
-          <h2><strong>Resumo do pedido</strong></h2>
-        </ion-card-header>
-        <ion-item>
-          <h2>
-            <strong>Restaurante: </strong> {{restaurant.fantasy_name}}
-          </h2>
-          <h2 *ngIf="restaurant.delivery_value > 0 && !deliver">
-            <strong>Valor de entrega: </strong> {{restaurant.delivery_value | currency: 'BRL': true}}
-          </h2>
-        </ion-item>
-      </ion-card>
   </div>
   <ion-fab right bottom>
     <button ion-fab color="fundo" (click)="orderSave()"><ion-icon name="checkmark"></ion-icon></button>

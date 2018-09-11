@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
@@ -12,6 +12,8 @@ import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { ProductsProvider } from '../../providers/products/products';
 import { SelectProductSizePage } from '../select-product-size/select-product-size';
 import { OrderCompletionPage } from '../order-completion/order-completion';
+import { RestaurantMenuPage } from '../restaurant-menu/restaurant-menu';
+import { RestaurantsPage } from '../restaurants/restaurants';
 
 @IonicPage()
 @Component({
@@ -34,6 +36,7 @@ export class PreOrderCompletionPage {
   additionals: AdditionalRestaurant[] = [];
   drinks: AdditionalRestaurant[] = [];
   products: Product[] = [];
+  lunch_price: any = 0;
 
   itemsIngredients = [
     {
@@ -50,6 +53,7 @@ export class PreOrderCompletionPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public loadingCtrl: LoadingController,
+              public alertCtrl: AlertController,
               private productService: ProductsProvider,
             ) {
     this.authorization = navParams.data.authorization;
@@ -65,8 +69,7 @@ export class PreOrderCompletionPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.navParams.data);
-    if (this.navParams.get('products') != null) {
+    if ( this.navParams.get('products').length > 0) {
       this.products = this.navParams.get('products');
     }
     this.addProduct();
@@ -85,8 +88,6 @@ export class PreOrderCompletionPage {
       });
     }
 
-    console.log()
-
     this.ingredients.forEach((ingredient) => {
       ingredients_ids.push(ingredient.id);
     });
@@ -103,8 +104,15 @@ export class PreOrderCompletionPage {
   }
 
   showProducts(product: Product, additionalsProducts: AdditionalProduct[]) {
-    product.additionals = additionalsProducts;
+    product.additionals = this.selected_additionals;
     this.products.push(product);
+    this.updateValue();
+  }
+
+  updateValue() {
+    this.products.forEach((p) => {
+      this.lunch_price += parseFloat(p.price.price);
+    });
   }
 
   showLoading(duration: number) {
@@ -116,10 +124,10 @@ export class PreOrderCompletionPage {
   }
 
   addMorePackedLunch() {
-    this.navCtrl.setRoot(SelectProductSizePage,
+    this.navCtrl.setRoot(RestaurantMenuPage,
       {
         authorization: this.authorization,
-        menu: this.menu,
+        date: this.menu.date,
         restaurant: this.restaurant,
         products: this.products,
         value: this.value
@@ -140,6 +148,27 @@ export class PreOrderCompletionPage {
         menu: this.menu
       }
     );
+  }
+
+  goToHome() {
+    const confirm = this.alertCtrl.create({
+      title: 'Retornar a tela inicial',
+      message: 'Tem certeza? Todos os dados do pedido serão perdidos!',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.navCtrl.setRoot(RestaurantsPage);
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

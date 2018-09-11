@@ -28,32 +28,51 @@
       <h2 *ngIf="order.deliver">
         <strong>Local de entrega: </strong> {{ order.location.address }} - {{ order.location.number }}
       </h2>
-      <h2 style="margin-bottom: 10px">
-        <strong>Marmita: </strong> {{order.products[0].price.size}} - {{order.products[0].price.price | currency: 'BRL': true}}
-      </h2>
-      <accordion-list *ngFor="let item of items; let index = index"
-                      [title]="item.name"
-                      textColor="#222"
-                      hasMargin="true"
-                      headerColor="#f4f4f4">
-        <ion-list no-lines>
-          <button color="#8888" ion-item *ngFor="let i of item.subItems">
-            {{i.name}}
-          </button>
-        </ion-list>
-      </accordion-list>
-      <h2 *ngIf="order.company.delivery_value > 0">
-        <strong>Valor de adicionais e bebidas: </strong> {{order.price - order.products[0].price.price - order.company.delivery_value | currency: 'BRL': true}}
-      </h2>
-      <h2 *ngIf="order.company.delivery_value == 0 || order.company.delivery_value == null">
-        <strong>Valor de adicionais e bebidas: </strong> {{order.price - order.products[0].price.price | currency: 'BRL': true}}
-      </h2>
-      <h2 *ngIf="order.company.delivery_value > 0">
-        <strong>Valor de entrega: </strong> {{order.company.delivery_value | currency: 'BRL': true}}
-      </h2>
-      <h2>
-        <strong>Valor total: </strong> {{order.price | currency: 'BRL': true}}
-      </h2>
+        <h2 *ngIf="additional_price > 0">
+          <strong>Valor de adicionais: </strong> {{ additional_price | currency: 'BRL': true}}
+        </h2>
+        <h2 *ngIf="drink_price > 0">
+            <strong>Valor de bebidas: </strong> {{ drink_price | currency: 'BRL': true}}
+          </h2>
+        <h2 *ngIf="order.company.delivery_value > 0">
+          <strong>Valor de entrega: </strong> {{order.company.delivery_value | currency: 'BRL': true}}
+        </h2>
+        <h2 *ngIf="lunch_price > 0">
+            <strong>Valor de marmitas: </strong> {{ lunch_price | currency: 'BRL': true}}
+          </h2>
+        <h2>
+          <strong>Valor total: </strong> {{order.price | currency: 'BRL': true}}
+        </h2>
+    </ion-item>
+  </ion-card>
+    <ion-card *ngFor="let product of order.products">
+      <ion-item>
+        <h2 style="margin-bottom: 10px">
+          <strong>{{product.menu.description}} </strong> {{product.price.size}} - {{product.price.price | currency: 'BRL': true}}
+        </h2>
+        <accordion-list *ngFor="let item of itemsIngredients; let index = index"
+                        [title]="item.name"
+                        textColor="#222"
+                        hasMargin="true"
+                        headerColor="#f4f4f4">
+          <ion-list no-lines>
+            <button color="#8888" ion-item *ngFor="let i of product.ingredients">
+              {{i.name}}
+            </button>
+          </ion-list>
+        </accordion-list>
+        <accordion-list *ngFor="let item of itemsAdditionals; let index = index"
+                        [title]="item.name"
+                        textColor="#222"
+                        hasMargin="true"
+                        headerColor="#f4f4f4">
+          <ion-list no-lines>
+              <button color="#8888" ion-item *ngFor="let i of product.additionals">
+                {{i.name}}
+                <p>{{i.value | currency: 'BRL': true}}</p>
+              </button>
+          </ion-list>
+        </accordion-list>
     </ion-item>
   </ion-card>
   <ion-fab right bottom>

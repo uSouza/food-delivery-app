@@ -17,10 +17,21 @@ import { Order } from '../../models/order';
 export class OrderDetailPage {
 
   order: Order;
-  items = [];
-  additionals = [];
-  drinks = [];
-  additionalsProduct = [];
+  additional_price: any = 0;
+  drink_price: any = 0;
+  lunch_price: any = 0;
+
+  itemsIngredients = [
+    {
+      name: 'Ingredientes'
+    }
+  ];
+
+  itemsAdditionals = [
+    {
+      name: 'Adicionais e bebidas'
+    }
+  ];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams) {
@@ -28,32 +39,23 @@ export class OrderDetailPage {
   }
 
   ionViewDidLoad() {
-    if (this.order.products[0].additionals.length > 0) {
-      this.additionalsProduct = this.order.products[0].additionals;
-    }
-    this.additionalsProduct.forEach((add) => {
-      if (add.isDrink) {
-        this.drinks.push(add);
-      } else {
-        this.additionals.push(add);
-      }
-    });
+    console.log(this.order);
+    this.updateValues();
+  }
 
-    this.items = [
-      {
-        name: 'Ingredientes',
-        subItems: this.order.products[0].ingredients
-      },
-      {
-        name: 'Adicionais',
-        subItems: this.additionals
-      },
-      {
-        name: 'Bebidas',
-        subItems: this.drinks
+  updateValues() {
+    this.order.products.forEach((p) => {
+      this.lunch_price += parseFloat(p.price.price);
+      if (p.additionals.length > 0) {
+        p.additionals.forEach((add) => {
+          if (add.isDrink) {
+            this.drink_price += parseFloat(add.value);
+          } else {
+            this.additional_price += parseFloat(add.value);
+          }
+        })
       }
-    ];
-
+    })
   }
 
 }

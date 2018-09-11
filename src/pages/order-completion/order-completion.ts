@@ -68,6 +68,8 @@ export class OrderCompletionPage {
       this.restaurant.delivery_value = 0;
     }
 
+    console.log(this.products);
+
   }
 
   getClientLocations() {

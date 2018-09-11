@@ -6,6 +6,12 @@
 -->
 <ion-header>
   <ion-navbar color="fundo">
+      <ion-buttons end>
+          <button ion-button icon-only (click)='goToHome()'>
+            <ion-icon color='white' name='home'>
+            </ion-icon>
+          </button>
+      </ion-buttons>
     <ion-title>Conferência do pedido</ion-title>
   </ion-navbar>
 </ion-header>
@@ -17,7 +23,7 @@
             <strong>Restaurante: </strong> {{restaurant.fantasy_name}}
           </h2>
           <h2 style="margin-bottom: 10px">
-            <strong>Marmita: </strong> {{product.price.size}} - {{product.price.price | currency: 'BRL': true}}
+            <strong>{{product.menu.description}} </strong> {{product.price.size}} - {{product.price.price | currency: 'BRL': true}}
           </h2>
           <accordion-list *ngFor="let item of itemsIngredients; let index = index"
                           [title]="item.name"
@@ -38,15 +44,35 @@
           <ion-list no-lines>
             <button color="#8888" ion-item *ngFor="let add of product.additionals">
               {{add.name}}
-              <p>Quantidade: {{add.quantity}}</p>
-              <p>{{add.value | currency: 'BRL': true}}</p>
+              <p>Valor unitário: {{add.value | currency: 'BRL': true}}</p>
             </button>
           </ion-list>
         </accordion-list>
       </ion-item>
   </ion-card>
-  <button ion-button color="fundo" block (click)="addMorePackedLunch()">Adicionar marmita</button>
-  <ion-fab right bottom>
-      <button ion-button color="fundo" round (click)="goToOrderCompletionPage()">Finalizar pedido</button>
-  </ion-fab>
+  <ion-card>
+    <ion-item>
+      <h2 *ngIf="value > lunch_price">
+        <strong>Valor de adicional e bebida: </strong> {{value - lunch_price | currency: 'BRL': true}}
+      </h2>
+      <h2 *ngIf="lunch_price > 0">
+          <strong>Valor de marmita: </strong> {{lunch_price | currency: 'BRL': true}}
+        </h2>
+      <h2>
+        <strong>Valor total do pedido: </strong> {{value | currency: 'BRL': true}}
+      </h2>
+    </ion-item>
+    <ion-item>
+      <button padding ion-button color="fundo" block (click)="addMorePackedLunch()">Adicionar mais uma marmita</button>
+    </ion-item>
+  </ion-card>
+  <ion-footer-bar>
+      <ion-grid>
+          <ion-row padding no-margin>
+              <ion-col col-12 padding>
+                  <button ion-button color="fundo" full (click)="goToOrderCompletionPage()">Finalizar pedido</button>
+              </ion-col>
+          </ion-row>
+      </ion-grid>
+    </ion-footer-bar>
 </ion-content>
