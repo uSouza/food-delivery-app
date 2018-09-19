@@ -4,4 +4,5 @@ export class Ingredient {
   name: number;
   checked: boolean;
   additional: boolean;
+  additional_value: any;
 }

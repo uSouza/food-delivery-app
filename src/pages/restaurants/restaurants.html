@@ -22,7 +22,7 @@
     </ion-col> -->
   </ion-row>
 
-  <ion-card *ngFor="let restaurant of restaurants">
+  <ion-card *ngFor="let restaurant of restaurants" (click)="goToRestaurantMenuPage(restaurant)" >
       <ion-row>
         <ion-col col-6>
           <img src="{{restaurant.image_base64}}"/>
@@ -31,13 +31,18 @@
           <ion-card-title style="font-size: large">
               {{restaurant.fantasy_name}}
           </ion-card-title>
+            <p style="color: #00b300">
+              <b>Entrega: {{restaurant.delivery_value === null ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
+            </p>
             <p>
-              Realiza entregas
+              <ion-icon name="ios-time"></ion-icon> {{'2018-01-01 ' + restaurant.avg_delivery_time | date:'mm'}} minutos
             </p>
             <p>
               Abre às {{'2018-01-01 ' + restaurant.opening_time | date:'h:mm'}} <!-- gambis marota -->
             </p>
-            <button ion-button small color="fundo" (click)="goToRestaurantMenuPage(restaurant)">Ver o cardápio</button>
+            <ion-badge style="margin-left: 3px; margin-top: 2px" color="tag" col-5 *ngFor="let tag of restaurant.tags">
+              {{tag.name}}
+            </ion-badge>
         </ion-col>
       </ion-row>
     </ion-card>

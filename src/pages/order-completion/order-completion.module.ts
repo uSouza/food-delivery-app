@@ -5,8 +5,6 @@ import { AccordionListComponent } from '../../components/accordion-list/accordio
 
 @NgModule({
   declarations: [
-    OrderCompletionPage,
-    AccordionListComponent
   ],
   imports: [
     IonicPageModule.forChild(OrderCompletionPage),

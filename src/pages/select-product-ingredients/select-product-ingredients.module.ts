@@ -4,7 +4,6 @@ import { SelectProductIngredientsPage } from './select-product-ingredients';
 
 @NgModule({
   declarations: [
-    SelectProductIngredientsPage,
   ],
   imports: [
     IonicPageModule.forChild(SelectProductIngredientsPage),

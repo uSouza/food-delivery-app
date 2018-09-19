@@ -32,7 +32,7 @@
                           headerColor="#f4f4f4">
             <ion-list no-lines>
               <button color="#8888" ion-item *ngFor="let ingredient of product.ingredients">
-              {{ingredient.name}}
+                {{ingredient.name}}
               </button>
           </ion-list>
         </accordion-list>
@@ -44,6 +44,7 @@
           <ion-list no-lines>
             <button color="#8888" ion-item *ngFor="let add of product.additionals">
               {{add.name}}
+              <p>Quantidade: {{add.quantity}}</p>
               <p>Valor unitário: {{add.value | currency: 'BRL': true}}</p>
             </button>
           </ion-list>
@@ -56,8 +57,8 @@
         <strong>Valor de adicional e bebida: </strong> {{value - lunch_price | currency: 'BRL': true}}
       </h2>
       <h2 *ngIf="lunch_price > 0">
-          <strong>Valor de marmita: </strong> {{lunch_price | currency: 'BRL': true}}
-        </h2>
+        <strong>Valor de marmita: </strong> {{lunch_price | currency: 'BRL': true}}
+      </h2>
       <h2>
         <strong>Valor total do pedido: </strong> {{value | currency: 'BRL': true}}
       </h2>

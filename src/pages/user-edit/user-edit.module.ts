@@ -4,7 +4,6 @@ import { UserEditPage } from './user-edit';
 
 @NgModule({
   declarations: [
-    UserEditPage,
   ],
   imports: [
     IonicPageModule.forChild(UserEditPage),

@@ -5,8 +5,6 @@ import { PopoverRestaurantPage } from './popover-restaurant/popover-restaurant';
 
 @NgModule({
   declarations: [
-    RestaurantsPage,
-    PopoverRestaurantPage
   ],
   imports: [
     IonicPageModule.forChild(RestaurantsPage),

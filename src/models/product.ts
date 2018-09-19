@@ -1,5 +1,4 @@
 import { Ingredient } from "./ingredient";
-import { AdditionalRestaurant } from "./additional-restaurant";
 
 export class Product {
   id: number;

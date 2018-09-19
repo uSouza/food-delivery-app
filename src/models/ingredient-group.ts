@@ -5,5 +5,7 @@ export class IngredientGroup {
   name: number;
   number_options: string;
   ingredients: Ingredient[];
-  additional_value: any;
+  value: any;
+  company_id: number;
+  has_additional: boolean;
 }

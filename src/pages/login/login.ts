@@ -18,6 +18,9 @@ import { RestaurantsPage } from '../restaurants/restaurants';
 import { UserEditPage } from '../user-edit/user-edit';
 import { Product } from '../../models/product';
 import { PreOrderCompletionPage } from '../pre-order-completion/pre-order-completion';
+import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
+import { oneSignalAppId, sender_id } from '../../config';
+import { isCordovaAvailable } from '../../common/is-cordova-available';
 
 
 @IonicPage()
@@ -44,6 +47,7 @@ export class LoginPage {
               public authenticationService: AuthenticationProvider,
               private userService: UsersProvider,
               public toastCtrl: ToastController,
+              private oneSignal: OneSignal,
               public loadingCtrl: LoadingController,
               private storage: Storage) {
     if (navParams.data.page == 'additionalsPage') {
@@ -109,6 +113,17 @@ export class LoginPage {
     this.storage.set('token', clientAuthorization.access_token);
     this.storage.set('username', user.name);
     this.storage.set('email', user.email);
+    if (isCordovaAvailable()){
+      console.log('Registrando one signal...');
+      this.oneSignal.startInit(oneSignalAppId, sender_id);
+      this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
+      this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
+      this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
+      this.oneSignal.endInit();
+      this.oneSignal.getIds().then(res => {
+        this.getAccessToken(res);
+      });
+    }
     if (this.page == 'additionalsPage') {
       this.goToOrderCompletion(user, clientAuthorization);
     }
@@ -118,6 +133,32 @@ export class LoginPage {
     else {
       this.goToMyOrdersPage(user, clientAuthorization);
     }
+  }
+
+  private getAccessToken(userOneSignal: any) {
+    this.storage.get('token').then((val) => {
+      if(val != null) {
+        this.setOneSignalId(val, userOneSignal.userId);
+      }
+    });
+  }
+
+  private setOneSignalId(access_token: any, user_id: any) {
+    this.userService
+    .setOneSignalId(access_token, user_id)
+    .subscribe(
+      user => {
+        console.log(user)
+      }
+    )
+  }
+
+  private onPushReceived(payload: OSNotificationPayload) {
+    console.log('Push recevied:' + payload.body);
+  }
+
+  private onPushOpened(payload: OSNotificationPayload) {
+    console.log('Push opened: ' + payload.body);
   }
 
   goToOrderCompletion(user: UserPandeco, clientAuthorization: Authorization) {

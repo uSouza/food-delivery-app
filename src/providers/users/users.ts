@@ -35,6 +35,19 @@ export class UsersProvider {
     });
   }
 
+  setOneSignalId(access_token: any, player_id: any) {
+    let data = {
+      player_id: player_id
+    };
+    return this.http.post<any>(this.url_api + this.endpoint + '/one_signal', data, {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + access_token,
+        'Content-Type': 'application/json'
+      }
+    });
+  }
+
   findUserByEmail(authorization: Authorization, email: string) {
     return this.http.get<UserPandeco>(this.url_api + this.endpoint + '/' + email,
       {headers: {

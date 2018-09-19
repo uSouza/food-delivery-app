@@ -1,5 +1,4 @@
 import { Product } from "./product";
-import { AdditionalRestaurant } from "./additional-restaurant";
 
 export class Order {
   price: number;

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import { Restaurant } from "../../models/restaurant";
 import {Authorization} from "../../models/authorization";
-import {AdditionalRestaurant} from "../../models/additional-restaurant";
 
 @Injectable()
 export class RestaurantsProvider {

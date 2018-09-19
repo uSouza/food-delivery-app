@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="br.com.pandeco.pandeco_app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Pandeco</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="uesley@pandeco.com.br" href="https://www.pandeco.com.br/">Ionic Framework Team</author>
+    <name>Pandeco Delivery de Marmitas</name>
+    <description />
+    <author email="uesley@pandeco.com.br" href="https://www.pandeco.com.br/">Pandeco Delivery Team</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -100,4 +100,6 @@
     <plugin name="cordova-universal-links-plugin" spec="^1.2.1" />
     <plugin name="cordova-sqlite-storage" spec="^2.4.0" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
+    <plugin name="onesignal-cordova-plugin" spec="^2.4.3" />
+    <engine name="android" spec="7.0.0" />
 </widget>

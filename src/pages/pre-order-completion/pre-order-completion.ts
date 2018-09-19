@@ -10,7 +10,6 @@ import { Price } from '../../models/price';
 import { UserPandeco } from '../../models/user-pandeco';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { ProductsProvider } from '../../providers/products/products';
-import { SelectProductSizePage } from '../select-product-size/select-product-size';
 import { OrderCompletionPage } from '../order-completion/order-completion';
 import { RestaurantMenuPage } from '../restaurant-menu/restaurant-menu';
 import { RestaurantsPage } from '../restaurants/restaurants';
@@ -100,11 +99,12 @@ export class PreOrderCompletionPage {
     product.additionals = additionalsProducts;
     this.showLoading(2000);
     this.productService.addProduct(this.clientAuthorization, product)
-      .subscribe(p => this.showProducts(p, additionalsProducts));
+      .subscribe(p => this.showProducts(p));
   }
 
-  showProducts(product: Product, additionalsProducts: AdditionalProduct[]) {
+  showProducts(product: Product) {
     product.additionals = this.selected_additionals;
+    product.ingredients = this.ingredients;
     this.products.push(product);
     this.updateValue();
   }

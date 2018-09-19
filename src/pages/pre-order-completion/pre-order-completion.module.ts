@@ -4,7 +4,6 @@ import { PreOrderCompletionPage } from './pre-order-completion';
 
 @NgModule({
   declarations: [
-    PreOrderCompletionPage,
   ],
   imports: [
     IonicPageModule.forChild(PreOrderCompletionPage),

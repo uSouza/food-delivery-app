@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { OneSignal } from '@ionic-native/onesignal';
 
 import { MyApp } from './app.component';
 import { RestaurantsPage } from '../pages/restaurants/restaurants';
@@ -99,7 +100,8 @@ import {DatePipe} from '@angular/common';
     LocationsProvider,
     SQLite,
     OrdersProvider,
-    DatePipe
+    DatePipe,
+    OneSignal
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

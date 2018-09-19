@@ -57,7 +57,6 @@ export class OrderCompletionPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.navParams.data);
     this.getClientLocations();
 
     if (this.restaurant.delivery_value != null) {
@@ -67,8 +66,6 @@ export class OrderCompletionPage {
     if (this.restaurant.delivery_value == null) {
       this.restaurant.delivery_value = 0;
     }
-
-    console.log(this.products);
 
   }
 

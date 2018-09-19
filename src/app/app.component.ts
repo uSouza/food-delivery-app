@@ -8,6 +8,13 @@ import { LoginPage } from "../pages/login/login";
 import { MyOrdersPage } from "../pages/my-orders/my-orders";
 import { UserEditPage } from "../pages/user-edit/user-edit";
 
+import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
+import { isCordovaAvailable } from '../common/is-cordova-available';
+import { oneSignalAppId, sender_id } from '../config';
+import { UsersProvider } from '../providers/users/users';
+
+import { Storage } from '@ionic/storage';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -20,7 +27,10 @@ export class MyApp {
 
   constructor(public platform: Platform,
               public statusBar: StatusBar,
-              public splashScreen: SplashScreen) {
+              public splashScreen: SplashScreen,
+              private oneSignal: OneSignal,
+              private storage: Storage,
+              private userService: UsersProvider) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -36,9 +46,48 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
+      if (isCordovaAvailable()){
+        console.log('Registrando one signal...');
+        this.oneSignal.startInit(oneSignalAppId, sender_id);
+        this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
+        this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
+        this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
+        this.oneSignal.endInit();
+        this.oneSignal.getIds().then(res => {
+          this.getAccessToken(res);
+        });
+      }
       this.splashScreen.hide();
     });
   }
+
+  private onPushReceived(payload: OSNotificationPayload) {
+    console.log('Push recevied:' + payload.body);
+  }
+
+  private onPushOpened(payload: OSNotificationPayload) {
+    console.log('Push opened: ' + payload.body);
+  }
+
+  private getAccessToken(userOneSignal: any) {
+    this.storage.get('token').then((val) => {
+      if(val != null) {
+        this.setOneSignalId(val, userOneSignal.userId);
+      }
+    });
+  }
+
+  private setOneSignalId(access_token: any, user_id: any) {
+    this.userService
+    .setOneSignalId(access_token, user_id)
+    .subscribe(
+      user => {
+        console.log(user)
+      }
+    )
+  }
+
+
 
   openPage(page) {
     // Reset the content nav to have just this page

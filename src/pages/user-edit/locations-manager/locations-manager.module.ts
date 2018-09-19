@@ -4,7 +4,6 @@ import { LocationsManagerPage } from './locations-manager';
 
 @NgModule({
   declarations: [
-    LocationsManagerPage,
   ],
   imports: [
     IonicPageModule.forChild(LocationsManagerPage),

@@ -8,17 +8,10 @@ import {IngredientGroup} from "../../models/ingredient-group";
 import {IngredientsProvider} from "../../providers/ingredients/ingredients";
 import {Restaurant} from "../../models/restaurant";
 import { RestaurantsPage } from '../restaurants/restaurants';
-import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { AdditionalsPage } from '../additionals/additionals';
 import { Price } from '../../models/price';
 import { Product } from '../../models/product';
 
-/**
- * Generated class for the SelectProductIngredientsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -53,8 +46,6 @@ export class SelectProductIngredientsPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.value);
-    console.log(this.navParams.data);
     this.getIngredients();
   }
 
@@ -76,40 +67,25 @@ export class SelectProductIngredientsPage {
   onCheckIngredient(ingredient_group: IngredientGroup, ingredient: Ingredient, event) {
 
     if (event.checked) {
-      if (parseInt(ingredient_group.number_options) > 0) {
-        ingredient_group.number_options = (parseInt(ingredient_group.number_options) - 1).toString();
-      }
-      else {
+      if (parseInt(ingredient_group.number_options) <= 0) {
         const confirm = this.alertCtrl.create({
           title: 'Item adicional identificado',
-          message: 'Será cobrado o valor de R$' + ingredient_group.additional_value + ' pelo(a) ' + ingredient.name + '. Deseja confirmar a inclusão?',
+          message: 'Esse item não poderá ser selecionado neste momento, verifique se o mesmo está disponível como adicional na próxima etapa.',
           buttons: [
             {
-              text: 'Não',
+              text: 'Ok',
               handler: () => {
                 event.checked = false;
-              }
-            },
-            {
-              text: 'Sim',
-              handler: () => {
-                event.checked = true;
-                this.value += parseFloat(ingredient_group.additional_value);
-                ingredient.additional = true;
               }
             }
           ],
           enableBackdropDismiss: false
         });
-        ingredient_group.number_options = "-1";
         confirm.present();
       }
+      ingredient_group.number_options = (parseInt(ingredient_group.number_options) - 1).toString();
     } else {
       ingredient_group.number_options = (parseInt(ingredient_group.number_options) + 1).toString();
-      if (ingredient.additional) {
-        this.value -= parseFloat(ingredient_group.additional_value);
-        ingredient.additional = false;
-      }
     }
 
   }

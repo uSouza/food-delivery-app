@@ -14,6 +14,9 @@ import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { Client } from '../../models/client';
 import { Storage } from '@ionic/storage';
 import { Price } from '../../models/price';
+import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
+import { oneSignalAppId, sender_id } from '../../config';
+import { isCordovaAvailable } from '../../common/is-cordova-available';
 
 /**
  * Generated class for the RegisterPage page.
@@ -51,6 +54,7 @@ export class RegisterPage {
               private userService: UsersProvider,
               public toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
+              private oneSignal: OneSignal,
               private storage: Storage) {
     this.authorization = navParams.data.authorization;
     this.user = new UserPandeco();
@@ -131,6 +135,17 @@ export class RegisterPage {
     this.storage.set('token', clientAuthorization.access_token);
     this.storage.set('username', user.name);
     this.storage.set('email', user.email);
+    if (isCordovaAvailable()){
+      console.log('Registrando one signal...');
+      this.oneSignal.startInit(oneSignalAppId, sender_id);
+      this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
+      this.oneSignal.handleNotificationReceived().subscribe(data => this.onPushReceived(data.payload));
+      this.oneSignal.handleNotificationOpened().subscribe(data => this.onPushOpened(data.notification.payload));
+      this.oneSignal.endInit();
+      this.oneSignal.getIds().then(res => {
+        this.getAccessToken(res);
+      });
+    }
     this.navCtrl.push(LocationsPage, {
       client: client,
       clientAuthorization: clientAuthorization,
@@ -145,6 +160,32 @@ export class RegisterPage {
       user: user,
       products: this.products
     })
+  }
+
+  private getAccessToken(userOneSignal: any) {
+    this.storage.get('token').then((val) => {
+      if(val != null) {
+        this.setOneSignalId(val, userOneSignal.userId);
+      }
+    });
+  }
+
+  private setOneSignalId(access_token: any, user_id: any) {
+    this.userService
+    .setOneSignalId(access_token, user_id)
+    .subscribe(
+      user => {
+        console.log(user)
+      }
+    )
+  }
+
+  private onPushReceived(payload: OSNotificationPayload) {
+    console.log('Push recevied:' + payload.body);
+  }
+
+  private onPushOpened(payload: OSNotificationPayload) {
+    console.log('Push opened: ' + payload.body);
   }
 
 }

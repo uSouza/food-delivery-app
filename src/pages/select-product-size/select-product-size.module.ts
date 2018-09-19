@@ -4,7 +4,6 @@ import { SelectProductSizePage } from './select-product-size';
 
 @NgModule({
   declarations: [
-    SelectProductSizePage,
   ],
   imports: [
     IonicPageModule.forChild(SelectProductSizePage),

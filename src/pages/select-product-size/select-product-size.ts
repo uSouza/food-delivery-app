@@ -13,13 +13,6 @@ import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { SelectProductIngredientsPage } from '../select-product-ingredients/select-product-ingredients';
 import { RestaurantsPage } from '../restaurants/restaurants';
 
-/**
- * Generated class for the SelectProductSizePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-select-product-size',
