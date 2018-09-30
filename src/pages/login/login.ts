@@ -8,7 +8,6 @@ import { Observable } from 'rxjs/Observable';
 import { UserPandeco } from '../../models/user-pandeco';
 import { UsersProvider } from "../../providers/users/users";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
-import { OrderCompletionPage } from "../order-completion/order-completion";
 import { RegisterPage } from '../register/register';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { Storage } from '@ionic/storage';

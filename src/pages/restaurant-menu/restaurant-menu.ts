@@ -17,7 +17,7 @@ import { RestaurantsPage } from '../restaurants/restaurants';
 })
 export class RestaurantMenuPage {
 
-  menus: Menu[];
+  menus: Menu[] = [];
   authorization: Authorization;
   restaurant: Restaurant;
   minPrice: number;

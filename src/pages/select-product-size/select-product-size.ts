@@ -2,14 +2,11 @@ import { Component } from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, LoadingController, ToastController} from 'ionic-angular';
 import {Restaurant} from "../../models/restaurant";
 import {Menu} from "../../models/menu";
-import {Ingredient} from "../../models/ingredient";
 import {Price} from "../../models/price";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
 import {Authorization} from "../../models/authorization";
 import {Product} from "../../models/product";
 import {ProductsProvider} from "../../providers/products/products";
-import { AdditionalsPage } from '../additionals/additionals';
-import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { SelectProductIngredientsPage } from '../select-product-ingredients/select-product-ingredients';
 import { RestaurantsPage } from '../restaurants/restaurants';
 

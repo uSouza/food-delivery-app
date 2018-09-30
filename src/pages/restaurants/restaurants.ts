@@ -41,6 +41,9 @@ export class RestaurantsPage {
       .subscribe(
         authorization => {
           this.setAuthorization(authorization)
+        },
+        err => {
+          this.exitApp()
         }
       );
       this.storage.get('token').then((val) => {
@@ -48,6 +51,22 @@ export class RestaurantsPage {
           this.logged = true;
         }
       });
+  }
+
+  exitApp() {
+    const confirm = this.alertCtrl.create({
+      title: 'Falha com a conexão com a internet',
+      message: 'Verifique a conexão com a internet!',
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.platform.exitApp();
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
   setAuthorization(authorization: Authorization) {

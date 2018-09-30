@@ -1,59 +1,55 @@
 <ion-header>
-
   <ion-navbar color="fundo">
-      <ion-buttons end>
-          <button ion-button icon-only (click)='goToHome()'>
-            <ion-icon color='white' name='home'>
-            </ion-icon>
-          </button>
-      </ion-buttons>
-    <ion-title>Cardápio</ion-title>
+     <ion-buttons end>
+        <button ion-button icon-only (click)='goToHome()'>
+           <ion-icon color='white' name='home'>
+           </ion-icon>
+        </button>
+     </ion-buttons>
+     <ion-title>Cardápio</ion-title>
   </ion-navbar>
-
 </ion-header>
-
 <ion-content color="fundo" class="cards-bg">
-
   <ion-card>
-    <ion-row>
-      <ion-col col-4>
-        <img src="{{restaurant.image_base64}}"/>
-      </ion-col>
-      <ion-col col-8>
-        <ion-card-content>
-          <ion-card-title style="font-size: medium">
-            {{restaurant.fantasy_name}}
-          </ion-card-title>
-          <p style="font-size: smaller">
-            {{restaurant.observation}}
-          </p>
-          <p style="font-size: smaller; color: #00b300">
-            <b>Entrega: {{restaurant.delivery_value === null ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
-          </p>
-          <ion-badge style="margin-left: 3px; margin-top: 2px" color="tag" col-5 *ngFor="let tag of restaurant.tags">
-            {{tag.name}}
-          </ion-badge>
-        </ion-card-content>
-      </ion-col>
-    </ion-row>
+     <ion-row>
+        <ion-col col-4>
+           <img src="{{restaurant.image_base64}}"/>
+        </ion-col>
+        <ion-col col-8>
+           <ion-card-content>
+              <ion-card-title style="font-size: medium">
+                 {{restaurant.fantasy_name}}
+              </ion-card-title>
+              <p style="font-size: smaller">
+                 {{restaurant.observation}}
+              </p>
+              <p style="font-size: smaller; color: #00b300">
+                 <b>Entrega: {{restaurant.delivery_value === null ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
+              </p>
+              <ion-badge style="margin-left: 3px; margin-top: 2px" color="tag" col-5 *ngFor="let tag of restaurant.tags">
+                 {{tag.name}}
+              </ion-badge>
+           </ion-card-content>
+        </ion-col>
+     </ion-row>
   </ion-card>
-
   <ion-card>
-    <ion-card-header>
-      <h2><strong>Marmitas</strong></h2>
-    </ion-card-header>
-    <ion-item>
-      <accordion-list *ngFor="let item of items; let index = index"
-                      [title]="item.date"
-                      textColor="#222"
-                      hasMargin="true"
-                      headerColor="#f4f4f4">
+     <ion-card-header>
+        <h2><strong>Marmitas</strong></h2>
+     </ion-card-header>
+     <ion-item>
+        <accordion-list *ngFor="let item of items; let index = index"
+        [title]="item.date"
+        textColor="#222"
+        hasMargin="true"
+        headerColor="#f4f4f4">
         <ion-list no-lines>
-            <button color="#8888" ion-item *ngFor="let menu of item.menus" (click)="goToProductSizePage(menu)">
-                {{menu.description}} <p style="font-size: smaller; color: #00b300"><b>A partir de {{menu.min_price | currency: 'BRL': true}}</b></p>
-            </button>
+           <button color="#8888" ion-item *ngFor="let menu of item.menus" (click)="goToProductSizePage(menu)">
+           {{menu.description}}
+           <p style="font-size: smaller; color: #00b300"><b>A partir de {{menu.min_price | currency: 'BRL': true}}</b></p>
+           </button>
         </ion-list>
-  </accordion-list>
-</ion-item>
+        </accordion-list>
+     </ion-item>
   </ion-card>
 </ion-content>

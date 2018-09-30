@@ -5,7 +5,6 @@ import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
 import { Product } from '../../models/product';
 import { Authorization } from '../../models/authorization';
-import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { LoginPage } from '../login/login';
 import { Storage } from '@ionic/storage';
@@ -46,7 +45,6 @@ export class AdditionalsPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              private restauranteService: RestaurantsProvider,
               private storage: Storage,
               private userService: UsersProvider,
               public loadingCtrl: LoadingController,
