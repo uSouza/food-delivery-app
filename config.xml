@@ -101,5 +101,10 @@
     <plugin name="cordova-sqlite-storage" spec="^2.4.0" />
     <plugin name="cordova-plugin-splashscreen" spec="^5.0.2" />
     <plugin name="onesignal-cordova-plugin" spec="^2.4.3" />
+    <plugin name="cordova-plugin-facebook4" spec="^3.0.0">
+        <variable name="APP_ID" value="711273295875885" />
+        <variable name="APP_NAME" value="pandeco" />
+        <variable name="FACEBOOK_ANDROID_SDK_VERSION" value="4.36.0" />
+    </plugin>
     <engine name="android" spec="7.0.0" />
 </widget>

@@ -21,6 +21,7 @@
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
     "@ionic-native/core": "~4.10.0",
+    "@ionic-native/facebook": "^4.15.0",
     "@ionic-native/onesignal": "^4.14.0",
     "@ionic-native/splash-screen": "~4.10.0",
     "@ionic-native/sqlite": "^4.12.0",
@@ -33,6 +34,7 @@
     "cordova-plugin-compat": "^1.2.0",
     "cordova-plugin-customurlscheme": "^4.3.0",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-facebook4": "^3.0.0",
     "cordova-plugin-inappbrowser": "^3.0.0",
     "cordova-plugin-ionic-keyboard": "^2.1.2",
     "cordova-plugin-ionic-webview": "^2.0.3",
@@ -71,7 +73,12 @@
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-ionic-keyboard": {},
       "cordova-sqlite-storage": {},
-      "onesignal-cordova-plugin": {}
+      "onesignal-cordova-plugin": {},
+      "cordova-plugin-facebook4": {
+        "APP_ID": "711273295875885",
+        "APP_NAME": "pandeco",
+        "FACEBOOK_ANDROID_SDK_VERSION": "4.36.0"
+      }
     },
     "platforms": [
       "android"

@@ -130,20 +130,22 @@ export class RestaurantMenuPage {
     fourDays.setDate(fourDays.getDate() + 4);
 
     menus.forEach((menu) => {
-      if (menu.date == this.datepipe.transform(today, 'yyyy-MM-dd')) {
-        todayMenus.push(menu);
-      }
-      else if (menu.date == this.datepipe.transform(tomorrow, 'yyyy-MM-dd')) {
-        oneMenus.push(menu);
-      }
-      else if (menu.date == this.datepipe.transform(twoDays, 'yyyy-MM-dd')) {
-        twoMenus.push(menu);
-      }
-      else if (menu.date == this.datepipe.transform(threeDays, 'yyyy-MM-dd')) {
-        threeMenus.push(menu);
-      }
-      else if (menu.date == this.datepipe.transform(fourDays, 'yyyy-MM-dd')) {
-        fourMenus.push(menu);
+      if (menu.deleted_at == null) {
+        if (menu.date == this.datepipe.transform(today, 'yyyy-MM-dd')) {
+          todayMenus.push(menu);
+        }
+        else if (menu.date == this.datepipe.transform(tomorrow, 'yyyy-MM-dd')) {
+          oneMenus.push(menu);
+        }
+        else if (menu.date == this.datepipe.transform(twoDays, 'yyyy-MM-dd')) {
+          twoMenus.push(menu);
+        }
+        else if (menu.date == this.datepipe.transform(threeDays, 'yyyy-MM-dd')) {
+          threeMenus.push(menu);
+        }
+        else if (menu.date == this.datepipe.transform(fourDays, 'yyyy-MM-dd')) {
+          fourMenus.push(menu);
+        }
       }
     });
 

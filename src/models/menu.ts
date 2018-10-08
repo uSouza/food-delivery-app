@@ -11,4 +11,5 @@ export class Menu {
   observation: string;
   url: string;
   image_base64: string;
+  deleted_at: string;
 }

@@ -38,6 +38,7 @@ import { BrMaskerModule } from 'brmasker-ionic-3';
 import { AccordionListComponent } from '../components/accordion-list/accordion-list';
 import { OrdersProvider } from '../providers/orders/orders';
 import {DatePipe} from '@angular/common';
+import { Facebook } from '@ionic-native/facebook';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import {DatePipe} from '@angular/common';
     SQLite,
     OrdersProvider,
     DatePipe,
+    Facebook,
     OneSignal
   ],
   schemas: [
