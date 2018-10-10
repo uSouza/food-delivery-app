@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, LoadingController, ToastController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {Restaurant} from "../../models/restaurant";
 import {Menu} from "../../models/menu";
 import {Price} from "../../models/price";
@@ -30,7 +30,6 @@ export class SelectProductSizePage {
               public authenticationService: AuthenticationProvider,
               public productService: ProductsProvider,
               public alertCtrl: AlertController,
-              public loadingCtrl: LoadingController,
               public toastCtrl: ToastController) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
@@ -46,14 +45,6 @@ export class SelectProductSizePage {
     }
   }
 
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: 2000
-    });
-    loader.present();
-  }
-
   updateValue(price: Price) {
     this.value = parseFloat(price.price);
     this.selected_price = price;
@@ -61,7 +52,6 @@ export class SelectProductSizePage {
 
   goToSelectIngredientsPage() {
     if (this.selected_price != null) {
-      this.showLoading();
       this.navCtrl.push(SelectProductIngredientsPage, {
         menu: this.menu,
         restaurant: this.restaurant,

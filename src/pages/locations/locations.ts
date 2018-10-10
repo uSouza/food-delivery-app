@@ -37,6 +37,9 @@ export class LocationsPage {
   page: string;
   user: UserPandeco;
   products: Product[] = [];
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -61,15 +64,8 @@ export class LocationsPage {
     console.log(this.navParams.data);
   }
 
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: 1500
-    });
-    loader.present();
-  }
-
   addLocation(location: Location) {
+    this.loader.dismiss();
     this.locations.push(location);
     this.location.address = '';
     this.location.number = '';
@@ -93,7 +89,7 @@ export class LocationsPage {
       });
       toast.present(toast);
     } else {
-      this.showLoading();
+      this.loader.present();
       this.locationsService
         .addLocation(this.clientAuthorization, this.location)
         .subscribe(

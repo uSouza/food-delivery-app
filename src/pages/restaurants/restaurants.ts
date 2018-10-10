@@ -22,6 +22,9 @@ export class RestaurantsPage {
   authorizationService: Observable<Authorization>;
   authorization: Authorization;
   logged: boolean = false;
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -74,19 +77,16 @@ export class RestaurantsPage {
     this.getRestaurants();
   }
 
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: 2000
-    });
-    loader.present();
+  getRestaurants() {
+    this.loader.present();
+    this.restaurantService.getRestaurants(this.authorization).subscribe(
+        restaurants => this.setRestaurants(restaurants)
+    );
   }
 
-  getRestaurants() {
-    this.restaurantService.getRestaurants(this.authorization).subscribe(
-        restaurants => this.restaurants = restaurants
-    );
-    this.showLoading();
+  setRestaurants(restaurants) {
+    this.loader.dismiss();
+    this.restaurants = restaurants;
   }
 
   getRestaurantsByName(ev) {
@@ -103,7 +103,6 @@ export class RestaurantsPage {
   }
 
   goToRestaurantMenuPage(restaurant: Restaurant) {
-    this.showLoading();
     this.navCtrl.push(RestaurantMenuPage, {restaurant: restaurant, authorization: this.authorization});
   }
 

@@ -26,6 +26,9 @@ export class MyOrdersPage {
   outstanding: Order[] = [];
   confirmed: Order[] = [];
   items = [];
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -60,7 +63,7 @@ export class MyOrdersPage {
   }
 
   getUser(val: any) {
-    this.showLoading();
+    this.loader.present();
     this.userService.getUser(val)
     .subscribe(
       userPandeco => {
@@ -73,7 +76,7 @@ export class MyOrdersPage {
   }
 
   getOrders(user: UserPandeco, val: any) {
-    this.showLoading();
+    this.loader.present();
     this.orderService.getOrders(val, user.client.id)
       .subscribe(
         orders => {
@@ -83,7 +86,7 @@ export class MyOrdersPage {
   }
 
   setOrders(orders: Order[]) {
-
+    this.loader.dismiss();
     if (orders.length <= 0) {
       const alert = this.alertCtrl.create({
         title: 'Não possui pedidos',
@@ -121,19 +124,12 @@ export class MyOrdersPage {
   }
 
   goToLoginPage() {
+    this.loader.dismiss();
     this.navCtrl.setRoot(LoginPage, {page:'myOrdersPage', authorization: this.authorization});
   }
 
   goToHome() {
     this.navCtrl.setRoot(RestaurantsPage);
-  }
-
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: 4000
-    });
-    loader.present();
   }
 
   goToOrderDetailPage(order: Order) {

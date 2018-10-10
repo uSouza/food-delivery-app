@@ -36,6 +36,9 @@ export class PreOrderCompletionPage {
   drinks: AdditionalRestaurant[] = [];
   products: Product[] = [];
   lunch_price: any = 0;
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   itemsIngredients = [
     {
@@ -97,12 +100,13 @@ export class PreOrderCompletionPage {
     product.description = 'Pedido ' + ' - ' + this.user.name;
     product.price_id = this.selected_price.id;
     product.additionals = additionalsProducts;
-    this.showLoading(2000);
+    this.loader.present();
     this.productService.addProduct(this.clientAuthorization, product)
       .subscribe(p => this.showProducts(p));
   }
 
   showProducts(product: Product) {
+    this.loader.dismiss();
     product.additionals = this.selected_additionals;
     product.ingredients = this.ingredients;
     this.products.push(product);
@@ -113,14 +117,6 @@ export class PreOrderCompletionPage {
     this.products.forEach((p) => {
       this.lunch_price += parseFloat(p.price.price);
     });
-  }
-
-  showLoading(duration: number) {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: duration
-    });
-    loader.present();
   }
 
   addMorePackedLunch() {

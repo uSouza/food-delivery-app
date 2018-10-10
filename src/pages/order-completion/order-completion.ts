@@ -37,6 +37,9 @@ export class OrderCompletionPage {
   observation_order: string;
   order: Order;
   change_remarks: string;
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -70,7 +73,6 @@ export class OrderCompletionPage {
   }
 
   getClientLocations() {
-    this.showLoading(1500);
     this.locationService
       .getLocations(this.clientAuthorization)
       .subscribe(
@@ -78,20 +80,17 @@ export class OrderCompletionPage {
       )
   }
 
+  setLocations(locations) {
+    this.locations = locations;
+  }
+
   orderSave() {
 
     if (this.validate()) {
+      this.loader.present();
       this.addOrder();
     }
 
-  }
-
-  showLoading(duration: number) {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: duration
-    });
-    loader.present();
   }
 
   validate(): boolean {
@@ -184,21 +183,19 @@ export class OrderCompletionPage {
     } else {
       order.status_id = 3;
     }
-
-    this.showLoading(1500);
-
     this.orderService.addOrder(this.clientAuthorization, order)
       .subscribe(
         order => {
           this.successOrder();
         },
         err => {
-          console.log(err);
+          this.loader.dismiss();
         }
       );
   }
 
   successOrder() {
+    this.loader.dismiss();
     const confirm = this.alertCtrl.create({
       title: 'Pedido realizado com sucesso!',
       subTitle: 'Seu pedido foi recebido e logo será processado pelo restaurante, aguarde o aviso de confirmação pelos nossos meios de contato.',

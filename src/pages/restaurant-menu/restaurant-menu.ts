@@ -25,6 +25,9 @@ export class RestaurantMenuPage {
   date: any = null;
   valueOrder: any;
   products: Product[] = [];
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -57,6 +60,7 @@ export class RestaurantMenuPage {
   }
 
   getMenusByRestaurant() {
+    this.loader.present();
     this.menuService.getMenuByRestaurant(this.authorization, this.restaurant).subscribe(
         menus => this.verifyMenus(menus)
     );
@@ -73,22 +77,13 @@ export class RestaurantMenuPage {
     });
   }
 
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: 2000
-    });
-    loader.present();
-  }
-
   verifyMenus(menus: Menu[]) {
-
+    this.loader.dismiss();
     if (this.date == null) {
       this.prepareAllMenus(menus);
     } else {
       this.prepareMenusFromDate(menus);
     }
-
   }
 
   prepareMenusFromDate(menus: Menu[]) {

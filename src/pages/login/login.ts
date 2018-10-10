@@ -21,6 +21,7 @@ import { OneSignal, OSNotificationPayload } from '@ionic-native/onesignal';
 import { oneSignalAppId, sender_id } from '../../config';
 import { isCordovaAvailable } from '../../common/is-cordova-available';
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
+import { ClientsProvider } from '../../providers/clients/clients';
 
 
 @IonicPage()
@@ -40,7 +41,11 @@ export class LoginPage {
   user: UserPandeco = new UserPandeco();
   selected_additionals?: AdditionalRestaurant[];
   page: string = null;
+  is_facebook: boolean = false;
   products: Product[] = [];
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -49,6 +54,7 @@ export class LoginPage {
               public toastCtrl: ToastController,
               private oneSignal: OneSignal,
               public loadingCtrl: LoadingController,
+              public clientService: ClientsProvider,
               private storage: Storage,
               private facebook: Facebook) {
     if (navParams.data.page == 'additionalsPage') {
@@ -68,27 +74,29 @@ export class LoginPage {
     console.log(this.navParams.data);
   }
 
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Autenticando...",
-      duration: 2000
-    });
-    loader.present();
-  }
-
   failed() {
-    let toast = this.toastCtrl.create({
-      message: 'Dados incorretos. Tente novamente!',
-      duration: 2000,
-      position: 'bottom'
-    });
-    toast.present(toast);
-    this.user.email = '';
-    this.user.password = '';
+    if (this.is_facebook == true) {
+      this.registerFacebookUser();
+    } else {
+      this.loader.dismiss();
+      let toast = this.toastCtrl.create({
+        message: 'Dados incorretos. Tente novamente!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+      this.user.email = '';
+      this.user.password = '';
+    }
   }
 
-  login() {
-    this.showLoading();
+  login(user) {
+    if (this.is_facebook) {
+      this.user.email = user.email;
+      this.user.name = user.name;
+      this.user.password = user.id;
+    }
+    this.loader.present();
     this.userService
         .findUserByEmail(this.authorization, this.user.email)
         .subscribe(
@@ -111,6 +119,7 @@ export class LoginPage {
   }
 
   goToNextPage(user: UserPandeco, clientAuthorization: Authorization) {
+    this.loader.dismiss();
     this.storage.set('token', clientAuthorization.access_token);
     this.storage.set('username', user.name);
     this.storage.set('email', user.email);
@@ -211,6 +220,7 @@ export class LoginPage {
   }
 
   facebookLogin() {
+    this.is_facebook = true;
     this.facebook.login(['public_profile', 'email'])
     .then(
       res => {
@@ -219,7 +229,7 @@ export class LoginPage {
             .api("/me?fields=name,email", params)
             .then(
               res => {
-                this.verifyFacebookLogin(res)
+                this.login(res);
               },
               err => {
                 console.log(err)
@@ -230,45 +240,17 @@ export class LoginPage {
     .catch(e => console.log('Error logging into Facebook', e));
   }
 
-  verifyFacebookLogin(user) {
-    console.log('verify', user);
-    this.user.email = user.email;
-    this.user.name = user.name;
-    this.user.password = user.id;
-    this.showLoading();
+  registerFacebookUser() {
+    this.is_facebook = false;
     this.userService
-        .findUserByEmail(this.authorization, user.email)
+        .addUser(this.authorization, this.user.email, this.user.name, this.user.password)
         .subscribe(
           userPandeco => {
             this.authenticationService
               .getClientBearer(this.user)
               .subscribe(
                 clientAuthorization => {
-                  this.goToNextPage(userPandeco, clientAuthorization);
-                },
-                err => {
-                  this.registerFacebookUser(user);
-                }
-              )
-          },
-          err => {
-            this.registerFacebookUser(user);
-          }
-        );
-  }
-
-  registerFacebookUser(user) {
-    console.log('register', user);
-    this.showLoading();
-    this.userService
-        .addUser(this.authorization, user.email, user.name, user.id)
-        .subscribe(
-          userPandeco => {
-            this.authenticationService
-              .getClientBearer(this.user)
-              .subscribe(
-                clientAuthorization => {
-                  this.goToNextPage(userPandeco, clientAuthorization);
+                  this.addFacebookClient(clientAuthorization, userPandeco)
                 },
                 err => {
                   this.failed();
@@ -278,6 +260,19 @@ export class LoginPage {
           err => {
             console.log(err)
           }
+        )
+  }
+
+  addFacebookClient(clientAuthorization, userPandeco) {
+    this.clientService
+        .addClient(clientAuthorization, userPandeco, '(00)00000-0000', '(00)0000-0000')
+        .subscribe(
+            client => {
+              this.goToNextPage(userPandeco, clientAuthorization);
+            },
+            err => {
+              console.log(err)
+            }
         )
   }
 

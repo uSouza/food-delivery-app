@@ -29,6 +29,9 @@ export class UserEditPage {
   authorization: Authorization;
   access_token: any = null;
   locations: any[] = [];
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -41,11 +44,11 @@ export class UserEditPage {
   }
 
   ionViewDidLoad() {
-    this.showLoading(2000);
     if (this.navParams.get('clientAuthorization') != null) {
       this.access_token = this.navParams.data.clientAuthorization.access_token;
     }
     if (this.access_token == null) {
+      this.loader.present();
       this.authenticationService
       .getGuestBearer()
       .subscribe(
@@ -60,6 +63,7 @@ export class UserEditPage {
   }
 
   isLogged(authorization: Authorization) {
+    this.loader.dismiss();
     this.authorization = authorization;
     this.storage.get('token').then((val) => {
       if (val == null) {
@@ -76,7 +80,7 @@ export class UserEditPage {
       this.access_token = val;
     }
 
-    this.showLoading(1000);
+    this.loader.present();
     this.userService.getUser(val)
     .subscribe(
       userPandeco => {
@@ -88,24 +92,21 @@ export class UserEditPage {
     );
   }
 
-  showLoading(duration: number) {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: duration
-    });
-    loader.present();
-  }
-
   getClientLocations(user: UserPandeco, val: any) {
-    this.showLoading(2000);
     this.locationService
       .getLocationsAccessToken(val)
       .subscribe(
-        locations => this.locations = locations
+        locations => this.setLocations(locations)
       )
   }
 
+  setLocations(locations) {
+    this.loader.dismiss();
+    this.locations = locations;
+  }
+
   goToLoginPage() {
+    this.loader.dismiss();
     this.navCtrl.setRoot(LoginPage, {page:'userEditPage', authorization: this.authorization});
   }
 

@@ -42,6 +42,9 @@ export class AdditionalsPage {
     access_token: ''
   };
   products: Product[] = [];
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -60,16 +63,7 @@ export class AdditionalsPage {
   }
 
   ionViewDidLoad() {
-    this.showLoading();
     this.updateAdditionals();
-  }
-
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: 1500
-    });
-    loader.present();
   }
 
   updateAdditionals() {
@@ -120,6 +114,7 @@ export class AdditionalsPage {
   }
 
   goToLoginPage() {
+    this.loader.dismiss();
     this.navCtrl.push(LoginPage, {
       menu: this.menu,
       restaurant: this.restaurant,
@@ -134,7 +129,7 @@ export class AdditionalsPage {
   }
 
   getUser(val: any) {
-    this.showLoading();
+    this.loader.present();
     this.userService.getUser(val)
     .subscribe(
       userPandeco => {
@@ -147,6 +142,7 @@ export class AdditionalsPage {
   }
 
   goToOrderPage(user: any, val: any) {
+    this.loader.dismiss();
     this.clientAuthorization.access_token = val;
     this.navCtrl.setRoot(PreOrderCompletionPage, {
       clientAuthorization: this.clientAuthorization,

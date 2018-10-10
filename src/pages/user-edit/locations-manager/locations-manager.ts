@@ -14,6 +14,9 @@ export class LocationsManagerPage {
   location: Location= new Location();
   edit: boolean = false;
   access_token: any;
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -35,17 +38,9 @@ export class LocationsManagerPage {
 
   }
 
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: 1500
-    });
-    loader.present();
-  }
-
   addLocation() {
     if (this.validate()) {
-      this.showLoading();
+      this.loader.present();
       this.locationService.addLocationAccessToken(this.access_token, this.location)
         .subscribe(
           location => {
@@ -57,7 +52,7 @@ export class LocationsManagerPage {
 
   updateLocation() {
     if (this.validate()) {
-      this.showLoading();
+      this.loader.present();
       this.locationService.updateLocation(this.access_token, this.location)
         .subscribe(
           location => {
@@ -68,6 +63,7 @@ export class LocationsManagerPage {
   }
 
   addSuccess() {
+    this.loader.dismiss();
     let toast = this.toastCtrl.create({
       message: 'Local de entrega cadastrado com sucesso!',
       duration: 2000,
@@ -79,6 +75,7 @@ export class LocationsManagerPage {
   }
 
   updateSuccess() {
+    this.loader.dismiss();
     let toast = this.toastCtrl.create({
       message: 'Local de entrega atualizado!',
       duration: 2000,

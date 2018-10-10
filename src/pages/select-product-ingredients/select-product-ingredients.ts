@@ -29,6 +29,9 @@ export class SelectProductIngredientsPage {
   selected_price: Price;
   value: any;
   products: Product[] = [];
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -49,19 +52,16 @@ export class SelectProductIngredientsPage {
     this.getIngredients();
   }
 
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Carregando...",
-      duration: 2000
-    });
-    loader.present();
+  getIngredients() {
+    this.loader.present();
+    this.ingredientsService.getIngredientsGroupByMenu(this.authorization, this.menu).subscribe(
+        ingredients => this.setIngredients(ingredients)
+    );
   }
 
-  getIngredients() {
-    this.ingredientsService.getIngredientsGroupByMenu(this.authorization, this.menu).subscribe(
-        ingredients => this.ingredients_groups = ingredients
-    );
-    this.showLoading();
+  setIngredients(ingredients) {
+    this.loader.dismiss();
+    this.ingredients_groups = ingredients;
   }
 
   onCheckIngredient(ingredient_group: IngredientGroup, ingredient: Ingredient, event) {

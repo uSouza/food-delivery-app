@@ -46,6 +46,9 @@ export class RegisterPage {
   selected_additionals: AdditionalRestaurant[];
   page: string;
   products: Product[] = [];
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -72,18 +75,10 @@ export class RegisterPage {
 
   }
 
-  showLoading() {
-    const loader = this.loadingCtrl.create({
-      content: "Criando o usuário...",
-      duration: 6000
-    });
-    loader.present();
-  }
-
   register() {
     if (this.confirm_password == this.user.password) {
       if (this.phone != null && this.user.name != null && this.user.email != null) {
-        this.showLoading();
+        this.loader.present();
         this.userService
             .addUser(this.authorization, this.user.email, this.user.name, this.user.password)
             .subscribe(
@@ -132,6 +127,7 @@ export class RegisterPage {
   }
 
   goToLocationsPage(client: Client, clientAuthorization: Authorization, user: UserPandeco) {
+    this.loader.dismiss();
     this.storage.set('token', clientAuthorization.access_token);
     this.storage.set('username', user.name);
     this.storage.set('email', user.email);
