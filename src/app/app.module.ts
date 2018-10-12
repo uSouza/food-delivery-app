@@ -1,3 +1,5 @@
+import { FormsModule } from '@angular/forms';
+import { MbscModule } from '@mobiscroll/angular';
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
@@ -60,7 +62,9 @@ import { Facebook } from '@ionic-native/facebook';
     PreOrderCompletionPage,
     AccordionListComponent
   ],
-  imports: [
+  imports: [ 
+    FormsModule, 
+    MbscModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,

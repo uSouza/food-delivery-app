@@ -14,7 +14,7 @@ export class RestaurantsProvider {
   endpoint = 'companies';
 
   getRestaurants (authorization: Authorization): Observable<Restaurant[]> {
-      return this.http.get<Restaurant[]>(this.url_api + this.endpoint,
+      return this.http.get<Restaurant[]>(this.url_api + this.endpoint + '/available',
         {headers: {
                   'Accept': 'application/json',
                   'Authorization': 'Bearer ' + authorization.access_token

@@ -63,7 +63,6 @@ export class UserEditPage {
   }
 
   isLogged(authorization: Authorization) {
-    this.loader.dismiss();
     this.authorization = authorization;
     this.storage.get('token').then((val) => {
       if (val == null) {

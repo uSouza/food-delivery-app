@@ -15,11 +15,6 @@
     <ion-col col-12>
       <ion-searchbar placeholder="Nome do restaurante" (ionInput)="getRestaurantsByName($event)"></ion-searchbar>
     </ion-col>
-<!--     <ion-col col-2 class="filter">
-      <button text-right ion-button color="fundo" clear icon-only>
-        <ion-icon name="options"></ion-icon>
-      </button>
-    </ion-col> -->
   </ion-row>
 
   <ion-card *ngFor="let restaurant of restaurants" (click)="goToRestaurantMenuPage(restaurant)" >

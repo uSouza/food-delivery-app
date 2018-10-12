@@ -25,30 +25,34 @@
           <h2 style="margin-bottom: 10px">
             <strong>{{product.menu.description}} </strong> {{product.price.size}} - {{product.price.price | currency: 'BRL': true}}
           </h2>
-          <accordion-list *ngFor="let item of itemsIngredients; let index = index"
-                          [title]="item.name"
-                          textColor="#222"
-                          hasMargin="true"
-                          headerColor="#f4f4f4">
-            <ion-list no-lines>
-              <button color="#8888" ion-item *ngFor="let ingredient of product.ingredients">
-                {{ingredient.name}}
-              </button>
-          </ion-list>
-        </accordion-list>
-        <accordion-list *ngFor="let item of itemsAdditionals; let index = index"
+          <div *ngIf="product.ingredients.length > 0">
+            <accordion-list *ngFor="let item of itemsIngredients; let index = index"
                         [title]="item.name"
                         textColor="#222"
                         hasMargin="true"
                         headerColor="#f4f4f4">
-          <ion-list no-lines>
-            <button color="#8888" ion-item *ngFor="let add of product.additionals">
-              {{add.name}}
-              <p>Quantidade: {{add.quantity}}</p>
-              <p>Valor unitário: {{add.value | currency: 'BRL': true}}</p>
-            </button>
-          </ion-list>
-        </accordion-list>
+                <ion-list no-lines>
+                <button color="#8888" ion-item *ngFor="let ingredient of product.ingredients">
+                  {{ingredient.name}}
+                </button>
+                </ion-list>
+            </accordion-list>
+          </div>
+          <div *ngIf="product.additionals.length > 0">
+            <accordion-list *ngFor="let item of itemsAdditionals; let index = index"
+                        [title]="item.name"
+                        textColor="#222"
+                        hasMargin="true"
+                        headerColor="#f4f4f4">
+                <ion-list no-lines>
+                <button color="#8888" ion-item *ngFor="let add of product.additionals">
+                  {{add.name}}
+                  <p>Quantidade: {{add.quantity}}</p>
+                  <p>Valor unitário: {{add.value | currency: 'BRL': true}}</p>
+                </button>
+                </ion-list>
+            </accordion-list>
+          </div>
       </ion-item>
   </ion-card>
   <ion-card>
