@@ -16,6 +16,15 @@
       <h2>
         <strong>Restaurante: </strong> {{order.company.fantasy_name}}
       </h2>
+      <h2 *ngIf="!order.deliver">
+        <strong>Endereço: </strong>{{order.company.locations[0].address}} - {{order.company.locations[0].number}}
+      </h2>
+      <h2 *ngIf="!order.deliver">
+        <strong>Bairro: </strong>{{order.company.locations[0].district}}
+      </h2>
+      <h2 *ngIf="!order.deliver">
+        <strong>Cidade: </strong>{{order.company.locations[0].city}}
+      </h2>
       <h2>
         <strong>Data do pedido: </strong> {{ order.created_at | date:'dd/MM/yyyy' }}
       </h2>

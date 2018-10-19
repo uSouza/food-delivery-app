@@ -41,6 +41,7 @@ export class RestaurantMenuPage {
   }
 
   ionViewDidLoad() {
+    console.log(this.navParams.data.restaurant)
     if (this.navParams.get('value') != null) {
       this.valueOrder = this.navParams.get('value');
     }

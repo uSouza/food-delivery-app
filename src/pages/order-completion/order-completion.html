@@ -58,6 +58,20 @@
               </ion-item>
             </ion-list>
       </ion-card>
+      <ion-card *ngIf="restaurant.locations.length > 0 && !deliver">
+        <h2>
+          <strong>Endereço do restaurante</strong>
+        </h2>
+        <p>
+            <strong>Endereço: </strong>{{restaurant.locations[0].address}} - {{restaurant.locations[0].number}}
+        </p>
+        <p>
+            <strong>Bairro: </strong>{{restaurant.locations[0].district}}
+        </p>
+        <p>
+            <strong>Cidade: </strong>{{restaurant.locations[0].city}}
+        </p>
+      </ion-card>
   </div>
   <ion-fab right bottom>
     <button ion-fab color="fundo" (click)="orderSave()"><ion-icon name="checkmark"></ion-icon></button>
