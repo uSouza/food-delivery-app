@@ -47,5 +47,15 @@ export class OrdersProvider {
                 'Authorization': 'Bearer ' + access_token
               }
       });
-    }
+  }
+
+  cancelOrder(access_token: any, order: any): Observable<Order> {
+    return this.http.get<Order>(this.url_api + this.endpoint + '/cancel/' + order.id,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
+      });
+  }
 }

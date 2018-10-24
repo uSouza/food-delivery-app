@@ -86,7 +86,24 @@ export class RestaurantsPage {
 
   setRestaurants(restaurants) {
     this.loader.dismiss();
-    this.restaurants = restaurants;
+    if (restaurants.length > 0) {
+      this.restaurants = restaurants;
+    } else {
+      const confirm = this.alertCtrl.create({
+        title: 'Obrigado por instalar o Pandeco!',
+        message: 'Não fique ancioso, estamos buscando os melhores restaurantes para você. Os cardápios estarão disponíveis a partir do dia 05/11/2018. Fique ligado em nossas notificações!',
+        buttons: [
+          {
+            text: 'OK',
+            handler: () => {
+              this.platform.exitApp();
+            }
+          }
+        ]
+      });
+      confirm.present();
+    }
+
   }
 
   getRestaurantsByName(ev) {

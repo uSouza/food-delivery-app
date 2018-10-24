@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
 import { Order } from '../../models/order';
+import { OrdersProvider } from '../../providers/orders/orders';
+import { MyOrdersPage } from '../my-orders/my-orders';
 
 /**
  * Generated class for the OrderDetailPage page.
@@ -20,6 +22,10 @@ export class OrderDetailPage {
   additional_price: any = 0;
   drink_price: any = 0;
   lunch_price: any = 0;
+  access_token: any;
+  loader = this.loadingCtrl.create({
+    content: "Carregando..."
+  });
 
   itemsIngredients = [
     {
@@ -34,8 +40,12 @@ export class OrderDetailPage {
   ];
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams) {
+              public navParams: NavParams,
+              private orderService: OrdersProvider,
+              public alertCtrl: AlertController,
+              public loadingCtrl: LoadingController) {
     this.order = navParams.data.order;
+    this.access_token = navParams.data.access_token;
   }
 
   ionViewDidLoad() {
@@ -56,6 +66,40 @@ export class OrderDetailPage {
         })
       }
     })
+  }
+
+  cancelOrder() {
+
+    const confirm = this.alertCtrl.create({
+      title: 'Cancelamento do pedido',
+      message: 'Tem certeza de que deseja cancelar o seu pedido?',
+      buttons: [
+        {
+          text: 'Não',
+          handler: () => {
+          }
+        },
+        {
+          text: 'Sim',
+          handler: () => {
+            this.loader.present();
+            this.orderService
+                .cancelOrder(this.access_token, this.order)
+                .subscribe(
+                order => {
+                   this.goToMyOrdersPage()
+                }
+        )
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  goToMyOrdersPage() {
+    this.loader.dismiss();
+    this.navCtrl.setRoot(MyOrdersPage);
   }
 
 }

@@ -23,6 +23,7 @@ export class MyOrdersPage {
   ingredients: Ingredient[];
   authorizationService: Observable<Authorization>;
   authorization: Authorization;
+  access_token: any;
   outstanding: Order[] = [];
   confirmed: Order[] = [];
   items = [];
@@ -57,17 +58,18 @@ export class MyOrdersPage {
       if (val == null) {
         this.goToLoginPage();
       } else {
-        this.getUser(val);
+        this.access_token = val;
+        this.getUser();
       }
     });
   }
 
-  getUser(val: any) {
+  getUser() {
     this.loader.present();
-    this.userService.getUser(val)
+    this.userService.getUser(this.access_token)
     .subscribe(
       userPandeco => {
-        this.getOrders(userPandeco, val)
+        this.getOrders(userPandeco)
       },
       err => {
         this.goToLoginPage()
@@ -75,9 +77,9 @@ export class MyOrdersPage {
     );
   }
 
-  getOrders(user: UserPandeco, val: any) {
+  getOrders(user: UserPandeco) {
     this.loader.present();
-    this.orderService.getOrders(val, user.client.id)
+    this.orderService.getOrders(this.access_token, user.client.id)
       .subscribe(
         orders => {
           this.setOrders(orders)
@@ -101,7 +103,7 @@ export class MyOrdersPage {
       if (order.status_id == 2) {
         this.confirmed.push(order);
       }
-      else {
+      else if (order.status_id == 1){
         this.outstanding.push(order);
       }
     });
@@ -133,7 +135,7 @@ export class MyOrdersPage {
   }
 
   goToOrderDetailPage(order: Order) {
-    this.navCtrl.push(OrderDetailPage, {order: order});
+    this.navCtrl.push(OrderDetailPage, {order: order, access_token: this.access_token});
   }
 
 }

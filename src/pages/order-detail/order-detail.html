@@ -85,6 +85,6 @@
     </ion-item>
   </ion-card>
   <ion-fab right bottom>
-    <button ion-button color="fundo" round>Cancelar pedido</button>
+    <button ion-button color="fundo" round (click)="cancelOrder()" *ngIf="order.status_id==1">Cancelar pedido</button>
   </ion-fab>
 </ion-content>
