@@ -37,4 +37,20 @@ export class ClientsProvider {
     });
   }
 
+  updateClient(access_token: any, client: any): Observable<any> {
+    let data = {
+      user_id: client.user_id,
+      name: client.name,
+      phone: client.phone,
+      cell_phone: client.cell_phone
+    };
+
+    return this.http.put<Location>(this.url_api + this.endpoint + '/' + client.id, data,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
+      })
+  }
 }

@@ -135,6 +135,7 @@ export class MyOrdersPage {
   }
 
   goToOrderDetailPage(order: Order) {
+    console.log(order);
     this.navCtrl.push(OrderDetailPage, {order: order, access_token: this.access_token});
   }
 

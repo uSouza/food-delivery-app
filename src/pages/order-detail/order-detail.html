@@ -16,13 +16,13 @@
       <h2>
         <strong>Restaurante: </strong> {{order.company.fantasy_name}}
       </h2>
-      <h2 *ngIf="!order.deliver">
+      <h2 *ngIf="!order.deliver && order.company.locations.length > 0">
         <strong>Endereço: </strong>{{order.company.locations[0].address}} - {{order.company.locations[0].number}}
       </h2>
-      <h2 *ngIf="!order.deliver">
+      <h2 *ngIf="!order.deliver && order.company.locations.length > 0">
         <strong>Bairro: </strong>{{order.company.locations[0].district}}
       </h2>
-      <h2 *ngIf="!order.deliver">
+      <h2 *ngIf="!order.deliver && order.company.locations.length > 0">
         <strong>Cidade: </strong>{{order.company.locations[0].city}}
       </h2>
       <h2>
@@ -47,7 +47,7 @@
           <strong>Valor de entrega: </strong> {{order.company.delivery_value | currency: 'BRL': true}}
         </h2>
         <h2 *ngIf="lunch_price > 0">
-            <strong>Valor de marmitas: </strong> {{ lunch_price | currency: 'BRL': true}}
+            <strong>Valor de refeições: </strong> {{ lunch_price | currency: 'BRL': true}}
           </h2>
         <h2>
           <strong>Valor total: </strong> {{order.price | currency: 'BRL': true}}

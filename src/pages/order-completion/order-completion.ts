@@ -13,6 +13,7 @@ import { Client } from '../../models/client';
 import { Order } from '../../models/order';
 import { OrdersProvider } from '../../providers/orders/orders';
 import { DatePipe } from '@angular/common';
+import { ClientsProvider } from '../../providers/clients/clients';
 
 @IonicPage()
 @Component({
@@ -34,12 +35,13 @@ export class OrderCompletionPage {
   deliver: boolean = false;
   formPayment: any;
   hour: string;
-  observation_order: string;
+  observation_order: string = '';
   order: Order;
-  change_remarks: string;
+  change_remarks: string = '';
   loader = this.loadingCtrl.create({
     content: "Carregando..."
   });
+  cell_phone: any = null;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -47,6 +49,7 @@ export class OrderCompletionPage {
               public alertCtrl: AlertController,
               public toastCtrl: ToastController,
               private orderService: OrdersProvider,
+              private clientService: ClientsProvider,
               public datepipe: DatePipe,
               public loadingCtrl: LoadingController) {
     this.authorization = navParams.data.authorization;
@@ -61,6 +64,11 @@ export class OrderCompletionPage {
 
   ionViewDidLoad() {
     this.getClientLocations();
+    if (this.client.cell_phone == '(00)00000-0000') {
+      this.cell_phone = null;
+    } else {
+      this.cell_phone = this.client.cell_phone;
+    }
 
     if (this.restaurant.delivery_value != null) {
       this.value += parseFloat(this.restaurant.delivery_value.toString());
@@ -88,6 +96,12 @@ export class OrderCompletionPage {
 
     if (this.validate()) {
       this.loader.present();
+      if (this.cell_phone != this.client.cell_phone) {
+        this.client.cell_phone = this.cell_phone;
+        this.clientService
+            .updateClient(this.authorization.access_token, this.client)
+            .subscribe(client => console.log(client))
+      }
       this.addOrder();
     }
 
@@ -120,7 +134,16 @@ export class OrderCompletionPage {
       });
       toast.present(toast);
       return false;
-    } else {
+    } else if (this.cell_phone == null) {
+      let toast = this.toastCtrl.create({
+        message: 'Informe o telefone de contato!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+      return false;
+    }
+    else {
       return true;
     }
   }
@@ -175,14 +198,8 @@ export class OrderCompletionPage {
     order.observation = this.observation_order;
     order.observation += '\nObservações para o troco: ' + this.change_remarks;
     order.form_payment_id = this.formPayment;
+    order.status_id = 1;
 
-    let today = new Date();
-
-    if (this.datepipe.transform(today, 'yyyy-MM-dd') == this.menu.date) {
-      order.status_id = 1;
-    } else {
-      order.status_id = 3;
-    }
     this.orderService.addOrder(this.clientAuthorization, order)
       .subscribe(
         order => {

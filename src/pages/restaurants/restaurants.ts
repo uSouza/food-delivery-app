@@ -87,6 +87,7 @@ export class RestaurantsPage {
   setRestaurants(restaurants) {
     this.loader.dismiss();
     if (restaurants.length > 0) {
+      console.log(restaurants);
       this.restaurants = restaurants;
     } else {
       const confirm = this.alertCtrl.create({

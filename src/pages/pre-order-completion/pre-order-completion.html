@@ -61,21 +61,21 @@
         <strong>Valor de adicional e bebida: </strong> {{value - lunch_price | currency: 'BRL': true}}
       </h2>
       <h2 *ngIf="lunch_price > 0">
-        <strong>Valor de marmita: </strong> {{lunch_price | currency: 'BRL': true}}
+        <strong>Valor de refeição: </strong> {{lunch_price | currency: 'BRL': true}}
       </h2>
       <h2>
         <strong>Valor total do pedido: </strong> {{value | currency: 'BRL': true}}
       </h2>
     </ion-item>
     <ion-item>
-      <button padding ion-button color="fundo" block (click)="addMorePackedLunch()">Adicionar mais uma marmita</button>
+      <button padding ion-button color="fundo" block (click)="addMorePackedLunch()">Adicionar mais uma refeição</button>
     </ion-item>
   </ion-card>
   <ion-footer-bar>
       <ion-grid>
           <ion-row padding no-margin>
               <ion-col col-12 padding>
-                  <button ion-button color="fundo" full (click)="goToOrderCompletionPage()">Finalizar pedido</button>
+                  <button ion-button color="fundo" full (click)="goToOrderCompletionPage()">Avançar</button>
               </ion-col>
           </ion-row>
       </ion-grid>

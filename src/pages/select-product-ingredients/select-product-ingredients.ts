@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, LoadingController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, LoadingController, ToastController} from 'ionic-angular';
 import {Menu} from "../../models/menu";
 import {Authorization} from "../../models/authorization";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
@@ -38,6 +38,7 @@ export class SelectProductIngredientsPage {
               public authenticationService: AuthenticationProvider,
               public ingredientsService: IngredientsProvider,
               public alertCtrl: AlertController,
+              public toastCtrl: ToastController,
               public loadingCtrl: LoadingController) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
@@ -92,15 +93,24 @@ export class SelectProductIngredientsPage {
 
   goToAdditionalsPage() {
     let ingredients: Array<Ingredient> = this.getSelectedIngredients();
-    this.navCtrl.push(AdditionalsPage, {
-      menu: this.menu,
-      restaurant: this.restaurant,
-      ingredients: ingredients,
-      value: this.value,
-      authorization: this.authorization,
-      selected_price: this.selected_price,
-      products: this.products,
-    });
+    if (ingredients.length == 0) {
+      let toast = this.toastCtrl.create({
+        message: 'É necessário selecionar ingredientes!',
+        duration: 2000,
+        position: 'bottom'
+      });
+      toast.present(toast);
+    } else {
+      this.navCtrl.push(AdditionalsPage, {
+        menu: this.menu,
+        restaurant: this.restaurant,
+        ingredients: ingredients,
+        value: this.value,
+        authorization: this.authorization,
+        selected_price: this.selected_price,
+        products: this.products,
+      });
+    }
   }
 
   getSelectedIngredients() : Ingredient[]{

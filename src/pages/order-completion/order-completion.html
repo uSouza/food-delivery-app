@@ -53,6 +53,10 @@
                 <ion-input [(ngModel)]="change_remarks"></ion-input>
               </ion-item>
               <ion-item>
+                <ion-label floating>Telefone para contato</ion-label>
+                <ion-input [brmasker]="{phone: true}" [(ngModel)]="cell_phone"></ion-input>
+              </ion-item>
+              <ion-item>
                 <ion-label floating>Observações para o pedido</ion-label>
                 <ion-textarea [(ngModel)]="observation_order"></ion-textarea>
               </ion-item>
