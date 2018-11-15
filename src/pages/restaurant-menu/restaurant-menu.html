@@ -24,7 +24,7 @@
                  {{restaurant.observation}}
               </p>
               <p style="font-size: smaller; color: #00b300">
-                 <b>Entrega: {{restaurant.delivery_value === null ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
+                 <b>Entrega: {{restaurant.delivery_value === null || restaurant.delivery_value === 0 || restaurant.delivery_value === '0' ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
               </p>
               <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
                   <strong>Endereço: </strong>{{restaurant.locations[0].address}} - {{restaurant.locations[0].number}}
@@ -46,7 +46,14 @@
      <ion-card-header>
         <h2><strong>Refeições</strong></h2>
      </ion-card-header>
-     <ion-item>
+     <ion-card *ngIf="items.length == 0">
+       <ion-item>
+          <h3>
+              <strong>Não há cardápios disponíveis.</strong>
+          </h3>
+       </ion-item>
+     </ion-card>
+     <ion-item *ngIf="items.length > 0">
         <accordion-list *ngFor="let item of items; let index = index"
         [title]="item.date"
         textColor="#222"

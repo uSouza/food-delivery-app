@@ -128,7 +128,9 @@ export class RestaurantMenuPage {
     menus.forEach((menu) => {
       if (menu.deleted_at == null) {
         if (menu.date == this.datepipe.transform(today, 'yyyy-MM-dd')) {
-          todayMenus.push(menu);
+          if (this.restaurant.is_open) {
+            todayMenus.push(menu);
+          }
         }
         else if (menu.date == this.datepipe.transform(tomorrow, 'yyyy-MM-dd')) {
           oneMenus.push(menu);

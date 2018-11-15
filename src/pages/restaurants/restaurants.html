@@ -17,7 +17,8 @@
       <ion-searchbar placeholder="Nome do restaurante" (ionInput)="getRestaurantsByName($event)"></ion-searchbar>
     </ion-col>
   </ion-row>
-  <ion-card *ngFor="let restaurant of restaurants" (click)="goToRestaurantMenuPage(restaurant)">
+  <div *ngFor="let restaurant of restaurants">
+    <ion-card  *ngIf="restaurant.is_open" (click)="goToRestaurantMenuPage(restaurant)">
       <ion-row>
         <ion-col col-7>
           <img src="{{restaurant.image_base64}}"/>
@@ -27,8 +28,13 @@
               {{restaurant.fantasy_name}}
           </ion-card-title>
             <p>
+              <ion-badge color="price">
+                Recebendo pedidos
+              </ion-badge>
+            </p>
+            <p>
               <ion-badge color="tag">
-                Abre às {{'2018-01-01 ' + restaurant.open_at | date:'h:mm'}}
+                Abre às {{ restaurant.open_at }}
               </ion-badge>
             </p>
             <p style="margin-top: 10px">
@@ -40,4 +46,30 @@
         </ion-col>
       </ion-row>
     </ion-card>
+  </div>
+  <div *ngFor="let restaurant of restaurants">
+    <ion-card  *ngIf="! restaurant.is_open" (click)="goToRestaurantMenuPage(restaurant)">
+      <ion-row>
+        <ion-col col-7>
+          <img src="{{restaurant.image_base64}}"/>
+        </ion-col>
+        <ion-col col-5>
+          <ion-card-title style="font-size: large">
+              {{restaurant.fantasy_name}}
+          </ion-card-title>
+            <p>
+              <ion-badge color="tag">
+                Abre às {{'2018-01-01 ' + restaurant.open_at | date:'H:mm'}}
+              </ion-badge>
+            </p>
+            <p style="margin-top: 10px">
+              <ion-icon name="ios-time"></ion-icon> {{'2018-01-01 ' + restaurant.avg_delivery_time | date:'mm'}} minutos
+            </p>
+            <p style="color: #00b300">
+                <b>Entrega: {{restaurant.delivery_value === null || restaurant.delivery_value === 0 || restaurant.delivery_value === '0' ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
+              </p>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </div>
 </ion-content>

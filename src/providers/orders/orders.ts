@@ -16,7 +16,7 @@ export class OrdersProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'http://api.pandeco.com.br/api/v1/';
+  url_api = 'https://api.pandeco.com.br/api/v1/';
   endpoint = 'orders';
 
   addOrder(authorization: Authorization, order: Order): Observable<Order> {

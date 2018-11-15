@@ -16,7 +16,7 @@ export class AuthenticationProvider {
   constructor(public http: HttpClient) {
 
   }
-  url_api = 'http://api.pandeco.com.br/';
+  url_api = 'https://api.pandeco.com.br/';
   endpoint = 'oauth/token';
 
   getGuestBearer(): Observable<Authorization> {

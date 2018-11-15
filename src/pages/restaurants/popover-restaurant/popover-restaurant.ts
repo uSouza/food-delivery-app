@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController, Platform, ViewCon
 import { Storage } from '@ionic/storage';
 import { MyOrdersPage } from '../../my-orders/my-orders';
 import { UserEditPage } from '../../user-edit/user-edit';
+import { AppVersion } from '@ionic-native/app-version';
+import { SocialSharing } from '@ionic-native/social-sharing';
 /**
  * Generated class for the PopoverRestaurantPage page.
  *
@@ -19,12 +21,15 @@ export class PopoverRestaurantPage {
 
   username: any = null;
   email: any = null;
+  version: any = null;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private storage: Storage,
               public alertCtrl: AlertController,
+              private appVersion: AppVersion,
               public platform: Platform,
+              private socialSharing: SocialSharing,
               public viewCtrl: ViewController) {
   }
 
@@ -38,6 +43,9 @@ export class PopoverRestaurantPage {
       if(val != null) {
         this.email = val;
       }
+    });
+    this.appVersion.getVersionNumber().then(version => {
+      this.version = version;
     });
   }
 
@@ -71,6 +79,14 @@ export class PopoverRestaurantPage {
   myOrders() {
     this.viewCtrl.dismiss();
     this.navCtrl.setRoot(MyOrdersPage);
+  }
+
+  chat() {
+    this.socialSharing.shareViaWhatsAppToReceiver('554591058739', 'Olá, preciso de ajuda.').then(() => {
+      console.log('works');
+    }).catch(() => {
+      console.log('not works');
+    });
   }
 
 }

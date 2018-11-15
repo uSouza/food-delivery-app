@@ -17,7 +17,7 @@ export class ClientsProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'http://api.pandeco.com.br/api/v1/';
+  url_api = 'https://api.pandeco.com.br/api/v1/';
   endpoint = 'clients';
 
   addClient(authorization: Authorization, user: UserPandeco, cell_phone: string, phone: string): Observable<Client> {

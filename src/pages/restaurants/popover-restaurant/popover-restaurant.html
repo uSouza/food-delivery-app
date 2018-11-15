@@ -1,5 +1,6 @@
 <ion-list>
-  <ion-list-header *ngIf="username != null"><h2>Olá, {{username}}</h2></ion-list-header>
+  <ion-list-header *ngIf="username != null"><h2>Olá, {{username}}</h2><h2>Versão: {{version}}</h2></ion-list-header>
+  <button ion-item (click)="chat()">Chat</button>
   <button ion-item (click)="myOrders()">Meus pedidos</button>
   <button ion-item (click)="optionsUsers()">Locais de entrega</button>
   <button ion-item (click)="logout()">Sair</button>

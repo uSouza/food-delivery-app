@@ -17,7 +17,7 @@ export class MenusProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'http://api.pandeco.com.br/api/v1/';
+  url_api = 'https://api.pandeco.com.br/api/v1/';
   endpoint = 'menus/company/';
 
   getMenuByRestaurant (authorization: Authorization, restaurant: Restaurant): Observable<Menu[]> {

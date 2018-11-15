@@ -16,4 +16,5 @@ export class Restaurant {
   tags: object;
   additionals: object;
   delivery_value: number;
+  is_open: boolean;
 }

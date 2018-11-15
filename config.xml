@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="br.com.pandeco.pandeco_app" version="0.0.11" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="br.com.pandeco.pandeco_app" version="0.0.14" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Pandeco Delivery de Marmitas</name>
     <description />
     <author email="uesley@pandeco.com.br" href="https://www.pandeco.com.br/">Pandeco Delivery Team</author>
@@ -106,5 +106,9 @@
         <variable name="APP_NAME" value="pandeco" />
         <variable name="FACEBOOK_ANDROID_SDK_VERSION" value="4.36.0" />
     </plugin>
+    <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
+    <plugin name="mobi.moica.whatsapp" spec="https://github.com/ranjitpandit/whatsapp-phonegap-plugin.git" />
+    <plugin name="cordova-plugin-x-socialsharing" spec="^5.4.1" />
     <engine name="android" spec="7.0.0" />
+    <engine name="browser" spec="5.0.4" />
 </widget>

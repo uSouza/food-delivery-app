@@ -8,6 +8,7 @@ import { Observable } from "rxjs/Observable";
 import { RestaurantMenuPage } from "../restaurant-menu/restaurant-menu";
 import { LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
+import { DatePipe } from '@angular/common';
 import { PopoverRestaurantPage } from './popover-restaurant/popover-restaurant';
 
 
@@ -34,6 +35,7 @@ export class RestaurantsPage {
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public platform: Platform,
+              public datepipe: DatePipe,
               public popoverCtrl: PopoverController
             ) {
   }
@@ -87,24 +89,13 @@ export class RestaurantsPage {
   setRestaurants(restaurants) {
     this.loader.dismiss();
     if (restaurants.length > 0) {
-      console.log(restaurants);
-      this.restaurants = restaurants;
-    } else {
-      const confirm = this.alertCtrl.create({
-        title: 'Obrigado por instalar o Pandeco!',
-        message: 'Não fique ancioso, estamos buscando os melhores restaurantes para você. Os cardápios estarão disponíveis a partir do dia 05/11/2018. Fique ligado em nossas notificações!',
-        buttons: [
-          {
-            text: 'OK',
-            handler: () => {
-              this.platform.exitApp();
-            }
-          }
-        ]
+      restaurants.forEach(r => {
+        let addHour = parseInt(r.open_at.split(':')[0]) + 1;
+        r.open_at = addHour + ':' + r.open_at.split(':')[1] + ':' + r.open_at.split(':')[2];
+        r.open_at = this.datepipe.transform('2018-01-01 ' + r.open_at, 'H:mm');
       });
-      confirm.present();
+      this.restaurants = restaurants;
     }
-
   }
 
   getRestaurantsByName(ev) {

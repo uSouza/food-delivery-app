@@ -15,7 +15,7 @@ export class LocationsProvider {
 
   constructor(public http: HttpClient) {
   }
-  url_api = 'http://api.pandeco.com.br/api/v1/';
+  url_api = 'https://api.pandeco.com.br/api/v1/';
   endpoint = 'clients_locations';
 
   addLocation(authorization: Authorization, location: Location): Observable<Location> {

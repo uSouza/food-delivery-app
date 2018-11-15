@@ -41,6 +41,8 @@ import { AccordionListComponent } from '../components/accordion-list/accordion-l
 import { OrdersProvider } from '../providers/orders/orders';
 import {DatePipe} from '@angular/common';
 import { Facebook } from '@ionic-native/facebook';
+import { AppVersion } from '@ionic-native/app-version';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 @NgModule({
   declarations: [
@@ -62,8 +64,8 @@ import { Facebook } from '@ionic-native/facebook';
     PreOrderCompletionPage,
     AccordionListComponent
   ],
-  imports: [ 
-    FormsModule, 
+  imports: [
+    FormsModule,
     MbscModule,
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -106,7 +108,9 @@ import { Facebook } from '@ionic-native/facebook';
     SQLite,
     OrdersProvider,
     DatePipe,
+    AppVersion,
     Facebook,
+    SocialSharing,
     OneSignal
   ],
   schemas: [
