@@ -42,6 +42,8 @@ export class OrderCompletionPage {
     content: "Carregando..."
   });
   cell_phone: any = null;
+  now: any = null;
+  disabled: boolean = true;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -78,6 +80,13 @@ export class OrderCompletionPage {
       this.restaurant.delivery_value = 0;
     }
 
+    this.orderService
+        .now(this.clientAuthorization.access_token)
+        .subscribe(
+          now => {
+            this.now = now;
+          }
+        )
   }
 
   getClientLocations() {
@@ -109,41 +118,32 @@ export class OrderCompletionPage {
 
   validate(): boolean {
     if (!this.deliver && this.location == null) {
-      let toast = this.toastCtrl.create({
-        message: 'É necessário selecionar o local de entrega!',
-        duration: 2000,
-        position: 'bottom'
-      });
-      toast.present(toast);
+      this.showToast('É necessário selecionar o local de entrega!');
       return false;
     }
     else if (this.hour == null) {
-      let toast = this.toastCtrl.create({
-        message: 'É necessário informar o horário de retirada!',
-        duration: 2000,
-        position: 'bottom'
-      });
-      toast.present(toast);
+      this.showToast('É necessário selecionar o horário de entrega!');
       return false;
     }
     else if (this.formPayment == null) {
-      let toast = this.toastCtrl.create({
-        message: 'É necessário informar a forma de pagamento!',
-        duration: 2000,
-        position: 'bottom'
-      });
-      toast.present(toast);
+      this.showToast('É necessário informar a forma de pagamento!');
       return false;
     } else if (this.cell_phone == null) {
-      let toast = this.toastCtrl.create({
-        message: 'Informe o telefone de contato!',
-        duration: 2000,
-        position: 'bottom'
-      });
-      toast.present(toast);
+      this.showToast('Informe o telefone de contato!');
       return false;
-    }
-    else {
+    } else if (this.hour == null) {
+      this.showToast('Informe o horário de entrega!');
+      return false;
+    } else if (this.hour.split(':').length < 2) {
+      this.showToast('Informe o horário de entrega no formato hh:mm!');
+      return false;
+    } else if ((parseInt(this.hour.split(':')[0]) < 0 
+      || parseInt(this.hour.split(':')[0]) > 23) ||
+      (parseInt(this.hour.split(':')[1]) < 0 || 
+      parseInt(this.hour.split(':')[1]) > 59)) {
+        this.showToast('O horário de entrega informado não é válido!');
+        return false;
+    } else {
       return true;
     }
   }
@@ -248,6 +248,15 @@ export class OrderCompletionPage {
       ]
     });
     confirm.present();
+  }
+
+  showToast(message) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'bottom'
+    });
+    toast.present(toast);
   }
 
 }

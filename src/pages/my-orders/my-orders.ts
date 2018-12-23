@@ -89,16 +89,6 @@ export class MyOrdersPage {
 
   setOrders(orders: Order[]) {
     this.loader.dismiss();
-    if (orders.length <= 0) {
-      const alert = this.alertCtrl.create({
-        title: 'Não possui pedidos',
-        subTitle: 'Ops... Você ainda não realizou pedidos pelo Pandeco.',
-        buttons: ['Ok']
-      });
-      alert.present();
-      this.navCtrl.setRoot(RestaurantsPage);
-    }
-
     orders.forEach((order) => {
       if (order.status_id == 2) {
         this.confirmed.push(order);

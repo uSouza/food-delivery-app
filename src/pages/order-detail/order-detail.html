@@ -57,7 +57,7 @@
     <ion-card *ngFor="let product of order.products">
       <ion-item>
         <h2 style="margin-bottom: 10px">
-          <strong>{{product.menu.description}} </strong> {{product.price.size}} - {{product.price.price | currency: 'BRL': true}}
+          <strong>Refeição: </strong> {{product.price.size}} - {{product.price.price | currency: 'BRL': true}}
         </h2>
         <accordion-list *ngFor="let item of itemsIngredients; let index = index"
                         [title]="item.name"
@@ -85,6 +85,6 @@
     </ion-item>
   </ion-card>
   <ion-fab right bottom>
-    <button ion-button color="fundo" round (click)="cancelOrder()" *ngIf="order.status_id==1">Cancelar pedido</button>
+    <button ion-button color="fundo" round (click)="cancelOrder()" *ngIf="order.status_id==1 || (order.status_id==2 && isCancelable)">Cancelar pedido</button>
   </ion-fab>
 </ion-content>

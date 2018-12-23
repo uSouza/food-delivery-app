@@ -11,7 +11,14 @@
 </ion-header>
 
 <ion-content>
-    <ion-card>
+  <ion-card *ngIf="confirmed.length <= 0 && outstanding.length <=0">
+    <ion-item>
+      <h2>
+        Não há pedidos para exibir.
+      </h2>
+    </ion-item>
+  </ion-card>
+    <ion-card *ngIf="confirmed.length > 0 || outstanding.length > 0">
         <ion-item>
           <accordion-list *ngFor="let item of items; let index = index"
                           [title]="item.name"

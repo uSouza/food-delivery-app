@@ -10,7 +10,8 @@ import { LoadingController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { DatePipe } from '@angular/common';
 import { PopoverRestaurantPage } from './popover-restaurant/popover-restaurant';
-
+import { SocialSharing } from '@ionic-native/social-sharing';
+import { isCordovaAvailable } from '../../common/is-cordova-available';
 
 @IonicPage()
 @Component({
@@ -22,6 +23,7 @@ export class RestaurantsPage {
   restaurants: Restaurant[];
   authorizationService: Observable<Authorization>;
   authorization: Authorization;
+  isWeb: boolean = false;
   logged: boolean = false;
   loader = this.loadingCtrl.create({
     content: "Carregando..."
@@ -32,6 +34,7 @@ export class RestaurantsPage {
               public restaurantService: RestaurantsProvider,
               public authenticationService: AuthenticationProvider,
               private storage: Storage,
+              private socialSharing: SocialSharing,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
               public platform: Platform,
@@ -56,6 +59,9 @@ export class RestaurantsPage {
           this.logged = true;
         }
       });
+      if (! isCordovaAvailable()) {
+        this.isWeb = true;
+      }
   }
 
   exitApp() {
@@ -119,6 +125,14 @@ export class RestaurantsPage {
     let popover = this.popoverCtrl.create(PopoverRestaurantPage);
     popover.present({
       ev: event
+    });
+  }
+
+  chat() {
+    this.socialSharing.shareViaWhatsAppToReceiver('554591058739', 'Olá, preciso de ajuda.').then(() => {
+      console.log('works');
+    }).catch(() => {
+      console.log('not works');
     });
   }
 

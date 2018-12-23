@@ -61,14 +61,36 @@ export class RestaurantMenuPage {
   }
 
   getMenusByRestaurant() {
-    this.loader.present();
-    this.menuService.getMenuByRestaurant(this.authorization, this.restaurant).subscribe(
-        menus => this.verifyMenus(menus)
+    if (this.restaurant.is_open) {
+      this.loader.present();
+      this.menuService.getMenuByRestaurant(this.authorization, this.restaurant).subscribe(
+        menus => this.setMenus(menus)
     );
+    }
+  }
+
+  setMenus(menus) {
+    this.loader.dismiss();
+    this.menus = menus;
+    let count = 0;
+    if (this.menus.length > 0) {
+      this.menus.forEach(m => {
+        m.ingredients_string = '';
+        m.ingredients.forEach(i => {
+          console.log(m.ingredients.length);
+          if (count == 0) {
+            m.ingredients_string = i.name;
+          } else {
+            m.ingredients_string = m.ingredients_string + ', ' + i.name;
+          }
+          ++count;
+        })
+        count = 0;
+      })
+    }
   }
 
   goToProductSizePage(menu: Menu) {
-    console.log(menu);
     this.navCtrl.push(SelectProductSizePage, {
       menu: menu,
       restaurant: this.restaurant,

@@ -37,11 +37,15 @@
                     <ion-input [(ngModel)] = "user.password" type="password"></ion-input>
                   </ion-item>
 
+                  <ion-item item-left>
+                    <a (click)="resetPassword()">Esqueceu sua senha?</a>
+                  </ion-item>
+
                   <button ion-button block color="fundo" (click)="login(null)">Login</button>
                 </ion-list>
           </ion-card-content>
         </ion-card>
-        <ion-card>
+        <ion-card *ngIf="! isWeb">
           <ion-card-header>
             Login por rede social
           </ion-card-header>

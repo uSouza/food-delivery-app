@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, LoadingController
 import { Order } from '../../models/order';
 import { OrdersProvider } from '../../providers/orders/orders';
 import { MyOrdersPage } from '../my-orders/my-orders';
+import { DatePipe } from '@angular/common';
 
 /**
  * Generated class for the OrderDetailPage page.
@@ -23,6 +24,7 @@ export class OrderDetailPage {
   drink_price: any = 0;
   lunch_price: any = 0;
   access_token: any;
+  isCancelable: boolean = false;
   loader = this.loadingCtrl.create({
     content: "Carregando..."
   });
@@ -43,6 +45,7 @@ export class OrderDetailPage {
               public navParams: NavParams,
               private orderService: OrdersProvider,
               public alertCtrl: AlertController,
+              public datepipe: DatePipe,
               public loadingCtrl: LoadingController) {
     this.order = navParams.data.order;
     this.access_token = navParams.data.access_token;
@@ -51,6 +54,15 @@ export class OrderDetailPage {
   ionViewDidLoad() {
     console.log(this.order);
     this.updateValues();
+    this.orderService
+        .now(this.access_token)
+        .subscribe(
+          now => {
+            if (this.datepipe.transform(now.date, 'yyyy-MM-dd') == this.datepipe.transform(this.order.created_at, 'yyyy-MM-dd')) {
+              this.isCancelable = true;
+            }
+          }
+        )
   }
 
   updateValues() {

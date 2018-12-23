@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Authorization } from '../../models/authorization';
 import { Order } from '../../models/order';
 import { Observable } from 'rxjs/Observable';
+import { api_url} from '../../config';
 
 /*
   Generated class for the OrdersProvider provider.
@@ -16,8 +17,7 @@ export class OrdersProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'https://api.pandeco.com.br/api/v1/';
-  endpoint = 'orders';
+  endpoint = 'api/v1/orders';
 
   addOrder(authorization: Authorization, order: Order): Observable<Order> {
     let data = {
@@ -29,9 +29,10 @@ export class OrdersProvider {
       status_id: order.status_id,
       form_payment_id: order.form_payment_id,
       products_ids: order.products_ids,
-      location_id: order.location_id
+      location_id: order.location_id,
+      time_delivery: order.time_delivery,
     };
-    return this.http.post<Order>(this.url_api + this.endpoint, data,{
+    return this.http.post<Order>(api_url + this.endpoint, data,{
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + authorization.access_token,
@@ -41,7 +42,7 @@ export class OrdersProvider {
   }
 
   getOrders(access_token: any, client_id: any): Observable<Order[]> {
-    return this.http.get<Order[]>(this.url_api + this.endpoint + '/client/' + client_id,
+    return this.http.get<Order[]>(api_url + this.endpoint + '/client/' + client_id,
       {headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + access_token
@@ -50,12 +51,21 @@ export class OrdersProvider {
   }
 
   cancelOrder(access_token: any, order: any): Observable<Order> {
-    return this.http.get<Order>(this.url_api + this.endpoint + '/cancel/' + order.id,
+    return this.http.get<Order>(api_url + this.endpoint + '/cancel/' + order.id,
       {
         headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + access_token
         }
       });
+  }
+
+  now(access_token: any) {
+    return this.http.get<any>('http://api.pandeco.com.br/api/now',
+    {headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + access_token
+            }
+    });
   }
 }

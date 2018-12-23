@@ -44,28 +44,36 @@
   </ion-card>
   <ion-card>
      <ion-card-header>
-        <h2><strong>Refeições</strong></h2>
+        <h2><strong>Refeições do dia</strong></h2>
      </ion-card-header>
-     <ion-card *ngIf="items.length == 0">
+     <ion-card *ngIf="menus.length == 0">
        <ion-item>
           <h3>
-              <strong>Não há cardápios disponíveis.</strong>
+              <strong>O restaurante não está recebendo pedidos.</strong>
           </h3>
        </ion-item>
      </ion-card>
-     <ion-item *ngIf="items.length > 0">
-        <accordion-list *ngFor="let item of items; let index = index"
-        [title]="item.date"
-        textColor="#222"
-        hasMargin="true"
-        headerColor="#f4f4f4">
-        <ion-list no-lines>
-           <button color="#8888" ion-item *ngFor="let menu of item.menus" (click)="goToProductSizePage(menu)">
-           {{menu.description}}
-           <p style="font-size: smaller; color: #00b300"><b>A partir de {{menu.min_price | currency: 'BRL': true}}</b></p>
-           </button>
-        </ion-list>
-        </accordion-list>
-     </ion-item>
+     <ion-card *ngFor="let menu of menus" (click)="goToProductSizePage(menu)">
+        <ion-card-content>
+            <h2><strong>{{menu.description}}</strong></h2>
+            <h3><strong>Ingredientes: </strong> {{menu.ingredients_string}}</h3>
+            <h3><strong>A partir de </strong><strong style="color: #00b300">{{menu.min_price | currency: 'BRL': true}}</strong></h3>
+        </ion-card-content>
+     </ion-card>
   </ion-card>
 </ion-content>
+
+<!--
+<accordion-list *ngFor="let item of items; let index = index"
+[title]="item.date"
+textColor="#222"
+hasMargin="true"
+headerColor="#f4f4f4">
+<ion-list no-lines>
+   <button color="#8888" ion-item *ngFor="let menu of item.menus" (click)="goToProductSizePage(menu)">
+   {{menu.description}}
+   <p style="font-size: smaller; color: #00b300"><b>A partir de {{menu.min_price | currency: 'BRL': true}}</b></p>
+   </button>
+</ion-list>
+</accordion-list>
+-->

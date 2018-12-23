@@ -12,4 +12,5 @@ export class Menu {
   url: string;
   image_base64: string;
   deleted_at: string;
+  ingredients_string: string;
 }

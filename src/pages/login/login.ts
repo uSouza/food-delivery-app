@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, LoadingController, AlertController } from 'ionic-angular';
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Ingredient } from '../../models/ingredient';
@@ -41,6 +41,7 @@ export class LoginPage {
   user: UserPandeco = new UserPandeco();
   selected_additionals?: AdditionalRestaurant[];
   page: string = null;
+  isWeb: boolean = false;
   is_facebook: boolean = false;
   products: Product[] = [];
   loader = this.loadingCtrl.create({
@@ -55,6 +56,7 @@ export class LoginPage {
               private oneSignal: OneSignal,
               public loadingCtrl: LoadingController,
               public clientService: ClientsProvider,
+              public alertCtrl: AlertController,
               private storage: Storage,
               private facebook: Facebook) {
     if (navParams.data.page == 'additionalsPage') {
@@ -72,6 +74,9 @@ export class LoginPage {
 
   ionViewDidLoad() {
     console.log(this.navParams.data);
+    if (! isCordovaAvailable()) {
+      this.isWeb = true;
+    }
   }
 
   failed() {
@@ -274,6 +279,64 @@ export class LoginPage {
               console.log(err)
             }
         )
+  }
+
+  resetPassword() {
+    const prompt = this.alertCtrl.create({
+      title: 'Redefinir Senha',
+      message: "Informe o seu e-mail",
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'E-mail'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'OK',
+          handler: data => {
+            this.loader.present();
+            this.userService
+                .reset(this.authorization.access_token, data.email)
+                .subscribe(
+                  success => {
+                    this.loader.dismiss();
+                    const confirm = this.alertCtrl.create({
+                      title: 'Solicitação realizada!',
+                      subTitle: 'Realizamos o envio de um link para redefinição da sua senha para o e-mail informado. Favor, acesse seu e-mail e redefina a sua senha.',
+                      buttons: [
+                        {
+                          text: 'Ok'
+                        }
+                      ]
+                    });
+                    confirm.present();
+                  },
+                  err => {
+                    this.loader.dismiss();
+                    const confirm = this.alertCtrl.create({
+                      title: 'Solicitação recusada!',
+                      subTitle: 'O e-mail informado não foi encontrado em nossa base de dados!',
+                      buttons: [
+                        {
+                          text: 'Ok'
+                        }
+                      ]
+                    });
+                    confirm.present();
+                  }
+                )
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
 }

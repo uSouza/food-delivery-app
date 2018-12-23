@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
 import { Product } from "../../models/product";
+import { api_url} from '../../config';
 /*
   Generated class for the ProductsProvider provider.
 
@@ -15,8 +16,7 @@ export class ProductsProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'https://api.pandeco.com.br/api/v1/';
-  endpoint = 'products';
+  endpoint = 'api/v1/products';
 
   addProduct(authorization: Authorization, product: Product): Observable<Product> {
     let data = {
@@ -27,7 +27,7 @@ export class ProductsProvider {
       ingredients_ids: product.ingredients_ids,
       additionals: product.additionals
     };
-    return this.http.post<Product>(this.url_api + this.endpoint, data,{
+    return this.http.post<Product>(api_url + this.endpoint, data,{
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + authorization.access_token,
@@ -37,7 +37,7 @@ export class ProductsProvider {
   }
 
   getProduct(access_token: any, product_id: any) {
-    return this.http.get<Product>(this.url_api + this.endpoint + '/' + product_id,
+    return this.http.get<Product>(api_url + this.endpoint + '/' + product_id,
       {headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + access_token

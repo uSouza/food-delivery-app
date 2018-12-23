@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { UserPandeco } from '../../models/user-pandeco';
 import {Authorization} from "../../models/authorization";
+import { api_url} from '../../config';
 
 /*
   Generated class for the UsersProvider provider.
@@ -15,9 +16,7 @@ export class UsersProvider {
 
   constructor(public http: HttpClient) {
   }
-
-  url_api = 'https://api.pandeco.com.br/api/v1/';
-  endpoint = 'users';
+  endpoint = 'api/v1/users';
 
   addUser(authorization: Authorization, email: string, name: string, uid: string): Observable<UserPandeco> {
     let data = {
@@ -26,7 +25,7 @@ export class UsersProvider {
       name: name,
       password: uid
     };
-    return this.http.post<UserPandeco>(this.url_api + this.endpoint, data, {
+    return this.http.post<UserPandeco>(api_url + this.endpoint, data, {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + authorization.access_token,
@@ -39,7 +38,7 @@ export class UsersProvider {
     let data = {
       player_id: player_id
     };
-    return this.http.post<any>(this.url_api + this.endpoint + '/one_signal', data, {
+    return this.http.post<any>(api_url + this.endpoint + '/one_signal', data, {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + access_token,
@@ -49,7 +48,7 @@ export class UsersProvider {
   }
 
   findUserByEmail(authorization: Authorization, email: string) {
-    return this.http.get<UserPandeco>(this.url_api + this.endpoint + '/' + email,
+    return this.http.get<UserPandeco>(api_url + this.endpoint + '/' + email,
       {headers: {
                 'Accept': 'application/json',
                 'Authorization': 'Bearer ' + authorization.access_token
@@ -58,11 +57,24 @@ export class UsersProvider {
   }
 
   getUser(access_token: any) {
-    return this.http.get<UserPandeco>(this.url_api + this.endpoint + '/me',
+    return this.http.get<UserPandeco>(api_url + this.endpoint + '/me',
     {headers: {
               'Accept': 'application/json',
               'Authorization': 'Bearer ' + access_token
             }
+    });
+  }
+
+  reset(access_token: any, email: any) {
+    let data = {
+      email: email
+    };
+    return this.http.post<any>(api_url + 'api/v1/password/create' , data, {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer ' + access_token,
+        'Content-Type': 'application/json'
+      }
     });
   }
 

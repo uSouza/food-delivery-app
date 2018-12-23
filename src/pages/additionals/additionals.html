@@ -18,7 +18,7 @@
 
 <ion-content>
   <ion-item-group>
-      <ion-item-divider color="light">
+      <ion-item-divider *ngIf="additionals.length > 0" color="light">
         <ion-row>
           <ion-col col-12>
             Adicionais
@@ -36,7 +36,7 @@
     </ion-list>
   </ion-item-group>
   <ion-item-group>
-    <ion-item-divider color="light">
+    <ion-item-divider color="light" *ngIf="drinks.length > 0">
       <ion-row>
         <ion-col col-12>
           Bebidas

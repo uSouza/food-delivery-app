@@ -4,6 +4,7 @@ import {Menu} from "../../models/menu";
 import {Authorization} from "../../models/authorization";
 import {Observable} from "rxjs/Observable";
 import {Restaurant} from "../../models/restaurant";
+import { api_url} from '../../config';
 
 /*
   Generated class for the MenusProvider provider.
@@ -17,11 +18,10 @@ export class MenusProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'https://api.pandeco.com.br/api/v1/';
-  endpoint = 'menus/company/';
+  endpoint = 'api/v1/menus/company/';
 
   getMenuByRestaurant (authorization: Authorization, restaurant: Restaurant): Observable<Menu[]> {
-    return this.http.get<Menu[]>(this.url_api + this.endpoint + restaurant.id,
+    return this.http.get<Menu[]>(api_url + this.endpoint + restaurant.id,
       {headers: {
           'Accept': 'application/json',
           'Authorization': 'Bearer ' + authorization.access_token

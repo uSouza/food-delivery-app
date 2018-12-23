@@ -5,6 +5,7 @@ import { MyOrdersPage } from '../../my-orders/my-orders';
 import { UserEditPage } from '../../user-edit/user-edit';
 import { AppVersion } from '@ionic-native/app-version';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { isCordovaAvailable } from '../../../common/is-cordova-available';
 /**
  * Generated class for the PopoverRestaurantPage page.
  *
@@ -21,6 +22,7 @@ export class PopoverRestaurantPage {
 
   username: any = null;
   email: any = null;
+  isWeb: boolean = false;
   version: any = null;
 
   constructor(public navCtrl: NavController,
@@ -44,9 +46,15 @@ export class PopoverRestaurantPage {
         this.email = val;
       }
     });
-    this.appVersion.getVersionNumber().then(version => {
-      this.version = version;
-    });
+    if (isCordovaAvailable()) {
+      this.appVersion.getVersionNumber().then(version => {
+        this.version = version;
+      });
+    }
+
+    if (! isCordovaAvailable()) {
+      this.isWeb = true;
+    }
   }
 
   optionsUsers() {

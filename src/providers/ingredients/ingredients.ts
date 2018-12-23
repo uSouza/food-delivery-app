@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Authorization} from "../../models/authorization";
 import {Menu} from "../../models/menu";
 import {IngredientGroup} from "../../models/ingredient-group";
+import { api_url} from '../../config';
 
 /*
   Generated class for the IngredientsProvider provider.
@@ -17,11 +18,10 @@ export class IngredientsProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'https://api.pandeco.com.br/api/v1/';
-  endpoint = 'ingredient_groups/menu/';
+  endpoint = 'api/v1/ingredient_groups/menu/';
 
   getIngredientsGroupByMenu (authorization: Authorization, menu: Menu): Observable<IngredientGroup[]> {
-    return this.http.get<IngredientGroup[]>(this.url_api + this.endpoint + menu.id,
+    return this.http.get<IngredientGroup[]>(api_url + this.endpoint + menu.id,
       {
         headers: {
           'Accept': 'application/json',

@@ -6,6 +6,11 @@
         <ion-icon name="more"></ion-icon>
       </button>
     </ion-buttons>
+    <ion-buttons *ngIf="! logged && ! isWeb" end>
+      <button ion-button icon-only (click)="chat()">
+        <ion-icon name="logo-whatsapp"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>Pandeco</ion-title>
     <p style="margin-left: 11px; margin-top: 3px; color:white"><ion-icon name="pin"></ion-icon>    Toledo-PR</p>
   </ion-navbar>
@@ -43,6 +48,12 @@
             <p style="color: #00b300">
                 <b>Entrega: {{restaurant.delivery_value === null || restaurant.delivery_value === 0 || restaurant.delivery_value === '0' ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
               </p>
+              <p style="margin-top: 10px" *ngIf="restaurant.only_cash">
+                <ion-icon name="ios-cash" style="font-size: 30px;"></ion-icon>
+            </p>
+            <p style="margin-top: 10px" *ngIf="! restaurant.only_cash || restaurant.only_cash == null">
+              <ion-icon name="ios-cash" style="margin-right: 5px; font-size: 30px;"></ion-icon><ion-icon name="ios-card" style="font-size: 30px;"></ion-icon>
+            </p>
         </ion-col>
       </ion-row>
     </ion-card>
@@ -57,6 +68,11 @@
           <ion-card-title style="font-size: large">
               {{restaurant.fantasy_name}}
           </ion-card-title>
+          <p>
+              <ion-badge color="danger">
+                Fechado
+              </ion-badge>
+            </p>
             <p>
               <ion-badge color="tag">
                 Abre às {{'2018-01-01 ' + restaurant.open_at | date:'H:mm'}}
@@ -68,6 +84,12 @@
             <p style="color: #00b300">
                 <b>Entrega: {{restaurant.delivery_value === null || restaurant.delivery_value === 0 || restaurant.delivery_value === '0' ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
               </p>
+              <p style="margin-top: 10px" *ngIf="restaurant.only_cash">
+                <ion-icon name="ios-cash" style="font-size: 30px;"></ion-icon>
+            </p>
+            <p style="margin-top: 10px" *ngIf="! restaurant.only_cash || restaurant.only_cash == null">
+              <ion-icon name="ios-cash" style="margin-right: 5px; font-size: 30px;"></ion-icon><ion-icon name="ios-card" style="font-size: 30px;"></ion-icon>
+            </p>
         </ion-col>
       </ion-row>
     </ion-card>

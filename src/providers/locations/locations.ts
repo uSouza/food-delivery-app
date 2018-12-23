@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Authorization } from '../../models/authorization';
 import { Location } from '../../models/location';
+import { api_url} from '../../config';
 import { Observable } from 'rxjs/Observable';
 
 /*
@@ -15,8 +16,7 @@ export class LocationsProvider {
 
   constructor(public http: HttpClient) {
   }
-  url_api = 'https://api.pandeco.com.br/api/v1/';
-  endpoint = 'clients_locations';
+  endpoint = 'api/v1/clients_locations';
 
   addLocation(authorization: Authorization, location: Location): Observable<Location> {
     let data = {
@@ -28,7 +28,7 @@ export class LocationsProvider {
       postal_code: '99999-999',
       observation: location.observation,
     };
-    return this.http.post<Location>(this.url_api + this.endpoint, data, {
+    return this.http.post<Location>(api_url + this.endpoint, data, {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + authorization.access_token,
@@ -47,7 +47,7 @@ export class LocationsProvider {
       postal_code: '99999-999',
       observation: location.observation,
     };
-    return this.http.post<Location>(this.url_api + this.endpoint, data, {
+    return this.http.post<Location>(api_url + this.endpoint, data, {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + authorization,
@@ -57,7 +57,7 @@ export class LocationsProvider {
   }
 
   getLocations(authorization: Authorization): Observable<Location[]> {
-    return this.http.get<Location[]>(this.url_api + this.endpoint,
+    return this.http.get<Location[]>(api_url + this.endpoint,
       {
         headers: {
           'Accept': 'application/json',
@@ -67,7 +67,7 @@ export class LocationsProvider {
   }
 
   getLocationsAccessToken(access_token: any): Observable<Location[]> {
-    return this.http.get<Location[]>(this.url_api + this.endpoint,
+    return this.http.get<Location[]>(api_url + this.endpoint,
       {
         headers: {
           'Accept': 'application/json',
@@ -77,7 +77,7 @@ export class LocationsProvider {
   }
 
   deleteLocation(access_token: any, location: any) {
-    return this.http.delete(this.url_api + this.endpoint + '/' + location,
+    return this.http.delete(api_url + this.endpoint + '/' + location,
       {
         headers: {
           'Accept': 'application/json',
@@ -96,7 +96,7 @@ export class LocationsProvider {
       postal_code: '99999-999',
       observation: location.observation,
     };
-    return this.http.put<Location>(this.url_api + this.endpoint + '/' + location.id, data,
+    return this.http.put<Location>(api_url + this.endpoint + '/' + location.id, data,
       {
         headers: {
           'Accept': 'application/json',

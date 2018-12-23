@@ -4,6 +4,7 @@ import { Authorization } from '../../models/authorization';
 import { Client } from '../../models/client';
 import { Observable } from 'rxjs/Observable';
 import { UserPandeco } from '../../models/user-pandeco';
+import { api_url} from '../../config';
 
 /*
   Generated class for the ClientsProvider provider.
@@ -17,8 +18,7 @@ export class ClientsProvider {
   constructor(public http: HttpClient) {
   }
 
-  url_api = 'https://api.pandeco.com.br/api/v1/';
-  endpoint = 'clients';
+  endpoint = 'api/v1/clients';
 
   addClient(authorization: Authorization, user: UserPandeco, cell_phone: string, phone: string): Observable<Client> {
     let data = {
@@ -28,7 +28,7 @@ export class ClientsProvider {
       cell_phone: cell_phone
     };
 
-    return this.http.post<Client>(this.url_api + this.endpoint, data, {
+    return this.http.post<Client>(api_url + this.endpoint, data, {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + authorization.access_token,
@@ -45,7 +45,7 @@ export class ClientsProvider {
       cell_phone: client.cell_phone
     };
 
-    return this.http.put<Location>(this.url_api + this.endpoint + '/' + client.id, data,
+    return this.http.put<Location>(api_url + this.endpoint + '/' + client.id, data,
       {
         headers: {
           'Accept': 'application/json',

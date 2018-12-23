@@ -102,7 +102,10 @@ export class RegisterPage {
                   duration: 2000,
                   position: 'bottom'
                 });
+                this.loader.dismiss();
                 toast.present(toast);
+                this.user.password = null;
+                this.confirm_password = null;
               }
             )
       } else {
@@ -142,7 +145,7 @@ export class RegisterPage {
         this.getAccessToken(res);
       });
     }
-    this.navCtrl.push(LocationsPage, {
+    this.navCtrl.setRoot(LocationsPage, {
       client: client,
       clientAuthorization: clientAuthorization,
       menu: this.menu,

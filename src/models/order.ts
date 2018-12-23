@@ -4,6 +4,7 @@ export class Order {
   price: number;
   observation: string;
   receive_at: string;
+  created_at: string;
   client_id: number;
   company_id: number;
   deliver: boolean;
@@ -14,4 +15,5 @@ export class Order {
   location_id: number;
   value: number;
   products: Product[];
+  time_delivery: string;
 }

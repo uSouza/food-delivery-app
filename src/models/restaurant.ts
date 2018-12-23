@@ -17,4 +17,5 @@ export class Restaurant {
   additionals: object;
   delivery_value: number;
   is_open: boolean;
+  only_cash: boolean;
 }
