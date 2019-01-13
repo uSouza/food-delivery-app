@@ -61,7 +61,7 @@ export class OrdersProvider {
   }
 
   now(access_token: any) {
-    return this.http.get<any>('http://api.pandeco.com.br/api/now',
+    return this.http.get<any>(api_url + 'api/now',
     {headers: {
               'Accept': 'application/json',
               'Authorization': 'Bearer ' + access_token

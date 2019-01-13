@@ -23,7 +23,7 @@
                 <ion-item *ngIf="!deliver && locations.length > 0">
                     <ion-label floating>Selecione o local</ion-label>
                     <ion-select [(ngModel)]="location" interface="popover">
-                      <ion-option name="item-select" ngDefaultControl *ngFor="let location of locations" value="{{location.id}}">{{location.address + ' - ' + location.number + ' - ' + location.district}}</ion-option>
+                      <ion-option name="item-select" ngDefaultControl *ngFor="let location of locations" value="{{location.id}}">{{location.address + ' - ' + location.number + ' - ' + location.district.name}}</ion-option>
                     </ion-select>
                 </ion-item>
                 <ion-item *ngIf="!deliver">

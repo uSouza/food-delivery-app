@@ -30,10 +30,10 @@
                   <strong>Endereço: </strong>{{restaurant.locations[0].address}} - {{restaurant.locations[0].number}}
               </p>
               <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
-                  <strong>Bairro: </strong>{{restaurant.locations[0].district}}
+                  <strong>Bairro: </strong>{{restaurant.locations[0].district.name}}
               </p>
               <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
-                  <strong>Cidade: </strong>{{restaurant.locations[0].city}}
+                  <strong>Cidade: </strong>{{restaurant.locations[0].district.city.name}}
               </p>
               <ion-badge style="margin-left: 3px; margin-top: 2px" color="tag" col-5 *ngFor="let tag of restaurant.tags">
                  {{tag.name}}

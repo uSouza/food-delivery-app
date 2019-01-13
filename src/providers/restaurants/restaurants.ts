@@ -22,4 +22,13 @@ export class RestaurantsProvider {
         });
   }
 
+  getRestaurantsByCity(authorization: Authorization, city: any): Observable<Restaurant[]> {
+    return this.http.get<Restaurant[]>(api_url + this.endpoint + '/available/city/' + city.id,
+      {headers: {
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + authorization.access_token
+              }
+      });
+}
+
 }

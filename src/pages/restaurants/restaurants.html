@@ -12,7 +12,7 @@
       </button>
     </ion-buttons>
     <ion-title>Pandeco</ion-title>
-    <p style="margin-left: 11px; margin-top: 3px; color:white"><ion-icon name="pin"></ion-icon>    Toledo-PR</p>
+    <p style="margin-left: 11px; margin-top: 3px; color:white" *ngIf="city != null"><ion-icon name="pin"></ion-icon>    {{ city.name }}</p>
   </ion-navbar>
 </ion-header>
 

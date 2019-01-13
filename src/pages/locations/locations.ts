@@ -10,11 +10,13 @@ import { Client } from '../../models/client';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { OrderCompletionPage } from '../order-completion/order-completion';
 import { Price } from '../../models/price';
+import { Storage } from '@ionic/storage';
 import { UserPandeco } from '../../models/user-pandeco';
 import { MyOrdersPage } from '../my-orders/my-orders';
 import { UserEditPage } from '../user-edit/user-edit';
 import { PreOrderCompletionPage } from '../pre-order-completion/pre-order-completion';
 import { Product } from '../../models/product';
+import { Timespan } from '@mobiscroll/angular/src/js/presets/timespan';
 
 @IonicPage()
 @Component({
@@ -24,6 +26,9 @@ import { Product } from '../../models/product';
 export class LocationsPage {
 
   locations: Location[] = [];
+  city: any;
+  district: any = null;
+  districts = [];
   location: Location = new Location();
   clientAuthorization: Authorization;
   restaurant: Restaurant;
@@ -44,6 +49,7 @@ export class LocationsPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private locationsService: LocationsProvider,
+              private storage: Storage,
               public loadingCtrl: LoadingController,
               public toastCtrl: ToastController) {
     this.clientAuthorization = this.navParams.data.clientAuthorization;
@@ -61,7 +67,22 @@ export class LocationsPage {
   }
 
   ionViewDidLoad() {
-    console.log(this.navParams.data);
+    this.storage.get('city').then((val) => {
+      if(val != null) {
+        this.city = val;
+        this.getDistricts();
+      }
+    });
+  }
+
+  getDistricts() {
+    this.locationsService
+      .getDistricts(this.authorization.access_token, this.city.id)
+      .subscribe(
+        districts => {
+          this.districts = districts;
+        }
+      )
   }
 
   addLocation(location: Location) {
@@ -81,7 +102,7 @@ export class LocationsPage {
         position: 'bottom'
       });
       toast.present(toast);
-    } else if (this.location.district == null) {
+    } else if (this.district == null) {
       let toast = this.toastCtrl.create({
         message: 'É necessário informar o bairro!',
         duration: 2000,
@@ -90,6 +111,7 @@ export class LocationsPage {
       toast.present(toast);
     } else {
       this.loader.present();
+      this.location.district = this.district.id;
       this.locationsService
         .addLocation(this.clientAuthorization, this.location)
         .subscribe(

@@ -13,21 +13,21 @@
 
 <ion-content>
   <ion-card *ngFor="let location of locations">
-      <ion-item>
+    <ion-card-content>
         <h2>
-          <strong>Local: </strong> {{location.address}} - {{location.number}} - {{location.district}}
-        </h2>
-      </ion-item>
-      <ion-item>
-        <ion-buttons start>
-          <button (click)="editLocation(location)" ion-button small color="secondary">
-            Editar
-          </button>
-          <button (click)="deleteLocation(location.id)" ion-button small color="danger">
-            Deletar
-          </button>
-        </ion-buttons>
-      </ion-item>
+            <strong>Local: </strong> {{location.address}} - {{location.number}} - {{location.district.name}}
+          </h2>
+        <ion-item>
+          <ion-buttons start>
+            <button (click)="editLocation(location)" ion-button small color="secondary">
+              Editar
+            </button>
+            <button (click)="deleteLocation(location.id)" ion-button small color="danger">
+              Deletar
+            </button>
+          </ion-buttons>
+        </ion-item>
+    </ion-card-content>
   </ion-card>
   <ion-fab right bottom>
     <button ion-button color="fundo" (click)="addLocation()" round>Novo local</button>

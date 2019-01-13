@@ -22,6 +22,7 @@ import { UserEditPage } from "../pages/user-edit/user-edit";
 import { LocationsManagerPage } from "../pages/user-edit/locations-manager/locations-manager";
 import { HttpClientModule } from "@angular/common/http";
 
+import { IonicSelectableModule } from 'ionic-selectable';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthenticationProvider } from '../providers/authentication/authentication';
@@ -68,6 +69,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     FormsModule,
     MbscModule,
     BrowserModule,
+    IonicSelectableModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
     IonicStorageModule.forRoot(),

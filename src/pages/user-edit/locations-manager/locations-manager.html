@@ -25,8 +25,15 @@
             <ion-input [(ngModel)] = "location.number" type="text"></ion-input>
           </ion-item>
           <ion-item>
-            <ion-label floating>Bairro</ion-label>
-            <ion-input [(ngModel)] = "location.district" type="text"></ion-input>
+            <ion-label >Bairro</ion-label>
+            <ionic-selectable
+              item-content
+              [(ngModel)]="district"
+              [items]="districts"
+              itemValueField="id"
+              itemTextField="name"
+              [canSearch]="true">
+          </ionic-selectable>
           </ion-item>
           <ion-item>
             <ion-label floating>Observações sobre o local</ion-label>

@@ -24,7 +24,7 @@ export class LocationsProvider {
       state: 'Paraná',
       address: location.address,
       number: location.number,
-      district: location.district,
+      district_id: location.district,
       postal_code: '99999-999',
       observation: location.observation,
     };
@@ -43,7 +43,7 @@ export class LocationsProvider {
       state: 'Paraná',
       address: location.address,
       number: location.number,
-      district: location.district,
+      district_id: location.district,
       postal_code: '99999-999',
       observation: location.observation,
     };
@@ -92,7 +92,7 @@ export class LocationsProvider {
       state: 'Paraná',
       address: location.address,
       number: location.number,
-      district: location.district,
+      district_id: location.district,
       postal_code: '99999-999',
       observation: location.observation,
     };
@@ -104,4 +104,25 @@ export class LocationsProvider {
         }
       })
   }
+
+  getCities(access_token: any) {
+    return this.http.get<any[]>(api_url + 'api/v1/cities',
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
+      });
+  }
+
+  getDistricts(access_token: any, city_id: any) {
+    return this.http.get<any[]>(api_url + 'api/v1/districts/city/' + city_id,
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
+      });
+  }
+
 }

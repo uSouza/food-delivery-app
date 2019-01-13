@@ -14,6 +14,7 @@ import { Order } from '../../models/order';
 import { OrdersProvider } from '../../providers/orders/orders';
 import { DatePipe } from '@angular/common';
 import { ClientsProvider } from '../../providers/clients/clients';
+import * as moment from 'moment';
 
 @IonicPage()
 @Component({
@@ -85,8 +86,16 @@ export class OrderCompletionPage {
         .subscribe(
           now => {
             this.now = now;
+            this.setDeliverHour();
           }
         )
+  }
+
+  setDeliverHour() {
+    const hour = moment(moment(this.now.date));
+    const deliverHour = hour.add(this.restaurant.avg_delivery_time.split(':')[1], 'minutes');
+    console.log('hour', hour);
+    console.log('deliverHour', deliverHour);
   }
 
   getClientLocations() {
@@ -96,6 +105,25 @@ export class OrderCompletionPage {
         locations => this.locations = locations
       )
   }
+
+  /*hourValidate() {
+    this.orderService
+        .now(this.clientAuthorization.access_token)
+        .subscribe(
+          serverNow => {
+            let horaInformada = moment(moment().format('YYYY-MM-DD') + ' ' + this.hour);
+            let horaAtual = moment(moment(serverNow).format('YYYY-MM-DD HH:mm:ss'));
+            let diferencaInformadaAtual = moment.duration(horaAtual.diff(horaInformada));
+            let diferencaInformadaAtualHoras = diferencaInformadaAtual.asHours();
+            let horaEntrega = moment(moment().format('YYYY-MM-DD') + ' ' + this.restaurant.avg_delivery_time);
+            let diferencaInformadaEntrega = moment.duration(horaEntrega.diff(horaInformada));
+
+            console.log(diferencaInformadaAtualHoras);
+            console.log(diferencaInformadaEntrega.asHours());
+            
+          }
+        )
+  }*/
 
   setLocations(locations) {
     this.locations = locations;

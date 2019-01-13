@@ -288,6 +288,7 @@ export class LoginPage {
       inputs: [
         {
           name: 'email',
+          type: 'email',
           placeholder: 'E-mail'
         },
       ],

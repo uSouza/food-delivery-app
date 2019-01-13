@@ -4,7 +4,7 @@ export class Location {
   state: string;
   address: string;
   number: string;
-  district: string;
+  district: any;
   postal_code: string;
   observation: string;
 }
