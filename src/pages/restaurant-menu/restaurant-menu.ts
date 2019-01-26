@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, AlertController, ModalController } from 'ionic-angular';
 import {Restaurant} from "../../models/restaurant";
 import {AuthenticationProvider} from "../../providers/authentication/authentication";
 import {MenusProvider} from "../../providers/menus/menus";
@@ -9,6 +9,7 @@ import { SelectProductSizePage } from '../select-product-size/select-product-siz
 import { DatePipe } from '@angular/common';
 import { Product } from '../../models/product';
 import { RestaurantsPage } from '../restaurants/restaurants';
+import { FreightsPage } from '../freights/freights';
 
 @IonicPage()
 @Component({
@@ -32,6 +33,7 @@ export class RestaurantMenuPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public menuService: MenusProvider,
+              public modalCtrl: ModalController,
               public authenticationService: AuthenticationProvider,
               public loadingCtrl: LoadingController,
               public alertCtrl: AlertController,
@@ -225,6 +227,14 @@ export class RestaurantMenuPage {
       ]
     });
     confirm.present();
+  }
+
+  showFreights(restaurant) {
+    let profileModal = this.modalCtrl.create(FreightsPage, { restaurant: restaurant });
+    profileModal.present();
+    profileModal.onDidDismiss(data => {
+      console.log(data);
+    });
   }
 
 

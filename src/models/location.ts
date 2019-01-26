@@ -5,6 +5,7 @@ export class Location {
   address: string;
   number: string;
   district: any;
+  district_id: any;
   postal_code: string;
   observation: string;
 }

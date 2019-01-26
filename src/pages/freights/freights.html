@@ -1,0 +1,27 @@
+<ion-header>
+    <ion-navbar color="fundo">
+        <ion-buttons end>
+            <button ion-button icon-only (click)='goToHome()'>
+              <ion-icon color='white' name='close'>
+              </ion-icon>
+            </button>
+        </ion-buttons>
+      <ion-title>Fretes - {{ restaurant.fantasy_name }}</ion-title>
+    </ion-navbar>
+  </ion-header>
+
+  <ion-content padding>
+      <ion-list inset>
+        <ion-item *ngFor="let f of restaurant.freights">
+            <h2>
+              {{ f.district.name }}
+            </h2>
+            <h2 item-end style="color: #00b300">
+              <strong>{{ f.value == 0 ? 'Gratuíta' :  f.value | currency: 'BRL': true}}</strong>
+            </h2>
+        </ion-item>
+      </ion-list>
+      <ion-fab right bottom>
+        <button ion-fab color="fundo" (click)="goToHome()"><ion-icon name="ios-arrow-back"></ion-icon></button>
+      </ion-fab>
+  </ion-content>

@@ -23,75 +23,89 @@
     </ion-col>
   </ion-row>
   <div *ngFor="let restaurant of restaurants">
-    <ion-card  *ngIf="restaurant.is_open" (click)="goToRestaurantMenuPage(restaurant)">
+    <ion-card  *ngIf="restaurant.is_open">
       <ion-row>
-        <ion-col col-7>
+        <ion-col col-7 (click)="goToRestaurantMenuPage(restaurant)">
           <img src="{{restaurant.image_base64}}"/>
         </ion-col>
         <ion-col col-5>
-          <ion-card-title style="font-size: large">
-              {{restaurant.fantasy_name}}
-          </ion-card-title>
-            <p>
-              <ion-badge color="price">
-                Recebendo pedidos
-              </ion-badge>
-            </p>
-            <p>
-              <ion-badge color="tag">
-                Abre às {{ restaurant.open_at }}
-              </ion-badge>
-            </p>
-            <p style="margin-top: 10px">
-              <ion-icon name="ios-time"></ion-icon> {{'2018-01-01 ' + restaurant.avg_delivery_time | date:'mm'}} minutos
-            </p>
-            <p style="color: #00b300">
-                <b>Entrega: {{restaurant.delivery_value === null || restaurant.delivery_value === 0 || restaurant.delivery_value === '0' ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
-              </p>
-              <p style="margin-top: 10px" *ngIf="restaurant.only_cash">
-                <ion-icon name="ios-cash" style="font-size: 30px;"></ion-icon>
-            </p>
-            <p style="margin-top: 10px" *ngIf="! restaurant.only_cash || restaurant.only_cash == null">
-              <ion-icon name="ios-cash" style="margin-right: 5px; font-size: 30px;"></ion-icon><ion-icon name="ios-card" style="font-size: 30px;"></ion-icon>
-            </p>
+          <div (click)="goToRestaurantMenuPage(restaurant)">
+              <h2 style="margin-bottom: 10px">
+                  <strong>{{restaurant.fantasy_name}}</strong>
+              </h2>
+                <h3>
+                  <ion-badge color="price">
+                    Aberto
+                  </ion-badge>
+                </h3>
+                <h3>
+                  <ion-badge color="tag">
+                    Abre às {{ restaurant.open_at }}
+                  </ion-badge>
+                </h3>
+                <h3>
+                  <ion-icon name="ios-time"></ion-icon> {{'2018-01-01 ' + restaurant.avg_delivery_time | date:'mm'}} minutos
+                </h3>
+                  <h3 style="margin-top: 10px" *ngIf="restaurant.only_cash">
+                    <ion-icon name="ios-cash" style="font-size: 30px;"></ion-icon>
+                  </h3>
+                <h3 *ngIf="! restaurant.only_cash || restaurant.only_cash == null">
+                  <ion-icon name="ios-cash" style="margin-right: 5px; font-size: 30px;"></ion-icon><ion-icon name="ios-card" style="font-size: 30px;"></ion-icon>
+                </h3>
+              </div>
+          <div>
+              <h3 style="margin-left: -13px">
+                  <button *ngIf="restaurant.freights.length > 0" ion-button clear small color="fundo" icon-start (click)="showFreights(restaurant)">
+                    <ion-icon name='eye'></ion-icon>
+                    Frete
+                  </button>
+                </h3>
+              </div>
         </ion-col>
       </ion-row>
     </ion-card>
   </div>
   <div *ngFor="let restaurant of restaurants">
-    <ion-card  *ngIf="! restaurant.is_open" (click)="goToRestaurantMenuPage(restaurant)">
-      <ion-row>
-        <ion-col col-7>
-          <img src="{{restaurant.image_base64}}"/>
-        </ion-col>
-        <ion-col col-5>
-          <ion-card-title style="font-size: large">
-              {{restaurant.fantasy_name}}
-          </ion-card-title>
-          <p>
-              <ion-badge color="danger">
-                Fechado
-              </ion-badge>
-            </p>
-            <p>
-              <ion-badge color="tag">
-                Abre às {{'2018-01-01 ' + restaurant.open_at | date:'H:mm'}}
-              </ion-badge>
-            </p>
-            <p style="margin-top: 10px">
-              <ion-icon name="ios-time"></ion-icon> {{'2018-01-01 ' + restaurant.avg_delivery_time | date:'mm'}} minutos
-            </p>
-            <p style="color: #00b300">
-                <b>Entrega: {{restaurant.delivery_value === null || restaurant.delivery_value === 0 || restaurant.delivery_value === '0' ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
-              </p>
-              <p style="margin-top: 10px" *ngIf="restaurant.only_cash">
-                <ion-icon name="ios-cash" style="font-size: 30px;"></ion-icon>
-            </p>
-            <p style="margin-top: 10px" *ngIf="! restaurant.only_cash || restaurant.only_cash == null">
-              <ion-icon name="ios-cash" style="margin-right: 5px; font-size: 30px;"></ion-icon><ion-icon name="ios-card" style="font-size: 30px;"></ion-icon>
-            </p>
-        </ion-col>
-      </ion-row>
+    <ion-card  *ngIf="! restaurant.is_open">
+        <ion-row>
+            <ion-col col-7 (click)="goToRestaurantMenuPage(restaurant)">
+              <img src="{{restaurant.image_base64}}"/>
+            </ion-col>
+            <ion-col col-5>
+              <div (click)="goToRestaurantMenuPage(restaurant)">
+                  <h2 style="margin-bottom: 10px">
+                      <strong>{{restaurant.fantasy_name}}</strong>
+                  </h2>
+                    <h3>
+                      <ion-badge color="danger">
+                        Fechado
+                      </ion-badge>
+                    </h3>
+                    <h3>
+                      <ion-badge color="tag">
+                        Abre às {{ restaurant.open_at }}
+                      </ion-badge>
+                    </h3>
+                    <h3>
+                      <ion-icon name="ios-time"></ion-icon> {{'2018-01-01 ' + restaurant.avg_delivery_time | date:'mm'}} minutos
+                    </h3>
+                      <h3 style="margin-top: 10px" *ngIf="restaurant.only_cash">
+                        <ion-icon name="ios-cash" style="font-size: 30px;"></ion-icon>
+                      </h3>
+                    <h3 *ngIf="! restaurant.only_cash || restaurant.only_cash == null">
+                      <ion-icon name="ios-cash" style="margin-right: 5px; font-size: 30px;"></ion-icon><ion-icon name="ios-card" style="font-size: 30px;"></ion-icon>
+                    </h3>
+                  </div>
+              <div>
+                  <h4 style="margin-left: -13px">
+                      <button *ngIf="restaurant.freights.length > 0" ion-button clear small color="fundo" icon-start (click)="showFreights(restaurant)">
+                        <ion-icon name='eye'></ion-icon>
+                        Frete
+                      </button>
+                    </h4>
+                  </div>
+            </ion-col>
+          </ion-row>
     </ion-card>
   </div>
 </ion-content>

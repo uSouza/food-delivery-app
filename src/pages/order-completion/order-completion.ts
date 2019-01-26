@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController, ModalController } from 'ionic-angular';
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Product } from '../../models/product';
@@ -15,6 +15,7 @@ import { OrdersProvider } from '../../providers/orders/orders';
 import { DatePipe } from '@angular/common';
 import { ClientsProvider } from '../../providers/clients/clients';
 import * as moment from 'moment';
+import { FreightsPage } from '../freights/freights';
 
 @IonicPage()
 @Component({
@@ -27,6 +28,7 @@ export class OrderCompletionPage {
   restaurant: Restaurant;
   products: Product[] = [];
   authorization: Authorization;
+  freight: any = 0;
   clientAuthorization: Authorization;
   client: Client;
   value: any;
@@ -35,6 +37,7 @@ export class OrderCompletionPage {
   locations: Location[] = [];
   deliver: boolean = false;
   formPayment: any;
+  freight_id: any = null;
   hour: string;
   observation_order: string = '';
   order: Order;
@@ -53,6 +56,7 @@ export class OrderCompletionPage {
               public toastCtrl: ToastController,
               private orderService: OrdersProvider,
               private clientService: ClientsProvider,
+              public modalCtrl: ModalController,
               public datepipe: DatePipe,
               public loadingCtrl: LoadingController) {
     this.authorization = navParams.data.authorization;
@@ -91,6 +95,24 @@ export class OrderCompletionPage {
         )
   }
 
+  updateFreight(location) {
+    if (this.freight > 0) {
+      this.value -= parseFloat(this.freight);
+      this.freight = 0;
+    }
+    this.locations.forEach(l => {
+      if (l.id == location) {
+        this.restaurant.freights.forEach(f => {
+          if (f.district_id == l.district_id) {
+            this.freight = f.value;
+            this.freight_id = f.id;
+          }
+        });
+      }
+    });
+    this.value += parseFloat(this.freight);
+  }
+
   setDeliverHour() {
     const hour = moment(moment(this.now.date));
     const deliverHour = hour.add(this.restaurant.avg_delivery_time.split(':')[1], 'minutes');
@@ -120,7 +142,7 @@ export class OrderCompletionPage {
 
             console.log(diferencaInformadaAtualHoras);
             console.log(diferencaInformadaEntrega.asHours());
-            
+
           }
         )
   }*/
@@ -165,9 +187,9 @@ export class OrderCompletionPage {
     } else if (this.hour.split(':').length < 2) {
       this.showToast('Informe o horário de entrega no formato hh:mm!');
       return false;
-    } else if ((parseInt(this.hour.split(':')[0]) < 0 
+    } else if ((parseInt(this.hour.split(':')[0]) < 0
       || parseInt(this.hour.split(':')[0]) > 23) ||
-      (parseInt(this.hour.split(':')[1]) < 0 || 
+      (parseInt(this.hour.split(':')[1]) < 0 ||
       parseInt(this.hour.split(':')[1]) > 59)) {
         this.showToast('O horário de entrega informado não é válido!');
         return false;
@@ -178,15 +200,13 @@ export class OrderCompletionPage {
 
   orderDeliver(event) {
     if (event.checked) {
-      if (this.restaurant.delivery_value > 0) {
-        this.deliver = true;
-        this.value -= parseFloat(this.restaurant.delivery_value.toString());
-      }
+      this.value -= parseFloat(this.freight);
+      this.freight = 0;
+      this.freight_id = null;
+      this.location = null;
+      this.deliver = true;
     } else {
-      if (this.restaurant.delivery_value > 0) {
         this.deliver = false;
-        this.value += parseFloat(this.restaurant.delivery_value.toString());
-      }
     }
 
   }
@@ -223,6 +243,7 @@ export class OrderCompletionPage {
       order.location_id = this.location;
     }
     order.deliver = !this.deliver;
+    order.freight_id = this.freight_id;
     order.observation = this.observation_order;
     order.observation += '\nObservações para o troco: ' + this.change_remarks;
     order.form_payment_id = this.formPayment;
@@ -285,6 +306,14 @@ export class OrderCompletionPage {
       position: 'bottom'
     });
     toast.present(toast);
+  }
+
+  showFreights(restaurant) {
+    let profileModal = this.modalCtrl.create(FreightsPage, { restaurant: restaurant });
+    profileModal.present();
+    profileModal.onDidDismiss(data => {
+      console.log(data);
+    });
   }
 
 }

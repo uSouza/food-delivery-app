@@ -12,33 +12,37 @@
 <ion-content color="fundo" class="cards-bg">
   <ion-card>
      <ion-row>
-        <ion-col col-4>
+        <ion-col col-5>
            <img src="{{restaurant.image_base64}}"/>
         </ion-col>
-        <ion-col col-8>
-           <ion-card-content>
-              <ion-card-title style="font-size: medium">
-                 {{restaurant.fantasy_name}}
-              </ion-card-title>
-              <p style="font-size: smaller">
-                 {{restaurant.observation}}
-              </p>
-              <p style="font-size: smaller; color: #00b300">
-                 <b>Entrega: {{restaurant.delivery_value === null || restaurant.delivery_value === 0 || restaurant.delivery_value === '0' ? 'gratuíta' : restaurant.delivery_value | currency: 'BRL': true}}</b>
-              </p>
-              <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
-                  <strong>Endereço: </strong>{{restaurant.locations[0].address}} - {{restaurant.locations[0].number}}
-              </p>
-              <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
-                  <strong>Bairro: </strong>{{restaurant.locations[0].district.name}}
-              </p>
-              <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
-                  <strong>Cidade: </strong>{{restaurant.locations[0].district.city.name}}
-              </p>
+        <ion-col col-7>
+            <div>
+                <h3>
+                    <strong>{{restaurant.fantasy_name}}</strong>
+                 </h3>
+                 <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
+                     <strong>Endereço: </strong>{{restaurant.locations[0].address}} - {{restaurant.locations[0].number}}
+                 </p>
+                 <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
+                     <strong>Bairro: </strong>{{restaurant.locations[0].district.name}}
+                 </p>
+                 <p style="font-size: smaller" *ngIf="restaurant.locations.length > 0">
+                     <strong>Cidade: </strong>{{restaurant.locations[0].district.city.name}}
+                 </p>
+            </div>
+            <div>
+              <h4 style="margin-left: -13px">
+                <button *ngIf="restaurant.freights.length > 0" ion-button clear small color="fundo" icon-start (click)="showFreights(restaurant)">
+                  <ion-icon style="margin-top: -2px" name='eye'></ion-icon>
+                    Taxas de frete
+                </button>
+              </h4>
+            </div>
+            <div>
               <ion-badge style="margin-left: 3px; margin-top: 2px" color="tag" col-5 *ngFor="let tag of restaurant.tags">
-                 {{tag.name}}
+                {{tag.name}}
               </ion-badge>
-           </ion-card-content>
+            </div>
         </ion-col>
      </ion-row>
   </ion-card>

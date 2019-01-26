@@ -28,7 +28,7 @@ export class LocationsPage {
   locations: Location[] = [];
   city: any;
   district: any = null;
-  districts = [];
+  districts: any = [];
   location: Location = new Location();
   clientAuthorization: Authorization;
   restaurant: Restaurant;
@@ -86,11 +86,13 @@ export class LocationsPage {
   }
 
   addLocation(location: Location) {
+    console.log(location);
     this.loader.dismiss();
     this.locations.push(location);
     this.location.address = '';
     this.location.number = '';
-    this.location.district = '';
+    this.district = null;
+    this.location.district = null;
     this.location.observation = '';
   }
 

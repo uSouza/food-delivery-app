@@ -19,4 +19,5 @@ export class Restaurant {
   is_open: boolean;
   only_cash: boolean;
   avg_delivery_time: any;
+  freights: any[];
 }

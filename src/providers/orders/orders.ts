@@ -25,6 +25,7 @@ export class OrdersProvider {
       observation: order.observation,
       receive_at: order.receive_at,
       company_id: order.company_id,
+      freight_id: order.freight_id,
       deliver: order.deliver,
       status_id: order.status_id,
       form_payment_id: order.form_payment_id,

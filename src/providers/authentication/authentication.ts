@@ -49,4 +49,13 @@ export class AuthenticationProvider {
     return this.http.post<Authorization>(api_url + this.endpoint, data, {headers: headers});
   }
 
+  getMinVersion(access_token) {
+    return this.http.get<any>(api_url + 'api/min_version',
+    {headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ' + access_token
+            }
+    });
+  }
+
 }

@@ -16,4 +16,5 @@ export class Order {
   value: number;
   products: Product[];
   time_delivery: string;
+  freight_id: number;
 }

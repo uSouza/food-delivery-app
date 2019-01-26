@@ -18,6 +18,7 @@ import { LocationsPage } from "../pages/locations/locations";
 import { OrderCompletionPage } from "../pages/order-completion/order-completion";
 import { PreOrderCompletionPage } from "../pages/pre-order-completion/pre-order-completion";
 import { OrderDetailPage } from "../pages/order-detail/order-detail";
+import { FreightsPage } from "../pages/freights/freights";
 import { UserEditPage } from "../pages/user-edit/user-edit";
 import { LocationsManagerPage } from "../pages/user-edit/locations-manager/locations-manager";
 import { HttpClientModule } from "@angular/common/http";
@@ -63,6 +64,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     LocationsManagerPage,
     PopoverRestaurantPage,
     PreOrderCompletionPage,
+    FreightsPage,
     AccordionListComponent
   ],
   imports: [
@@ -83,6 +85,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     SelectProductIngredientsPage,
     SelectProductSizePage,
     LoginPage,
+    FreightsPage,
     AdditionalsPage,
     RegisterPage,
     LocationsPage,

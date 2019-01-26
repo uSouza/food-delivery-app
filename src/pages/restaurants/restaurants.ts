@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Platform, PopoverController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, ModalController, NavParams, AlertController, Platform, PopoverController, ToastController } from 'ionic-angular';
 import { RestaurantsProvider } from '../../providers/restaurants/restaurants';
 import { Restaurant } from "../../models/restaurant";
 import { AuthenticationProvider } from "../../providers/authentication/authentication";
@@ -13,6 +13,8 @@ import { PopoverRestaurantPage } from './popover-restaurant/popover-restaurant';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { isCordovaAvailable } from '../../common/is-cordova-available';
 import { LocationsProvider } from '../../providers/locations/locations';
+import { FreightsPage } from '../freights/freights';
+import { AppVersion } from '@ionic-native/app-version';
 
 @IonicPage()
 @Component({
@@ -41,7 +43,9 @@ export class RestaurantsPage {
               private socialSharing: SocialSharing,
               public loadingCtrl: LoadingController,
               private locationService: LocationsProvider,
+              private appVersion: AppVersion,
               public alertCtrl: AlertController,
+              public modalCtrl: ModalController,
               public platform: Platform,
               public datepipe: DatePipe,
               public popoverCtrl: PopoverController
@@ -53,7 +57,8 @@ export class RestaurantsPage {
       .getGuestBearer()
       .subscribe(
         authorization => {
-          this.setAuthorization(authorization)
+          this.validateMinVersion(authorization);
+          this.setAuthorization(authorization);
         },
         err => {
           this.exitApp()
@@ -67,6 +72,45 @@ export class RestaurantsPage {
       if (! isCordovaAvailable()) {
         this.isWeb = true;
       }
+  }
+
+  validateMinVersion(authorization) {
+    if (isCordovaAvailable()) {
+      this.appVersion.getVersionNumber().then(version => {
+        this.authenticationService
+          .getMinVersion(authorization.access_token)
+          .subscribe(
+            minVersion => {
+              if (parseInt(version.split('.')[0]) < parseInt(minVersion.split('.')[0])
+                  || parseInt(version.split('.')[1]) < parseInt(minVersion.split('.')[1])
+                  || parseInt(version.split('.')[2]) < parseInt(minVersion.split('.')[2])) {
+                    const confirm = this.alertCtrl.create({
+                      title: 'Atualização obrigatória',
+                      message: 'A versão do seu aplicativo Pandeco é inferior a mínima requerida para o funcionamento normal da ferramenta. Por gentileza, clique no botão abaixo para atualizá-lo. Qualquer dúvida, entre em contato conosco pelo e-mail contato@pandeco.com.br. Obrigado!',
+                      buttons: [
+                        {
+                          text: 'Atualizar',
+                          handler: () => {
+                            window.open('market://details?id=br.com.pandeco.pandeco_app', '_system' );
+                          }
+                        }
+                      ]
+                    });
+                    confirm.present();
+                  }
+            }
+          )
+      });
+    }
+
+  }
+
+  showFreights(restaurant) {
+    let profileModal = this.modalCtrl.create(FreightsPage, { restaurant: restaurant });
+    profileModal.present();
+    profileModal.onDidDismiss(data => {
+      console.log(data);
+    });
   }
 
   exitApp() {
