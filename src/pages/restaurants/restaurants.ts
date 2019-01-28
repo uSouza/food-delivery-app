@@ -58,7 +58,6 @@ export class RestaurantsPage {
       .subscribe(
         authorization => {
           this.validateMinVersion(authorization);
-          this.setAuthorization(authorization);
         },
         err => {
           this.exitApp()
@@ -77,13 +76,14 @@ export class RestaurantsPage {
   validateMinVersion(authorization) {
     if (isCordovaAvailable()) {
       this.appVersion.getVersionNumber().then(version => {
+        console.log('Versão', version);
         this.authenticationService
           .getMinVersion(authorization.access_token)
           .subscribe(
             minVersion => {
-              if (parseInt(version.split('.')[0]) < parseInt(minVersion.split('.')[0])
-                  || parseInt(version.split('.')[1]) < parseInt(minVersion.split('.')[1])
-                  || parseInt(version.split('.')[2]) < parseInt(minVersion.split('.')[2])) {
+              if (parseInt(version.split('.')[0]) < parseInt(minVersion.version.split('.')[0])
+                  || parseInt(version.split('.')[1]) < parseInt(minVersion.version.split('.')[1])
+                  || parseInt(version.split('.')[2]) < parseInt(minVersion.version.split('.')[2])) {
                     const confirm = this.alertCtrl.create({
                       title: 'Atualização obrigatória',
                       message: 'A versão do seu aplicativo Pandeco é inferior a mínima requerida para o funcionamento normal da ferramenta. Por gentileza, clique no botão abaixo para atualizá-lo. Qualquer dúvida, entre em contato conosco pelo e-mail contato@pandeco.com.br. Obrigado!',
@@ -92,21 +92,27 @@ export class RestaurantsPage {
                           text: 'Atualizar',
                           handler: () => {
                             window.open('market://details?id=br.com.pandeco.pandeco_app', '_system' );
+                            this.platform.exitApp();
                           }
                         }
-                      ]
+                      ],
+                      enableBackdropDismiss: false
                     });
                     confirm.present();
+                  } else {
+                    this.setAuthorization(authorization);
                   }
             }
           )
       });
+    } else {
+      this.setAuthorization(authorization);
     }
 
   }
 
   showFreights(restaurant) {
-    let profileModal = this.modalCtrl.create(FreightsPage, { restaurant: restaurant });
+    let profileModal = this.modalCtrl.create(FreightsPage, { restaurant: restaurant, city: this.city, access_token: this.authorization.access_token });
     profileModal.present();
     profileModal.onDidDismiss(data => {
       console.log(data);

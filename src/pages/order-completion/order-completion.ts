@@ -114,10 +114,7 @@ export class OrderCompletionPage {
   }
 
   setDeliverHour() {
-    const hour = moment(moment(this.now.date));
-    const deliverHour = hour.add(this.restaurant.avg_delivery_time.split(':')[1], 'minutes');
-    console.log('hour', hour);
-    console.log('deliverHour', deliverHour);
+    this.hour = moment(this.now.date).add(this.restaurant.avg_delivery_time.split(':')[1], 'minutes').add(5, 'minutes').format('HH:mm');
   }
 
   getClientLocations() {
@@ -128,24 +125,45 @@ export class OrderCompletionPage {
       )
   }
 
-  /*hourValidate() {
+  hourValidate() {
     this.orderService
         .now(this.clientAuthorization.access_token)
         .subscribe(
           serverNow => {
             let horaInformada = moment(moment().format('YYYY-MM-DD') + ' ' + this.hour);
-            let horaAtual = moment(moment(serverNow).format('YYYY-MM-DD HH:mm:ss'));
-            let diferencaInformadaAtual = moment.duration(horaAtual.diff(horaInformada));
-            let diferencaInformadaAtualHoras = diferencaInformadaAtual.asHours();
-            let horaEntrega = moment(moment().format('YYYY-MM-DD') + ' ' + this.restaurant.avg_delivery_time);
-            let diferencaInformadaEntrega = moment.duration(horaEntrega.diff(horaInformada));
+            let horaAtual = moment(moment(serverNow.date).format('YYYY-MM-DD HH:mm:ss'));
+            let diferencaInformadaAtual = moment.duration(horaInformada.diff(horaAtual));
+            let horaEntrega = moment(moment(serverNow.date).add(this.restaurant.avg_delivery_time.split(':')[1], 'minutes').format('YYYY-MM-DD HH:mm:ss'));
+            let diferencaInformadaEntrega = moment.duration(horaInformada.diff(horaEntrega));
 
-            console.log(diferencaInformadaAtualHoras);
-            console.log(diferencaInformadaEntrega.asHours());
+            console.log('horaInformada', horaInformada);
+            console.log('horaAtual', horaAtual);
+            console.log('horaEntrega', horaEntrega);
+            console.log('diferencaInformadaAtual', diferencaInformadaAtual.asMinutes());
+            console.log('diferencaInformadaEntrega', diferencaInformadaEntrega.asMinutes());
 
+            if (diferencaInformadaAtual.asMinutes() < 0) {
+              this.showToast('Informe uma hora de entrega maior que a atual!');
+              this.hour = null;
+            } else if (diferencaInformadaEntrega.asMinutes() < -1) {
+              const confirm = this.alertCtrl.create({
+                title: 'Horário de entrega menor que o mínimo',
+                subTitle: 'O horário de entrega informado é menor que o mínimo de ' + this.restaurant.avg_delivery_time.split(':')[1] + ' minutos requerido pelo restaurante. Desta forma, pode ser que o restaurante não consiga cumprir o horário de entrega informado.',
+                buttons: [
+                  {
+                    text: 'Entendi',
+                    handler: () => {
+                     //
+                    }
+                  }
+                ],
+                enableBackdropDismiss: false
+              });
+              confirm.present();
+            }
           }
-        )
-  }*/
+        );
+  }
 
   setLocations(locations) {
     this.locations = locations;
@@ -226,12 +244,10 @@ export class OrderCompletionPage {
 
 
   addOrder() {
-
     let product_ids = [];
     this.products.forEach((p) => {
       product_ids.push(p.id);
     });
-
     let order = new Order();
     order.products_ids = product_ids;
     order.company_id = this.restaurant.id;
@@ -248,13 +264,12 @@ export class OrderCompletionPage {
     order.observation += '\nObservações para o troco: ' + this.change_remarks;
     order.form_payment_id = this.formPayment;
     order.status_id = 1;
-
     this.orderService.addOrder(this.clientAuthorization, order)
       .subscribe(
-        order => {
+        () => {
           this.successOrder();
         },
-        err => {
+        () => {
           this.loader.dismiss();
         }
       );

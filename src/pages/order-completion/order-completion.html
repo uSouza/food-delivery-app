@@ -47,7 +47,7 @@
         <ion-item>
           <ion-label *ngIf="!deliver" floating>Horário de entrega (hh:mm)</ion-label>
           <ion-label *ngIf="deliver" floating>Horário de retirada (hh:mm)</ion-label>
-          <ion-input [brmasker]="{mask:'00:00', len:5, type:'num'}" [(ngModel)]="hour"></ion-input>
+          <ion-input [brmasker]="{mask:'00:00', len:5, type:'num'}" [(ngModel)]="hour" (blur)="hourValidate()"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label floating>Telefone para contato</ion-label>
