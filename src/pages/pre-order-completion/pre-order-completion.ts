@@ -53,11 +53,11 @@ export class PreOrderCompletionPage {
   ];
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public loadingCtrl: LoadingController,
-              public alertCtrl: AlertController,
-              private productService: ProductsProvider,
-            ) {
+    public navParams: NavParams,
+    public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController,
+    private productService: ProductsProvider,
+  ) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -71,7 +71,7 @@ export class PreOrderCompletionPage {
   }
 
   ionViewDidLoad() {
-    if ( this.navParams.get('products').length > 0) {
+    if (this.navParams.get('products').length > 0) {
       this.products = this.navParams.get('products');
     }
     this.addProduct();
@@ -102,7 +102,25 @@ export class PreOrderCompletionPage {
     product.additionals = additionalsProducts;
     this.loader.present();
     this.productService.addProduct(this.clientAuthorization, product)
-      .subscribe(p => this.showProducts(p));
+      .subscribe(p => {
+        this.createIngredientsString(p, this.ingredients);
+        this.showProducts(p);
+      });
+  }
+
+  createIngredientsString(product: any, ingredients: any) {
+    let count = 0;
+    product.ingredients_string = '';
+    ingredients.forEach(i => {
+      if (count == 0) {
+        product.ingredients_string = i.name;
+      } else {
+        product.ingredients_string = product.ingredients_string + ', ' + i.name;
+      }
+      ++count;
+    });
+    count = 0;
+    console.log(product);
   }
 
   showProducts(product: Product) {

@@ -35,73 +35,76 @@ export class RestaurantsPage {
   });
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public restaurantService: RestaurantsProvider,
-              public authenticationService: AuthenticationProvider,
-              private storage: Storage,
-              public toastCtrl: ToastController,
-              private socialSharing: SocialSharing,
-              public loadingCtrl: LoadingController,
-              private locationService: LocationsProvider,
-              private appVersion: AppVersion,
-              public alertCtrl: AlertController,
-              public modalCtrl: ModalController,
-              public platform: Platform,
-              public datepipe: DatePipe,
-              public popoverCtrl: PopoverController
-            ) {
+    public navParams: NavParams,
+    public restaurantService: RestaurantsProvider,
+    public authenticationService: AuthenticationProvider,
+    private storage: Storage,
+    public toastCtrl: ToastController,
+    private socialSharing: SocialSharing,
+    public loadingCtrl: LoadingController,
+    private locationService: LocationsProvider,
+    private appVersion: AppVersion,
+    public alertCtrl: AlertController,
+    public modalCtrl: ModalController,
+    public platform: Platform,
+    public datepipe: DatePipe,
+    public popoverCtrl: PopoverController
+  ) {
   }
 
   ionViewDidLoad() {
+    this.loader.present();
     this.authenticationService
       .getGuestBearer()
       .subscribe(
         authorization => {
           this.validateMinVersion(authorization);
         },
-        err => {
+        () => {
+          if (this.loader.instance) {
+            this.loader.dismiss();
+          }
           this.exitApp()
         }
       );
-      this.storage.get('token').then((val) => {
-        if(val != null) {
-          this.logged = true;
-        }
-      });
-      if (! isCordovaAvailable()) {
-        this.isWeb = true;
+    this.storage.get('token').then((val) => {
+      if (val != null) {
+        this.logged = true;
       }
+    });
+    if (!isCordovaAvailable()) {
+      this.isWeb = true;
+    }
   }
 
   validateMinVersion(authorization) {
     if (isCordovaAvailable()) {
       this.appVersion.getVersionNumber().then(version => {
-        console.log('Versão', version);
         this.authenticationService
           .getMinVersion(authorization.access_token)
           .subscribe(
             minVersion => {
               if (parseInt(version.split('.')[0]) < parseInt(minVersion.version.split('.')[0])
-                  || parseInt(version.split('.')[1]) < parseInt(minVersion.version.split('.')[1])
-                  || parseInt(version.split('.')[2]) < parseInt(minVersion.version.split('.')[2])) {
-                    const confirm = this.alertCtrl.create({
-                      title: 'Atualização obrigatória',
-                      message: 'A versão do seu aplicativo Pandeco é inferior a mínima requerida para o funcionamento normal da ferramenta. Por gentileza, clique no botão abaixo para atualizá-lo. Qualquer dúvida, entre em contato conosco pelo e-mail contato@pandeco.com.br. Obrigado!',
-                      buttons: [
-                        {
-                          text: 'Atualizar',
-                          handler: () => {
-                            window.open('market://details?id=br.com.pandeco.pandeco_app', '_system' );
-                            this.platform.exitApp();
-                          }
-                        }
-                      ],
-                      enableBackdropDismiss: false
-                    });
-                    confirm.present();
-                  } else {
-                    this.setAuthorization(authorization);
-                  }
+                || parseInt(version.split('.')[1]) < parseInt(minVersion.version.split('.')[1])
+                || parseInt(version.split('.')[2]) < parseInt(minVersion.version.split('.')[2])) {
+                const confirm = this.alertCtrl.create({
+                  title: 'Atualização obrigatória',
+                  message: 'A versão do seu aplicativo Pandeco é inferior a mínima requerida para o funcionamento normal da ferramenta. Por gentileza, clique no botão abaixo para atualizá-lo. Qualquer dúvida, entre em contato conosco pelo e-mail contato@pandeco.com.br. Obrigado!',
+                  buttons: [
+                    {
+                      text: 'Atualizar',
+                      handler: () => {
+                        window.open('market://details?id=br.com.pandeco.pandeco_app', '_system');
+                        this.platform.exitApp();
+                      }
+                    }
+                  ],
+                  enableBackdropDismiss: false
+                });
+                confirm.present();
+              } else {
+                this.setAuthorization(authorization);
+              }
             }
           )
       });
@@ -136,9 +139,12 @@ export class RestaurantsPage {
   }
 
   setAuthorization(authorization: Authorization) {
+    if (this.loader.instance) {
+      this.loader.dismiss();
+    }
     this.authorization = authorization;
     this.storage.get('city').then((val) => {
-      if(val == null) {
+      if (val == null) {
         this.getCities();
       } else {
         this.city = val;
@@ -148,11 +154,15 @@ export class RestaurantsPage {
   }
 
   getCities() {
+    this.loader.present();
     this.locationService
       .getCities(this.authorization.access_token)
       .subscribe(
         cities => {
           this.cities = cities;
+          if (this.loader.instance) {
+            this.loader.dismiss();
+          }
           this.showCityRadio();
         }
       )
@@ -199,12 +209,14 @@ export class RestaurantsPage {
   getRestaurants() {
     this.loader.present();
     this.restaurantService.getRestaurantsByCity(this.authorization, this.city).subscribe(
-        restaurants => this.setRestaurants(restaurants)
+      restaurants => this.setRestaurants(restaurants)
     );
   }
 
   setRestaurants(restaurants) {
-    this.loader.dismiss();
+    if (this.loader.instance) {
+      this.loader.dismiss();
+    }
     if (restaurants.length > 0) {
       restaurants.forEach(r => {
         let addHour = parseInt(r.open_at.split(':')[0]) + 1;
@@ -214,7 +226,7 @@ export class RestaurantsPage {
       this.restaurants = restaurants;
     } else {
       const confirm = this.alertCtrl.create({
-        title: 'Não há restaurantes disponívels',
+        title: 'Não há restaurantes disponíveis',
         message: 'Infelizmente ainda não chegamos na sua cidade, mas estamos trabalhando duro para isso!',
         buttons: [
           {
@@ -243,7 +255,7 @@ export class RestaurantsPage {
   }
 
   goToRestaurantMenuPage(restaurant: Restaurant) {
-    this.navCtrl.push(RestaurantMenuPage, {restaurant: restaurant, authorization: this.authorization});
+    this.navCtrl.push(RestaurantMenuPage, { restaurant: restaurant, authorization: this.authorization });
   }
 
   presentPopover(event) {

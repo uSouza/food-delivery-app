@@ -77,14 +77,6 @@ export class OrderCompletionPage {
       this.cell_phone = this.client.cell_phone;
     }
 
-    if (this.restaurant.delivery_value != null) {
-      this.value += parseFloat(this.restaurant.delivery_value.toString());
-    }
-
-    if (this.restaurant.delivery_value == null) {
-      this.restaurant.delivery_value = 0;
-    }
-
     this.orderService
         .now(this.clientAuthorization.access_token)
         .subscribe(
@@ -242,7 +234,6 @@ export class OrderCompletionPage {
     });
   }
 
-
   addOrder() {
     let product_ids = [];
     this.products.forEach((p) => {
@@ -261,7 +252,9 @@ export class OrderCompletionPage {
     order.deliver = !this.deliver;
     order.freight_id = this.freight_id;
     order.observation = this.observation_order;
-    order.observation += '\nObservações para o troco: ' + this.change_remarks;
+    if (this.change_remarks != null) {
+      order.observation += '\n*Observações para o troco: *' + this.change_remarks;
+    }
     order.form_payment_id = this.formPayment;
     order.status_id = 1;
     this.orderService.addOrder(this.clientAuthorization, order)
