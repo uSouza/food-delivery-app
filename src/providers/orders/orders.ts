@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Authorization } from '../../models/authorization';
 import { Order } from '../../models/order';
 import { Observable } from 'rxjs/Observable';
-import { api_url} from '../../config';
+import { api_url } from '../../config';
 
 /*
   Generated class for the OrdersProvider provider.
@@ -32,8 +32,9 @@ export class OrdersProvider {
       products_ids: order.products_ids,
       location_id: order.location_id,
       time_delivery: order.time_delivery,
+      platform: order.platform
     };
-    return this.http.post<Order>(api_url + this.endpoint, data,{
+    return this.http.post<Order>(api_url + this.endpoint, data, {
       headers: {
         'Accept': 'application/json',
         'Authorization': 'Bearer ' + authorization.access_token,
@@ -44,10 +45,11 @@ export class OrdersProvider {
 
   getOrders(access_token: any, client_id: any): Observable<Order[]> {
     return this.http.get<Order[]>(api_url + this.endpoint + '/client/' + client_id,
-      {headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Bearer ' + access_token
-              }
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
       });
   }
 
@@ -63,10 +65,11 @@ export class OrdersProvider {
 
   now(access_token: any) {
     return this.http.get<any>(api_url + 'api/now',
-    {headers: {
-              'Accept': 'application/json',
-              'Authorization': 'Bearer ' + access_token
-            }
-    });
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + access_token
+        }
+      });
   }
 }

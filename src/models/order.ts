@@ -17,4 +17,5 @@ export class Order {
   products: Product[];
   time_delivery: string;
   freight_id: number;
+  platform: any;
 }

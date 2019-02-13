@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController, ToastController, LoadingController, ModalController, Platform } from 'ionic-angular';
 import { Menu } from '../../models/menu';
 import { Restaurant } from '../../models/restaurant';
 import { Product } from '../../models/product';
@@ -16,6 +16,7 @@ import { DatePipe } from '@angular/common';
 import { ClientsProvider } from '../../providers/clients/clients';
 import * as moment from 'moment';
 import { FreightsPage } from '../freights/freights';
+import { isCordovaAvailable } from '../../common/is-cordova-available';
 
 @IonicPage()
 @Component({
@@ -50,15 +51,16 @@ export class OrderCompletionPage {
   disabled: boolean = true;
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public locationService: LocationsProvider,
-              public alertCtrl: AlertController,
-              public toastCtrl: ToastController,
-              private orderService: OrdersProvider,
-              private clientService: ClientsProvider,
-              public modalCtrl: ModalController,
-              public datepipe: DatePipe,
-              public loadingCtrl: LoadingController) {
+    public navParams: NavParams,
+    public locationService: LocationsProvider,
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController,
+    private orderService: OrdersProvider,
+    public platform: Platform,
+    private clientService: ClientsProvider,
+    public modalCtrl: ModalController,
+    public datepipe: DatePipe,
+    public loadingCtrl: LoadingController) {
     this.authorization = navParams.data.authorization;
     this.menu = navParams.data.menu;
     this.restaurant = navParams.data.restaurant;
@@ -78,13 +80,13 @@ export class OrderCompletionPage {
     }
 
     this.orderService
-        .now(this.clientAuthorization.access_token)
-        .subscribe(
-          now => {
-            this.now = now;
-            this.setDeliverHour();
-          }
-        )
+      .now(this.clientAuthorization.access_token)
+      .subscribe(
+        now => {
+          this.now = now;
+          this.setDeliverHour();
+        }
+      )
   }
 
   updateFreight(location) {
@@ -119,42 +121,42 @@ export class OrderCompletionPage {
 
   hourValidate() {
     this.orderService
-        .now(this.clientAuthorization.access_token)
-        .subscribe(
-          serverNow => {
-            let horaInformada = moment(moment().format('YYYY-MM-DD') + ' ' + this.hour);
-            let horaAtual = moment(moment(serverNow.date).format('YYYY-MM-DD HH:mm:ss'));
-            let diferencaInformadaAtual = moment.duration(horaInformada.diff(horaAtual));
-            let horaEntrega = moment(moment(serverNow.date).add(this.restaurant.avg_delivery_time.split(':')[1], 'minutes').format('YYYY-MM-DD HH:mm:ss'));
-            let diferencaInformadaEntrega = moment.duration(horaInformada.diff(horaEntrega));
+      .now(this.clientAuthorization.access_token)
+      .subscribe(
+        serverNow => {
+          let horaInformada = moment(moment().format('YYYY-MM-DD') + ' ' + this.hour);
+          let horaAtual = moment(moment(serverNow.date).format('YYYY-MM-DD HH:mm:ss'));
+          let diferencaInformadaAtual = moment.duration(horaInformada.diff(horaAtual));
+          let horaEntrega = moment(moment(serverNow.date).add(this.restaurant.avg_delivery_time.split(':')[1], 'minutes').format('YYYY-MM-DD HH:mm:ss'));
+          let diferencaInformadaEntrega = moment.duration(horaInformada.diff(horaEntrega));
 
-            console.log('horaInformada', horaInformada);
-            console.log('horaAtual', horaAtual);
-            console.log('horaEntrega', horaEntrega);
-            console.log('diferencaInformadaAtual', diferencaInformadaAtual.asMinutes());
-            console.log('diferencaInformadaEntrega', diferencaInformadaEntrega.asMinutes());
+          console.log('horaInformada', horaInformada);
+          console.log('horaAtual', horaAtual);
+          console.log('horaEntrega', horaEntrega);
+          console.log('diferencaInformadaAtual', diferencaInformadaAtual.asMinutes());
+          console.log('diferencaInformadaEntrega', diferencaInformadaEntrega.asMinutes());
 
-            if (diferencaInformadaAtual.asMinutes() < 0) {
-              this.showToast('Informe uma hora de entrega maior que a atual!');
-              this.hour = null;
-            } else if (diferencaInformadaEntrega.asMinutes() < -1) {
-              const confirm = this.alertCtrl.create({
-                title: 'Horário de entrega menor que o mínimo',
-                subTitle: 'O horário de entrega informado é menor que o mínimo de ' + this.restaurant.avg_delivery_time.split(':')[1] + ' minutos requerido pelo restaurante. Desta forma, pode ser que o restaurante não consiga cumprir o horário de entrega informado.',
-                buttons: [
-                  {
-                    text: 'Entendi',
-                    handler: () => {
-                     //
-                    }
+          if (diferencaInformadaAtual.asMinutes() < 0) {
+            this.showToast('Informe uma hora de entrega maior que a atual!');
+            this.hour = null;
+          } else if (diferencaInformadaEntrega.asMinutes() < -1) {
+            const confirm = this.alertCtrl.create({
+              title: 'Horário de entrega menor que o mínimo',
+              subTitle: 'O horário de entrega informado é menor que o mínimo de ' + this.restaurant.avg_delivery_time.split(':')[1] + ' minutos requerido pelo restaurante. Desta forma, pode ser que o restaurante não consiga cumprir o horário de entrega informado.',
+              buttons: [
+                {
+                  text: 'Entendi',
+                  handler: () => {
+                    //
                   }
-                ],
-                enableBackdropDismiss: false
-              });
-              confirm.present();
-            }
+                }
+              ],
+              enableBackdropDismiss: false
+            });
+            confirm.present();
           }
-        );
+        }
+      );
   }
 
   setLocations(locations) {
@@ -168,8 +170,8 @@ export class OrderCompletionPage {
       if (this.cell_phone != this.client.cell_phone) {
         this.client.cell_phone = this.cell_phone;
         this.clientService
-            .updateClient(this.authorization.access_token, this.client)
-            .subscribe(client => console.log(client))
+          .updateClient(this.authorization.access_token, this.client)
+          .subscribe(client => console.log(client))
       }
       this.addOrder();
     }
@@ -200,9 +202,9 @@ export class OrderCompletionPage {
     } else if ((parseInt(this.hour.split(':')[0]) < 0
       || parseInt(this.hour.split(':')[0]) > 23) ||
       (parseInt(this.hour.split(':')[1]) < 0 ||
-      parseInt(this.hour.split(':')[1]) > 59)) {
-        this.showToast('O horário de entrega informado não é válido!');
-        return false;
+        parseInt(this.hour.split(':')[1]) > 59)) {
+      this.showToast('O horário de entrega informado não é válido!');
+      return false;
     } else {
       return true;
     }
@@ -216,7 +218,7 @@ export class OrderCompletionPage {
       this.location = null;
       this.deliver = true;
     } else {
-        this.deliver = false;
+      this.deliver = false;
     }
 
   }
@@ -234,6 +236,18 @@ export class OrderCompletionPage {
     });
   }
 
+  getPlatform(): any {
+    if (isCordovaAvailable()) {
+      if (this.platform.is('ios')) {
+        return 'ios';
+      } else {
+        return 'android';
+      }
+    } else {
+      return 'browser';
+    }
+  }
+
   addOrder() {
     let product_ids = [];
     this.products.forEach((p) => {
@@ -244,6 +258,7 @@ export class OrderCompletionPage {
     order.company_id = this.restaurant.id;
     order.receive_at = this.menu.date + ' ' + this.hour;
     order.price = this.value;
+    order.platform = this.getPlatform();
     if (this.location == null) {
       order.location_id = 1;
     } else {
