@@ -7,7 +7,7 @@ import { Authorization } from '../../models/authorization';
 import { Observable } from 'rxjs/Observable';
 import { UserPandeco } from '../../models/user-pandeco';
 import { UsersProvider } from "../../providers/users/users";
-import {AuthenticationProvider} from "../../providers/authentication/authentication";
+import { AuthenticationProvider } from "../../providers/authentication/authentication";
 import { RegisterPage } from '../register/register';
 import { AdditionalRestaurant } from '../../models/additional-restaurant';
 import { Storage } from '@ionic/storage';
@@ -49,16 +49,16 @@ export class LoginPage {
   });
 
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public authenticationService: AuthenticationProvider,
-              private userService: UsersProvider,
-              public toastCtrl: ToastController,
-              private oneSignal: OneSignal,
-              public loadingCtrl: LoadingController,
-              public clientService: ClientsProvider,
-              public alertCtrl: AlertController,
-              private storage: Storage,
-              private facebook: Facebook) {
+    public navParams: NavParams,
+    public authenticationService: AuthenticationProvider,
+    private userService: UsersProvider,
+    public toastCtrl: ToastController,
+    private oneSignal: OneSignal,
+    public loadingCtrl: LoadingController,
+    public clientService: ClientsProvider,
+    public alertCtrl: AlertController,
+    private storage: Storage,
+    private facebook: Facebook) {
     if (navParams.data.page == 'additionalsPage') {
       this.menu = this.navParams.data.menu;
       this.restaurant = this.navParams.data.restaurant;
@@ -74,7 +74,7 @@ export class LoginPage {
 
   ionViewDidLoad() {
     console.log(this.navParams.data);
-    if (! isCordovaAvailable()) {
+    if (!isCordovaAvailable()) {
       this.isWeb = true;
     }
   }
@@ -103,24 +103,24 @@ export class LoginPage {
     }
     this.loader.present();
     this.userService
-        .findUserByEmail(this.authorization, this.user.email)
-        .subscribe(
-          userPandeco => {
-            this.authenticationService
-              .getClientBearer(this.user)
-              .subscribe(
-                clientAuthorization => {
-                  this.goToNextPage(userPandeco, clientAuthorization);
-                },
-                err => {
-                  this.failed();
-                }
-              )
-          },
-          err => {
-            this.failed();
-          }
-        );
+      .findUserByEmail(this.authorization, this.user.email)
+      .subscribe(
+        userPandeco => {
+          this.authenticationService
+            .getClientBearer(this.user)
+            .subscribe(
+              clientAuthorization => {
+                this.goToNextPage(userPandeco, clientAuthorization);
+              },
+              err => {
+                this.failed();
+              }
+            )
+        },
+        err => {
+          this.failed();
+        }
+      );
   }
 
   goToNextPage(user: UserPandeco, clientAuthorization: Authorization) {
@@ -128,7 +128,7 @@ export class LoginPage {
     this.storage.set('token', clientAuthorization.access_token);
     this.storage.set('username', user.name);
     this.storage.set('email', user.email);
-    if (isCordovaAvailable()){
+    if (isCordovaAvailable()) {
       console.log('Registrando one signal...');
       this.oneSignal.startInit(oneSignalAppId, sender_id);
       this.oneSignal.inFocusDisplaying(this.oneSignal.OSInFocusDisplayOption.Notification);
@@ -152,7 +152,7 @@ export class LoginPage {
 
   private getAccessToken(userOneSignal: any) {
     this.storage.get('token').then((val) => {
-      if(val != null) {
+      if (val != null) {
         this.setOneSignalId(val, userOneSignal.userId);
       }
     });
@@ -160,12 +160,12 @@ export class LoginPage {
 
   private setOneSignalId(access_token: any, user_id: any) {
     this.userService
-    .setOneSignalId(access_token, user_id)
-    .subscribe(
-      user => {
-        console.log(user)
-      }
-    )
+      .setOneSignalId(access_token, user_id)
+      .subscribe(
+        user => {
+          console.log(user)
+        }
+      )
   }
 
   private onPushReceived(payload: OSNotificationPayload) {
@@ -227,10 +227,10 @@ export class LoginPage {
   facebookLogin() {
     this.is_facebook = true;
     this.facebook.login(['public_profile', 'email'])
-    .then(
-      res => {
-        let params = new Array<string>();
-        this.facebook
+      .then(
+        res => {
+          let params = new Array<string>();
+          this.facebook
             .api("/me?fields=name,email", params)
             .then(
               res => {
@@ -240,45 +240,45 @@ export class LoginPage {
                 console.log(err)
               }
             )
-      }
-    )
-    .catch(e => console.log('Error logging into Facebook', e));
+        }
+      )
+      .catch(e => console.log('Error logging into Facebook', e));
   }
 
   registerFacebookUser() {
     this.is_facebook = false;
     this.userService
-        .addUser(this.authorization, this.user.email, this.user.name, this.user.password)
-        .subscribe(
-          userPandeco => {
-            this.authenticationService
-              .getClientBearer(this.user)
-              .subscribe(
-                clientAuthorization => {
-                  this.addFacebookClient(clientAuthorization, userPandeco)
-                },
-                err => {
-                  this.failed();
-                }
-              )
-          },
-          err => {
-            console.log(err)
-          }
-        )
+      .addUser(this.authorization, this.user.email, this.user.name, this.user.password)
+      .subscribe(
+        userPandeco => {
+          this.authenticationService
+            .getClientBearer(this.user)
+            .subscribe(
+              clientAuthorization => {
+                this.addFacebookClient(clientAuthorization, userPandeco)
+              },
+              () => {
+                this.failed();
+              }
+            )
+        },
+        err => {
+          console.log(err)
+        }
+      )
   }
 
   addFacebookClient(clientAuthorization, userPandeco) {
     this.clientService
-        .addClient(clientAuthorization, userPandeco, '(00)00000-0000', '(00)0000-0000')
-        .subscribe(
-            client => {
-              this.goToNextPage(userPandeco, clientAuthorization);
-            },
-            err => {
-              console.log(err)
-            }
-        )
+      .addClient(clientAuthorization, userPandeco, '(00)00000-0000', '(00)0000-0000')
+      .subscribe(
+        () => {
+          this.goToNextPage(userPandeco, clientAuthorization);
+        },
+        err => {
+          console.log(err)
+        }
+      )
   }
 
   resetPassword() {
@@ -304,35 +304,35 @@ export class LoginPage {
           handler: data => {
             this.loader.present();
             this.userService
-                .reset(this.authorization.access_token, data.email)
-                .subscribe(
-                  success => {
-                    this.loader.dismiss();
-                    const confirm = this.alertCtrl.create({
-                      title: 'Solicitação realizada!',
-                      subTitle: 'Realizamos o envio de um link para redefinição da sua senha para o e-mail informado. Favor, acesse seu e-mail e redefina a sua senha.',
-                      buttons: [
-                        {
-                          text: 'Ok'
-                        }
-                      ]
-                    });
-                    confirm.present();
-                  },
-                  err => {
-                    this.loader.dismiss();
-                    const confirm = this.alertCtrl.create({
-                      title: 'Solicitação recusada!',
-                      subTitle: 'O e-mail informado não foi encontrado em nossa base de dados!',
-                      buttons: [
-                        {
-                          text: 'Ok'
-                        }
-                      ]
-                    });
-                    confirm.present();
-                  }
-                )
+              .reset(this.authorization.access_token, data.email)
+              .subscribe(
+                success => {
+                  this.loader.dismiss();
+                  const confirm = this.alertCtrl.create({
+                    title: 'Solicitação realizada!',
+                    subTitle: 'Realizamos o envio de um link para redefinição da sua senha para o e-mail informado. Favor, acesse seu e-mail e redefina a sua senha.',
+                    buttons: [
+                      {
+                        text: 'Ok'
+                      }
+                    ]
+                  });
+                  confirm.present();
+                },
+                err => {
+                  this.loader.dismiss();
+                  const confirm = this.alertCtrl.create({
+                    title: 'Solicitação recusada!',
+                    subTitle: 'O e-mail informado não foi encontrado em nossa base de dados!',
+                    buttons: [
+                      {
+                        text: 'Ok'
+                      }
+                    ]
+                  });
+                  confirm.present();
+                }
+              )
           }
         }
       ]

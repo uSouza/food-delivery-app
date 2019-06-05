@@ -85,8 +85,8 @@ export class RestaurantsPage {
           .subscribe(
             minVersion => {
               if (parseInt(version.split('.')[0]) < parseInt(minVersion.version.split('.')[0])
-                || parseInt(version.split('.')[1]) < parseInt(minVersion.version.split('.')[1])
-                || parseInt(version.split('.')[2]) < parseInt(minVersion.version.split('.')[2])) {
+                && parseInt(version.split('.')[1]) < parseInt(minVersion.version.split('.')[1])
+                && parseInt(version.split('.')[2]) < parseInt(minVersion.version.split('.')[2])) {
                 const confirm = this.alertCtrl.create({
                   title: 'Atualização obrigatória',
                   message: 'A versão do seu aplicativo Pandeco é inferior a mínima requerida para o funcionamento normal da ferramenta. Por gentileza, clique no botão abaixo para atualizá-lo. Qualquer dúvida, entre em contato conosco pelo e-mail contato@pandeco.com.br. Obrigado!',
@@ -218,10 +218,16 @@ export class RestaurantsPage {
       this.loader.dismiss();
     }
     if (restaurants.length > 0) {
+      console.log(restaurants);
       restaurants.forEach(r => {
-        let addHour = parseInt(r.open_at.split(':')[0]) + 1;
-        r.open_at = addHour + ':' + r.open_at.split(':')[1] + ':' + r.open_at.split(':')[2];
-        r.open_at = this.datepipe.transform('2018-01-01 ' + r.open_at, 'H:mm');
+        if (r.open_at != null) {
+          let addHour = parseInt(r.open_at.split(':')[0]) + 1;
+          r.open_at = addHour + ':' + r.open_at.split(':')[1] + ':' + r.open_at.split(':')[2];
+          r.open_at = this.datepipe.transform('2018-01-01 ' + r.open_at, 'H:mm');
+        } else {
+          r.open_at = this.datepipe.transform('2018-01-01 ' + '9:00', 'H:mm');
+        }
+
       });
       this.restaurants = restaurants;
     } else {
